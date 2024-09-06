@@ -1,0 +1,20 @@
+{
+    "files.associations": {
+        "*.vue": "vue",
+        "stdio.h": "c",
+        "stdbool.h": "c",
+        "string.h": "c",
+        "cmath": "c",
+        "bit": "c",
+        "compare": "c",
+        "cstddef": "c",
+        "string": "c",
+        "limits": "c",
+        "memory": "c",
+        "new": "c",
+        "functional": "c"
+    },
+    "cmake.sourceDirectory": "D:/C/Code/Day1",
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.autoSave": "afterDelay"
+}
