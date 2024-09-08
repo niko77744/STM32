@@ -5,3 +5,4 @@
 .\objects\main.o: .\Start\system_stm32f10x.h
 .\objects\main.o: .\Driver\LED\driver_led.h
 .\objects\main.o: .\Com\Delay\Delay.h
+.\objects\main.o: C:\MyInstall\Keil_v5\ARM\arm5_compiler\Bin\..\include\stdbool.h

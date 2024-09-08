@@ -1,4 +1,7 @@
 #include "driver_led.h"
+#include <stdbool.h>
+#include "Delay.h"
+
 // | 打开   &~ 关闭
 
 
@@ -102,4 +105,78 @@ void Driver_LED_OffAll(uint16_t leds[], uint8_t len) {
     for (uint16_t i = 0; i < len; i++) {
         Driver_LED_Off(leds[i]);
     }
+}
+
+
+/**
+ * 循环切换LED流光效果。
+ *
+ * 本函数通过一个静态变量flag和一个静态变量i来控制LED的流光效果。通过toggle操作（即开关LED），
+ * 实现LED流光效果的循环切换。函数每次被调用时，根据当前LED灯的状态（通过静态变量i控制），
+ * 决定是打开下一个LED还是关闭当前LED。流光效果在数组的首尾LED之间循环进行。
+ *
+ * @param leds LED数组，包含所有要切换的LED的索引。
+ * @param len LED数组的长度，表示有多少个LED。
+ */
+void Driver_LED_ToggleFlowLights(uint16_t leds[], uint8_t len) {
+    // 静态变量flag用于控制LED的开关状态，true为开，false为关。
+    static bool flag;
+    // 静态变量i用于遍历LED数组，控制当前正在操作的LED。
+    static uint8_t i = 0;
+
+    // 当i为0时，表示流光效果从第一个LED开始，设置flag为true，准备开启LED。
+    if (0 == i)
+    {
+        flag = 1;
+    }
+    // 当i等于数组长度减1时，表示流光效果到达最后一个LED，设置flag为false，准备关闭LED。
+    else if ((len - 1) == i)
+    {
+        flag = 0;
+    }
+
+    // 根据flag的值决定是增加i（开启下一个LED）还是减少i（关闭当前LED）。
+    // 这里使用了条件运算符来简化代码，提升代码的简洁性。
+    flag == 1 ? (i++) : (i--);
+
+    // 根据当前的i值从leds数组中选择需要操作的LED，调用Driver_LED_On函数打开LED。
+    Driver_LED_On(leds[i]);
+    // 等待300毫秒，让LED保持点亮状态，增加视觉效果的可观性。
+    Delay_ms(300);
+    // 再次调用Driver_LED_Off函数关闭LED，完成一次切换操作。
+    Driver_LED_Off(leds[i]);
+}
+
+
+void Driver_LED_LightsOnAndOff(uint16_t leds[], uint8_t len) {
+
+    static bool flag_direction;
+    static uint8_t i = 0;
+
+
+    if (0 == i)
+    {
+        flag_direction = 1;
+        Driver_LED_Off(leds[i]);
+        Delay_ms(300);
+    }
+    else if ((len - 1) == i)
+    {
+        flag_direction = 0;
+        Driver_LED_On(leds[i]);
+        Delay_ms(300);
+    }
+
+
+    if (flag_direction)
+    {
+        Driver_LED_On(leds[i]);
+        Delay_ms(300);
+    }
+    else
+    {
+        Driver_LED_Off(leds[i]);
+        Delay_ms(300);
+    }
+    flag_direction == 1 ? (i++) : (i--);
 }
