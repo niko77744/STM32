@@ -16,3 +16,5 @@ Listings*
 STM32/02_FlowLED/Objects
 STM32/02_FlowLED/.vscode
 STM32/02_FlowLED/.vscode/uv4.log.lock
+STM32/02_FlowLED/.vscode/uv4.log
+STM32/02_FlowLED/Objects/01_LED.build_log.htm
