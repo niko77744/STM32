@@ -13,3 +13,5 @@ Listings*
 *.log
 *.lock
 *.htm
+STM32/02_FlowLED/Objects
+STM32/02_FlowLED/.vscode
