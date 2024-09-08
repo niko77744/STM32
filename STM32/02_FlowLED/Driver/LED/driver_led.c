@@ -148,35 +148,58 @@ void Driver_LED_ToggleFlowLights(uint16_t leds[], uint8_t len) {
 }
 
 
+/**
+ * 交替点亮和熄灭LED灯
+ *
+ * 该函数通过控制LED灯的亮灭，实现灯光的交替效果。首先点亮第一个LED灯，然后逐个向前推进，
+ * 直到所有灯都被点亮后，再逐个熄灭回到第一个灯，如此循环。
+ *
+ * @param leds LED灯数组，包含所有要控制的LED灯
+ * @param len 数组长度，表示有多少个LED灯
+ */
 void Driver_LED_LightsOnAndOff(uint16_t leds[], uint8_t len) {
 
+    // 用于控制LED灯亮灭方向的标志位
     static bool flag_direction;
+    // 用于指示当前操作的LED灯索引
     static uint8_t i = 0;
 
-
+    // 当i为0时，表示从第一个LED灯开始操作
     if (0 == i)
     {
+        // 设置亮灭方向为正向
         flag_direction = 1;
+        // 熄灭第一个LED灯
         Driver_LED_Off(leds[i]);
+        // 延时一段时间，以便观察到灯光变化
         Delay_ms(300);
     }
+    // 当i指向最后一个LED灯时，改变亮灭方向
     else if ((len - 1) == i)
     {
+        // 设置亮灭方向为反向
         flag_direction = 0;
+        // 点亮最后一个LED灯
         Driver_LED_On(leds[i]);
+        // 延时一段时间，以便观察到灯光变化
         Delay_ms(300);
     }
 
-
+    // 根据flag_direction的值，决定是点亮还是熄灭当前LED灯
     if (flag_direction)
     {
+        // 正向时，点亮当前LED灯
         Driver_LED_On(leds[i]);
+        // 延时一段时间，以便观察到灯光变化
         Delay_ms(300);
     }
     else
     {
+        // 反向时，熄灭当前LED灯
         Driver_LED_Off(leds[i]);
+        // 延时一段时间，以便观察到灯光变化
         Delay_ms(300);
     }
+    // 根据flag_direction的值，决定是向前还是向后移动到下一个LED灯
     flag_direction == 1 ? (i++) : (i--);
 }
