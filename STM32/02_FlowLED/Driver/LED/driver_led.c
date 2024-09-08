@@ -29,30 +29,32 @@ void Driver_LED_Init(void) {
 }
 
 
+
 /**
- * @brief 驱动LED点亮函数
+ * @brief 驱动指定LED灯点亮的函数
  *
- * 该函数通过将指定的LED引脚置为低电平来点亮LED。使用的是GPIO的输出数据寄存器（ODR）
- * 进行操作，通过和操作（AND operation）使目标LED引脚电平为低。
- *
- * @param led 要点亮的LED的位掩码。例如，对于PA0引脚，led值为1<<0。
+ * @param led 需要点亮的LED灯，通过位掩码指定具体的LED。例如，对于LED1，led值为0x0001。
  */
 void Driver_LED_On(uint16_t led) {
-    // 设置为0开灯
-    GPIOA->ODR &= ~led;
+    // GPIOA->ODR &= ~led;
+    // 以下两行代码的目的都是使指定的LED灯点亮
+    // 通过清除对应位来设置LED灯为低电平（点亮），但由于寄存器锁存机制，实际操作会有不同
+    GPIOA->BRR |= led;
 }
 
 
 /**
- * @brief      关闭指定的LED
+ * @brief      关闭指定的LED。
  *
- * @param led  要关闭的LED的标志位。LED标志位采用位掩码的方式，1表示该LED将被关闭。
+ * @param led  要关闭的LED的标识符。LED的标识符与硬件相关的GPIO引脚相对应。
  *
- * @note       本函数通过修改GPIOA的输出数据寄存器（ODR）来控制LED的亮灭。
- *             通过使用位或操作，可以确保指定的LED位被设置为1，从而关闭LED。
+ * @note       本函数通过修改GPIOA的BSRR寄存器来关闭LED。使用BSRR寄存器而不是ODR寄存器的原因是，
+ *             BSRR寄存器提供了独立的置位和复位输入，可以更安全地分别控制输出状态，避免意外修改其他引脚的状态。
+ *             这里注释掉的行是另一种设置LED的方法，但考虑到代码的意图是关闭LED，应使用BSRR的下半部来实现复位（即置0）操作。
  */
 void Driver_LED_Off(uint16_t led) {
-    GPIOA->ODR |= led;
+    // GPIOA->ODR |= led; 
+    GPIOA->BSRR |= led; // 使用BSRR寄存器的上半部来置位（即置1），实际效果是设置LED引脚为高电平，关闭LED
 }
 
 /**
@@ -63,7 +65,7 @@ void Driver_LED_Off(uint16_t led) {
  */
 void Driver_LED_Toggle(uint16_t led) {
     // 检查LED当前状态，如果状态为0（亮灯），则点亮LED；否则熄灭LED。
-    if ((GPIOA->IDR & led) == 0)
+    if ((GPIOA->IDR & led) == 0)  // 也可以写GPIOA->IDR
     {
         Driver_LED_Off(led);
     }
