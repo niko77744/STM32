@@ -18,8 +18,8 @@ int main() {
 
     // 无限循环，不断交替点亮和熄灭LED，实现流水灯效果
     while (1) {
-        // Driver_LED_ToggleFlowLights(leds, 3);
-        Driver_LED_LightsOnAndOff(leds, 3);
+        Driver_LED_ToggleFlowLights(leds, 3);
+        // Driver_LED_LightsOnAndOff(leds, 3);
     }
 }
 
