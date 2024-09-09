@@ -18,7 +18,7 @@ Section Cross References
     system_stm32f10x.o(i.SystemCoreClockUpdate) refers to system_stm32f10x.o(.data) for .data
     system_stm32f10x.o(i.SystemInit) refers to system_stm32f10x.o(i.SetSysClock) for SetSysClock
     main.o(i.main) refers to driver_led.o(i.Driver_LED_Init) for Driver_LED_Init
-    main.o(i.main) refers to driver_led.o(i.Driver_LED_ToggleFlowLights) for Driver_LED_ToggleFlowLights
+    main.o(i.main) refers to driver_led.o(i.Driver_LED_LightsOnAndOff) for Driver_LED_LightsOnAndOff
     main.o(i.main) refers to main.o(.constdata) for .constdata
     driver_led.o(i.Driver_LED_Init) refers to driver_led.o(i.Driver_LED_Off) for Driver_LED_Off
     driver_led.o(i.Driver_LED_LightsOnAndOff) refers to driver_led.o(i.Driver_LED_On) for Driver_LED_On
@@ -143,13 +143,13 @@ Removing Unused input sections from the image.
     Removing core_cm3.o(.emb_text), (32 bytes).
     Removing system_stm32f10x.o(i.SystemCoreClockUpdate), (124 bytes).
     Removing system_stm32f10x.o(.data), (20 bytes).
-    Removing driver_led.o(i.Driver_LED_LightsOnAndOff), (120 bytes).
     Removing driver_led.o(i.Driver_LED_OffAll), (28 bytes).
     Removing driver_led.o(i.Driver_LED_OnAll), (28 bytes).
     Removing driver_led.o(i.Driver_LED_Toggle), (20 bytes).
+    Removing driver_led.o(i.Driver_LED_ToggleFlowLights), (80 bytes).
     Removing delay.o(i.Delay_s), (24 bytes).
 
-8 unused section(s) (total 396 bytes) removed from the image.
+8 unused section(s) (total 356 bytes) removed from the image.
 
 ==============================================================================
 
@@ -273,16 +273,16 @@ Image Symbol Table
     i.Delay_ms                               0x08000286   Section        0  delay.o(i.Delay_ms)
     i.Delay_us                               0x0800029e   Section        0  delay.o(i.Delay_us)
     i.Driver_LED_Init                        0x080002c4   Section        0  driver_led.o(i.Driver_LED_Init)
-    i.Driver_LED_Off                         0x08000314   Section        0  driver_led.o(i.Driver_LED_Off)
-    i.Driver_LED_On                          0x08000324   Section        0  driver_led.o(i.Driver_LED_On)
-    i.Driver_LED_ToggleFlowLights            0x08000334   Section        0  driver_led.o(i.Driver_LED_ToggleFlowLights)
-    i.SetSysClock                            0x08000384   Section        0  system_stm32f10x.o(i.SetSysClock)
-    SetSysClock                              0x08000385   Thumb Code     4  system_stm32f10x.o(i.SetSysClock)
-    i.SetSysClockTo72                        0x08000388   Section        0  system_stm32f10x.o(i.SetSysClockTo72)
-    SetSysClockTo72                          0x08000389   Thumb Code   166  system_stm32f10x.o(i.SetSysClockTo72)
-    i.SystemInit                             0x08000438   Section        0  system_stm32f10x.o(i.SystemInit)
-    i.main                                   0x08000488   Section        0  main.o(i.main)
-    .constdata                               0x080004a4   Section        6  main.o(.constdata)
+    i.Driver_LED_LightsOnAndOff              0x08000314   Section        0  driver_led.o(i.Driver_LED_LightsOnAndOff)
+    i.Driver_LED_Off                         0x0800038c   Section        0  driver_led.o(i.Driver_LED_Off)
+    i.Driver_LED_On                          0x0800039c   Section        0  driver_led.o(i.Driver_LED_On)
+    i.SetSysClock                            0x080003ac   Section        0  system_stm32f10x.o(i.SetSysClock)
+    SetSysClock                              0x080003ad   Thumb Code     4  system_stm32f10x.o(i.SetSysClock)
+    i.SetSysClockTo72                        0x080003b0   Section        0  system_stm32f10x.o(i.SetSysClockTo72)
+    SetSysClockTo72                          0x080003b1   Thumb Code   166  system_stm32f10x.o(i.SetSysClockTo72)
+    i.SystemInit                             0x08000460   Section        0  system_stm32f10x.o(i.SystemInit)
+    i.main                                   0x080004b0   Section        0  main.o(i.main)
+    .constdata                               0x080004cc   Section        6  main.o(.constdata)
     .data                                    0x20000000   Section        4  driver_led.o(.data)
     flag                                     0x20000000   Data           1  driver_led.o(.data)
     i                                        0x20000001   Data           1  driver_led.o(.data)
@@ -468,13 +468,13 @@ Image Symbol Table
     __semihosting_library_function           0x08000287   Thumb Code     0  indicate_semi.o(.text)
     Delay_us                                 0x0800029f   Thumb Code    36  delay.o(i.Delay_us)
     Driver_LED_Init                          0x080002c5   Thumb Code    72  driver_led.o(i.Driver_LED_Init)
-    Driver_LED_Off                           0x08000315   Thumb Code    10  driver_led.o(i.Driver_LED_Off)
-    Driver_LED_On                            0x08000325   Thumb Code    10  driver_led.o(i.Driver_LED_On)
-    Driver_LED_ToggleFlowLights              0x08000335   Thumb Code    74  driver_led.o(i.Driver_LED_ToggleFlowLights)
-    SystemInit                               0x08000439   Thumb Code    64  system_stm32f10x.o(i.SystemInit)
-    main                                     0x08000489   Thumb Code    24  main.o(i.main)
-    Region$$Table$$Base                      0x080004ac   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x080004cc   Number         0  anon$$obj.o(Region$$Table)
+    Driver_LED_LightsOnAndOff                0x08000315   Thumb Code   116  driver_led.o(i.Driver_LED_LightsOnAndOff)
+    Driver_LED_Off                           0x0800038d   Thumb Code    10  driver_led.o(i.Driver_LED_Off)
+    Driver_LED_On                            0x0800039d   Thumb Code    10  driver_led.o(i.Driver_LED_On)
+    SystemInit                               0x08000461   Thumb Code    64  system_stm32f10x.o(i.SystemInit)
+    main                                     0x080004b1   Thumb Code    24  main.o(i.main)
+    Region$$Table$$Base                      0x080004d4   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x080004f4   Number         0  anon$$obj.o(Region$$Table)
     __libspace_start                         0x20000004   Data          96  libspace.o(.bss)
     __temporary_stack_top$libspace           0x20000064   Data           0  libspace.o(.bss)
 
@@ -486,9 +486,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000131
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000004d0, Max: 0x00080000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000004f8, Max: 0x00080000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x000004cc, Max: 0x00080000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x000004f4, Max: 0x00080000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -554,25 +554,25 @@ Memory Map of the image
     0x0800029e   0x0800029e   0x00000024   Code   RO          158    i.Delay_us          delay.o
     0x080002c2   0x080002c2   0x00000002   PAD
     0x080002c4   0x080002c4   0x00000050   Code   RO           98    i.Driver_LED_Init   driver_led.o
-    0x08000314   0x08000314   0x00000010   Code   RO          100    i.Driver_LED_Off    driver_led.o
-    0x08000324   0x08000324   0x00000010   Code   RO          102    i.Driver_LED_On     driver_led.o
-    0x08000334   0x08000334   0x00000050   Code   RO          105    i.Driver_LED_ToggleFlowLights  driver_led.o
-    0x08000384   0x08000384   0x00000004   Code   RO           24    i.SetSysClock       system_stm32f10x.o
-    0x08000388   0x08000388   0x000000b0   Code   RO           25    i.SetSysClockTo72   system_stm32f10x.o
-    0x08000438   0x08000438   0x00000050   Code   RO           27    i.SystemInit        system_stm32f10x.o
-    0x08000488   0x08000488   0x0000001c   Code   RO           65    i.main              main.o
-    0x080004a4   0x080004a4   0x00000006   Data   RO           66    .constdata          main.o
-    0x080004aa   0x080004aa   0x00000002   PAD
-    0x080004ac   0x080004ac   0x00000020   Data   RO          344    Region$$Table       anon$$obj.o
+    0x08000314   0x08000314   0x00000078   Code   RO           99    i.Driver_LED_LightsOnAndOff  driver_led.o
+    0x0800038c   0x0800038c   0x00000010   Code   RO          100    i.Driver_LED_Off    driver_led.o
+    0x0800039c   0x0800039c   0x00000010   Code   RO          102    i.Driver_LED_On     driver_led.o
+    0x080003ac   0x080003ac   0x00000004   Code   RO           24    i.SetSysClock       system_stm32f10x.o
+    0x080003b0   0x080003b0   0x000000b0   Code   RO           25    i.SetSysClockTo72   system_stm32f10x.o
+    0x08000460   0x08000460   0x00000050   Code   RO           27    i.SystemInit        system_stm32f10x.o
+    0x080004b0   0x080004b0   0x0000001c   Code   RO           65    i.main              main.o
+    0x080004cc   0x080004cc   0x00000006   Data   RO           66    .constdata          main.o
+    0x080004d2   0x080004d2   0x00000002   PAD
+    0x080004d4   0x080004d4   0x00000020   Data   RO          344    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x080004cc, Size: 0x00000668, Max: 0x00010000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x080004f4, Size: 0x00000668, Max: 0x00010000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x080004cc   0x00000004   Data   RW          106    .data               driver_led.o
+    0x20000000   0x080004f4   0x00000004   Data   RW          106    .data               driver_led.o
     0x20000004        -       0x00000060   Zero   RW          216    .bss                c_w.l(libspace.o)
-    0x20000064   0x080004d0   0x00000004   PAD
+    0x20000064   0x080004f8   0x00000004   PAD
     0x20000068        -       0x00000200   Zero   RW           18    HEAP                startup_stm32f10x_hd.o
     0x20000268        -       0x00000400   Zero   RW           17    STACK               startup_stm32f10x_hd.o
 
@@ -586,13 +586,13 @@ Image component sizes
 
          0          0          0          0          0       4572   core_cm3.o
         60          0          0          0          0        882   delay.o
-       192         26          0          4          0       3065   driver_led.o
+       232         24          0          4          0       3057   driver_led.o
         28          4          6          0          0        435   main.o
         64         26        304          0       1536        760   startup_stm32f10x_hd.o
        260         26          0          0          0       1793   system_stm32f10x.o
 
     ----------------------------------------------------------------------
-       606         82        344          4       1536      11507   Object Totals
+       646         80        344          4       1536      11499   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          2          0          2          0          0          0   (incl. Padding)
 
@@ -641,15 +641,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-       884         98        344          4       1636      11567   Grand Totals
-       884         98        344          4       1636      11567   ELF Image Totals
-       884         98        344          4          0          0   ROM Totals
+       924         96        344          4       1636      11559   Grand Totals
+       924         96        344          4       1636      11559   ELF Image Totals
+       924         96        344          4          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 1228 (   1.20kB)
+    Total RO  Size (Code + RO Data)                 1268 (   1.24kB)
     Total RW  Size (RW Data + ZI Data)              1640 (   1.60kB)
-    Total ROM Size (Code + RO Data + RW Data)       1232 (   1.20kB)
+    Total ROM Size (Code + RO Data + RW Data)       1272 (   1.24kB)
 
 ==============================================================================
 

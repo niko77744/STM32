@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\Objects\01_LED.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\01_LED.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Sep 09 09:22:34 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Sep 09 13:37:35 2024
 <BR><P>
 <H3>Maximum Stack Usage =         36 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-__rt_entry_main &rArr; main &rArr; Driver_LED_ToggleFlowLights &rArr; Delay_ms
+__rt_entry_main &rArr; main &rArr; Driver_LED_LightsOnAndOff &rArr; Delay_ms
 <P>
 <H3>
 Functions with no stack information
@@ -223,7 +223,7 @@ Global Symbols
 
 <P><STRONG><a name="[54]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36 + Unknown Stack Size
-<LI>Call Chain = __rt_entry_main &rArr; main &rArr; Driver_LED_ToggleFlowLights &rArr; Delay_ms
+<LI>Call Chain = __rt_entry_main &rArr; main &rArr; Driver_LED_LightsOnAndOff &rArr; Delay_ms
 </UL>
 <BR>[Calls]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
 <LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -545,7 +545,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Driver_LED_ToggleFlowLights
+<BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Driver_LED_LightsOnAndOff
 </UL>
 
 <P><STRONG><a name="[90]"></a>__semihosting_library_function</STRONG> (Thumb, 0 bytes, Stack size 4 bytes, indicate_semi.o(.text), UNUSED)
@@ -562,23 +562,23 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[61]"></a>Driver_LED_Off</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, driver_led.o(i.Driver_LED_Off))
-<BR><BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Driver_LED_ToggleFlowLights
-<LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Driver_LED_Init
-</UL>
-
-<P><STRONG><a name="[63]"></a>Driver_LED_On</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, driver_led.o(i.Driver_LED_On))
-<BR><BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Driver_LED_ToggleFlowLights
-</UL>
-
-<P><STRONG><a name="[62]"></a>Driver_LED_ToggleFlowLights</STRONG> (Thumb, 74 bytes, Stack size 16 bytes, driver_led.o(i.Driver_LED_ToggleFlowLights))
-<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = Driver_LED_ToggleFlowLights &rArr; Delay_ms
+<P><STRONG><a name="[62]"></a>Driver_LED_LightsOnAndOff</STRONG> (Thumb, 116 bytes, Stack size 16 bytes, driver_led.o(i.Driver_LED_LightsOnAndOff))
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = Driver_LED_LightsOnAndOff &rArr; Delay_ms
 </UL>
 <BR>[Calls]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay_ms
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Driver_LED_On
 <LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Driver_LED_Off
 </UL>
 <BR>[Called By]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[61]"></a>Driver_LED_Off</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, driver_led.o(i.Driver_LED_Off))
+<BR><BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Driver_LED_LightsOnAndOff
+<LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Driver_LED_Init
+</UL>
+
+<P><STRONG><a name="[63]"></a>Driver_LED_On</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, driver_led.o(i.Driver_LED_On))
+<BR><BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Driver_LED_LightsOnAndOff
 </UL>
 
 <P><STRONG><a name="[49]"></a>SystemInit</STRONG> (Thumb, 64 bytes, Stack size 8 bytes, system_stm32f10x.o(i.SystemInit))
@@ -589,9 +589,9 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f10x_hd.o(.text)
 </UL>
 <P><STRONG><a name="[55]"></a>main</STRONG> (Thumb, 24 bytes, Stack size 16 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = main &rArr; Driver_LED_ToggleFlowLights &rArr; Delay_ms
+<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = main &rArr; Driver_LED_LightsOnAndOff &rArr; Delay_ms
 </UL>
-<BR>[Calls]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Driver_LED_ToggleFlowLights
+<BR>[Calls]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Driver_LED_LightsOnAndOff
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Driver_LED_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main

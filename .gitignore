@@ -31,3 +31,6 @@ STM32/02_FlowLED/Objects/01_LED.htm
 STM32/02_FlowLED/Objects/02_FlowLED_Target 1.dep
 STM32/02_FlowLED/Objects/main.crf
 STM32/02_FlowLED/Objects/main.o
+STM32/03_FlowLED_HAL/MDK-ARM/RTE/_03_FlowLED_HAL/RTE_Components.h
+STM32/03_FlowLED_HAL/MDK-ARM/startup_stm32f103xe.s
+STM32/03_FlowLED_HAL/Drivers/STM32F1xx_HAL_Driver/LICENSE.txt
