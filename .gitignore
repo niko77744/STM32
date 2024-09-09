@@ -19,18 +19,7 @@ Listings*
 .vscode/*
 STM32/02_FlowLED/Objects
 STM32/02_FlowLED/.vscode
-STM32/02_FlowLED/.vscode/uv4.log.lock
-STM32/02_FlowLED/.vscode/uv4.log
-STM32/02_FlowLED/Objects/01_LED.build_log.htm
-STM32/02_FlowLED/.vscode/uv4.log
-STM32/02_FlowLED/Listings/01_LED.map
-STM32/02_FlowLED/Objects/01_LED.axf
-STM32/02_FlowLED/Objects/01_LED.build_log.htm
-STM32/02_FlowLED/Objects/01_LED.hex
-STM32/02_FlowLED/Objects/01_LED.htm
-STM32/02_FlowLED/Objects/02_FlowLED_Target 1.dep
-STM32/02_FlowLED/Objects/main.crf
-STM32/02_FlowLED/Objects/main.o
-STM32/03_FlowLED_HAL/MDK-ARM/RTE/_03_FlowLED_HAL/RTE_Components.h
-STM32/03_FlowLED_HAL/MDK-ARM/startup_stm32f103xe.s
+STM32/02_FlowLED/Listings
+STM32/02_FlowLED/Objects
+STM32/03_FlowLED_HAL/MDK-ARM
 STM32/03_FlowLED_HAL/Drivers/STM32F1xx_HAL_Driver/LICENSE.txt
