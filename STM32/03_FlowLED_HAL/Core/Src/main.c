@@ -64,7 +64,7 @@ void SystemClock_Config(void);
 int main(void)
 {
     /* USER CODE BEGIN 1 */
-
+    uint16_t leds[] = { LED1_Pin,LED2_Pin,LED3_Pin };
     /* USER CODE END 1 */
 
     /* MCU Configuration--------------------------------------------------------*/
@@ -73,7 +73,7 @@ int main(void)
     HAL_Init();
 
     /* USER CODE BEGIN Init */
-    uint16_t leds[] = { LED1_Pin,LED2_Pin,LED3_Pin };
+
     /* USER CODE END Init */
 
     /* Configure the system clock */
