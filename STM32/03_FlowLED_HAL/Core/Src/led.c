@@ -28,3 +28,25 @@ void LED_OffAll(uint16_t leds[], uint8_t len) {
     }
 }
 
+
+void LED_FlowLight(uint16_t leds[], uint8_t len) {
+    static  uint8_t i = 0;
+    static bool flag = 0;
+
+    if (0 == i)
+    {
+        flag = 1;
+        LED_Toogle(leds[i]);
+        HAL_Delay(1000);
+    }
+    else if ((len - 1) == i)
+    {
+        flag = 0;
+        LED_Toogle(leds[i]);
+        HAL_Delay(1000);
+    }
+    (flag == 1) ? (i++) : (i--);
+    LED_Toogle(leds[i]);
+    HAL_Delay(1000);
+}
+

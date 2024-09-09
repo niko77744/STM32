@@ -96,12 +96,15 @@ int main(void)
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
-        for (uint8_t i = 0; i < 3; i++)
-        {
-            LED_On(leds[i]);
-            HAL_Delay(1000);
-            LED_Off(leds[i]);
-        }
+
+        LED_FlowLight(leds, 3);
+
+        // for (uint8_t i = 0; i < 3; i++)
+        // {
+        //     LED_On(leds[i]);
+        //     HAL_Delay(1000);
+        //     LED_Off(leds[i]);
+        // }
     }
     /* USER CODE END 3 */
 }
