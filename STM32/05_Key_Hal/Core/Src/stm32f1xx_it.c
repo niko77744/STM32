@@ -57,7 +57,7 @@
 /* External variables --------------------------------------------------------*/
 
 /* USER CODE BEGIN EV */
-
+uint8_t flag;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -207,6 +207,7 @@ void EXTI9_5_IRQHandler(void)
 
     /* USER CODE END EXTI9_5_IRQn 0 */
     HAL_GPIO_EXTI_IRQHandler(KEY1_Pin);
+    HAL_GPIO_EXTI_IRQHandler(KEY2_Pin);
     /* USER CODE BEGIN EXTI9_5_IRQn 1 */
 
     /* USER CODE END EXTI9_5_IRQn 1 */
@@ -259,5 +260,29 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
             HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
         }
     }
+    else if (GPIO_Pin == KEY2_Pin)
+    {
+        // 1. 延迟防抖
+        HAL_Delay(10);
+
+        // 2.保持低电平翻转LED3   按键按下低电平
+        if (HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY2_Pin) == 0)
+        {
+            flag = ~flag;
+        }
+    }
+    else if (GPIO_Pin == KEY4_Pin)
+    {
+        // 1. 延迟防抖
+        HAL_Delay(10);
+
+        // 2.保持低电平翻转LED3   按键按下低电平
+        if (HAL_GPIO_ReadPin(KEY4_GPIO_Port, KEY4_Pin) != 0)
+        {
+            HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
+        }
+    }
+
+
 }
 /* USER CODE END 1 */
