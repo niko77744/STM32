@@ -199,6 +199,20 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles EXTI line[9:5] interrupts.
+  */
+void EXTI9_5_IRQHandler(void)
+{
+    /* USER CODE BEGIN EXTI9_5_IRQn 0 */
+
+    /* USER CODE END EXTI9_5_IRQn 0 */
+    HAL_GPIO_EXTI_IRQHandler(KEY1_Pin);
+    /* USER CODE BEGIN EXTI9_5_IRQn 1 */
+
+    /* USER CODE END EXTI9_5_IRQn 1 */
+}
+
+/**
   * @brief This function handles EXTI line[15:10] interrupts.
   */
 void EXTI15_10_IRQHandler(void)
@@ -207,6 +221,7 @@ void EXTI15_10_IRQHandler(void)
 
     /* USER CODE END EXTI15_10_IRQn 0 */
     HAL_GPIO_EXTI_IRQHandler(KEY3_Pin);
+    HAL_GPIO_EXTI_IRQHandler(KEY4_Pin);
     /* USER CODE BEGIN EXTI15_10_IRQn 1 */
 
     /* USER CODE END EXTI15_10_IRQn 1 */
@@ -231,6 +246,17 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
         if (HAL_GPIO_ReadPin(KEY3_GPIO_Port, KEY3_Pin) != 0)  // GPIOF
         {
             HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);  // GPIOA
+        }
+    }
+    else if (GPIO_Pin == KEY1_Pin)
+    {
+        // 1. 延迟防抖
+        HAL_Delay(10);
+
+        // 2.保持低电平翻转LED3   按键按下低电平
+        if (HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == 0)
+        {
+            HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
         }
     }
 }
