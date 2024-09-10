@@ -35,7 +35,7 @@ void Driver_Key3_init(void) {
 }
 
 
-//  line 15-10的中断服务函数.
+//  line 15-10的中断服务函数  在汇编文件中找到
 void EXTI15_10_IRQHandler(void) {
     // 清除中断标志位 写1清除  EXIT的PR(挂起寄存器 Pending Register)
     EXTI->PR |= EXTI_PR_PR10;
