@@ -11,7 +11,7 @@ void Delay_us(uint16_t us)
     /*等待计数到0， 如果计数到0则16位会置为1*/
     while (!(SysTick->CTRL & SysTick_CTRL_COUNTFLAG));
     /* 关闭定时器 */
-    SysTick->CTRL &= ~SysTick_CTRL_ENABLE; 
+    SysTick->CTRL &= ~SysTick_CTRL_ENABLE;
 }
 
 void Delay_ms(uint16_t ms)

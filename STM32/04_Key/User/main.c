@@ -6,7 +6,9 @@
 
 int main() {
     Driver_LED_Init();
+    Driver_Key1_init();
     Driver_Key3_init();
+    Driver_Key4_init();
 
     while (1);
 }
