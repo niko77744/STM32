@@ -1,4 +1,5 @@
 #include "Dri_Key.h"
+uint8_t flag = 0;
 
 /**
  * Driver_Key1_init函数用于初始化按键1的驱动。
@@ -23,6 +24,36 @@ void Driver_Key1_init(void) {
     EXTI->IMR |= EXTI_IMR_MR8;
     // 4.2上升沿触发  EXTI_RTSR(Rising trigger event configuration)上升沿触发选择寄存器的TR8
     EXTI->FTSR |= EXTI_FTSR_TR8;
+
+    // 5.NVIC优先级  
+    // 5.1配置优先级组 (3-7) 配置3表示4个二进制位全部用于表示抢占优先级
+    NVIC_SetPriorityGrouping(3);
+    // 5.2配置优先级(0-15) 参数1:中断号
+    NVIC_SetPriority(EXTI9_5_IRQn, 2); //IRQn要设置优先级的中断数 外部线路[9:5]中断
+    // 5.3使能Line8
+    NVIC_EnableIRQ(EXTI9_5_IRQn);
+}
+
+
+void Driver_Key2_init(void) {
+    // 1.开启时钟 GPIOF AFIO辅助功能IO时钟使能 1开启
+    RCC->APB2ENR |= RCC_APB2ENR_IOPFEN;  //69行解注释
+    RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;
+
+    // 2.配置PF8工作模式  上拉输入  MDOE：00; CNF：10;  ODR：1
+    GPIOF->CRH &= ~GPIO_CRH_MODE9;
+    GPIOF->CRH |= GPIO_CRH_CNF9_1;
+    GPIOF->CRH &= ~GPIO_CRH_CNF9_0;
+    GPIOF->BSRR |= GPIO_BRR_BR9;
+
+    // 3.AFIO(外部中断配置寄存器)选择EXTI8  设置EXTICR3在数组下标的2   配置为0101表示打开GPIOPF
+    AFIO->EXTICR[2] |= AFIO_EXTICR3_EXTI9_PF;
+
+    // 4.EXTI  
+    // 4.1屏蔽寄存器  EXTI_IMR的MR8
+    EXTI->IMR |= EXTI_IMR_MR9;
+    // 4.2上升沿触发  EXTI_RTSR(Rising trigger event configuration)上升沿触发选择寄存器的TR8
+    EXTI->FTSR |= EXTI_FTSR_TR9;
 
     // 5.NVIC优先级  
     // 5.1配置优先级组 (3-7) 配置3表示4个二进制位全部用于表示抢占优先级
@@ -97,24 +128,6 @@ void Driver_Key4_init(void) {
 }
 
 
-
-//  line 9-5的中断服务函数  在汇编文件中找到
-void EXTI9_5_IRQHandler(void) {
-    // 清除中断标志位 写1清除  EXIT的PR(挂起寄存器 Pending Register)
-    EXTI->PR |= EXTI_PR_PR8;
-
-    // 延时，软件防抖
-    Delay_ms(10);
-
-    // 如果PF8还保持低电平，翻转
-    if ((GPIOF->IDR & GPIO_IDR_IDR8) == 0)
-    {
-        Driver_LED_Toggle(LED3);
-    }
-}
-
-
-
 /**
  * @brief GPIO外部中断回调函数
  * @param GPIO_Pin 触发外部中断的GPIO引脚号
@@ -147,7 +160,48 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
             Driver_LED_Toggle(LED2);
         }
     }
+    else if (GPIO_Pin == GPIO_IDR_IDR8) {
+        // 清除中断标志位 写1清除  EXIT的PR(挂起寄存器 Pending Register)
+        EXTI->PR |= EXTI_PR_PR8;
+
+        // 延时，软件防抖
+        Delay_ms(10);
+
+        // 如果PF8还保持低电平，翻转
+        if ((GPIOF->IDR & GPIO_IDR_IDR8) == 0)
+        {
+            Driver_LED_Toggle(LED3);
+        }
+    }
+    else if (GPIO_Pin == GPIO_IDR_IDR9) {
+        // 清除中断标志位 写1清除  EXIT的PR(挂起寄存器 Pending Register)
+        EXTI->PR |= EXTI_PR_PR9;
+
+        // 延时，软件防抖
+        Delay_ms(10);
+
+        // 如果PF9还保持低电平，翻转
+        if ((GPIOF->IDR & GPIO_IDR_IDR9) == 0)
+        {
+            // flag = ~flag;
+            if (flag == 3)
+            {
+                flag = 0;
+            }
+            flag++;
+        }
+    }
 }
+
+
+//  line 9-5的中断服务函数  在汇编文件中找到
+void EXTI9_5_IRQHandler(void) {
+    // 调用GPIO 10的中断服务例程
+    HAL_GPIO_EXTI_Callback(GPIO_IDR_IDR8);
+    // 调用GPIO 11的中断服务例程
+    HAL_GPIO_EXTI_Callback(GPIO_IDR_IDR9);
+}
+
 
 
 //  line 15-10的中断服务函数  在汇编文件中找到

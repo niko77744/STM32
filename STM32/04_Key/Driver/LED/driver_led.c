@@ -118,7 +118,7 @@ void Driver_LED_OffAll(uint16_t leds[], uint8_t len) {
  * @param leds LED数组，包含所有要切换的LED的索引。
  * @param len LED数组的长度，表示有多少个LED。
  */
-void Driver_LED_ToggleFlowLights(uint16_t leds[], uint8_t len) {
+void Driver_LED_ToggleFlowLights1(uint16_t leds[], uint8_t len) {
     // 静态变量flag用于控制LED的开关状态，true为开，false为关。
     static bool flag;
     // 静态变量i用于遍历LED数组，控制当前正在操作的LED。
@@ -157,7 +157,7 @@ void Driver_LED_ToggleFlowLights(uint16_t leds[], uint8_t len) {
  * @param leds LED灯数组，包含所有要控制的LED灯
  * @param len 数组长度，表示有多少个LED灯
  */
-void Driver_LED_LightsOnAndOff(uint16_t leds[], uint8_t len) {
+void Driver_LED_ToggleFlowLights2(uint16_t leds[], uint8_t len) {
 
     // 用于控制LED灯亮灭方向的标志位
     static bool flag_direction;

@@ -3,9 +3,11 @@
 
 #include "stm32f10x.h"
 #include "driver_led.h"
+#include <stdbool.h>
 #include "Delay.h"
 
 void Driver_Key1_init(void);
+void Driver_Key2_init(void);
 void Driver_Key3_init(void);
 void Driver_Key4_init(void);
 

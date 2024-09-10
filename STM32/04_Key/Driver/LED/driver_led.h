@@ -24,9 +24,9 @@ void Driver_LED_OnAll(uint16_t leds[], uint8_t len);
 
 void Driver_LED_OffAll(uint16_t leds[], uint8_t len);
 
-void Driver_LED_ToggleFlowLights(uint16_t[], uint8_t);
+void Driver_LED_ToggleFlowLights1(uint16_t[], uint8_t);
 
-void Driver_LED_LightsOnAndOff(uint16_t[], uint8_t);
+void Driver_LED_ToggleFlowLights2(uint16_t[], uint8_t);
 
 
 
