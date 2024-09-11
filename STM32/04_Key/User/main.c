@@ -24,15 +24,15 @@ int main() {
             {
             case 1:
                 Driver_LED_Off(leds[SIZE - 1]);
-                Driver_LED_On(leds[flag - 1]); 
+                Driver_LED_On(leds[flag - 1]);
                 break;
             case 2:
                 Driver_LED_Off(leds[flag - 2]);
-                Driver_LED_On(leds[flag - 1]); 
+                Driver_LED_On(leds[flag - 1]);
                 break;
             case 3:
                 Driver_LED_Off(leds[flag - 2]);
-                Driver_LED_On(leds[flag - 1]); 
+                Driver_LED_On(leds[flag - 1]);
                 break;
             default:
                 Driver_LED_OffAll(leds, 3);
@@ -48,8 +48,6 @@ int main() {
             //         break;
             //     }
             // }
-
-            
         }
     }
 }

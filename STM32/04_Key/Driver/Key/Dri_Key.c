@@ -184,10 +184,11 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
         if ((GPIOF->IDR & GPIO_IDR_IDR9) == 0)
         {
             // flag = ~flag;
-            if (flag == 3)
-            {
-                flag = 0;
-            }
+            flag %= 3;
+            // if (flag == 3)
+            // {
+            //     flag = 0;
+            // }
             flag++;
         }
     }
