@@ -1,5 +1,5 @@
 #include "Dri_Key.h"
-uint8_t flag = 0;
+int8_t flag = -1;
 
 /**
  * Driver_Key1_init函数用于初始化按键1的驱动。
@@ -183,13 +183,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
         // 如果PF9还保持低电平，翻转
         if ((GPIOF->IDR & GPIO_IDR_IDR9) == 0)
         {
-            // flag = ~flag;
-            flag %= 3;
-            // if (flag == 3)
-            // {
-            //     flag = 0;
-            // }
-            flag++;
+            flag = (flag + 1) % 3;
         }
     }
 }
