@@ -28,8 +28,8 @@ void Driver_USART1_Init(void) {
     // 3.5 USART_CR2配置停止位 默认00表示停止位STOP为1位
     USART1->CR2 &= ~USART_CR2_STOP;
     // 3.6 配置中断 RXENIE和IDLEIE
-    USART1->CR1 |= USART_CR1_RXNEIE;
-    USART1->CR1 |= USART_CR1_IDLEIE;
+    // USART1->CR1 |= USART_CR1_RXNEIE;
+    // USART1->CR1 |= USART_CR1_IDLEIE;
 
     // 3.7 USART_CR1 USART串口模块使能 (模块使能放在最后，有些配置使能开启后不能更改配置) UE 
     USART1->CR1 |= USART_CR1_UE;
@@ -58,19 +58,19 @@ uint8_t Driver_USART1_ReceiveChar(void) {
     return USART1->DR;
 }
 void Driver_USART1_ReceiveString(uint8_t* buff, uint8_t* len) {
-    // uint8_t i = 0;
-    // while (1)
-    // {
-    //     while ((USART1->SR & USART_SR_RXNE) == 0) {  // 读取数据寄存器为空
-    //         if (USART1->SR & USART_SR_IDLE) { // 并且检测到空闲帧  不能仅仅只有空闲帧，否则独到的数据就是仅有一个字节
-    //             // 推断数据发送完成
-    //             *len = i;
-    //             return;
-    //         }
-    //     };
-    //     buff[i] = USART1->DR;
-    //     i++;
-    // }
+    uint8_t i = 0;
+    while (1)
+    {
+        while ((USART1->SR & USART_SR_RXNE) == 0) {  // 读取数据寄存器为空
+            if (USART1->SR & USART_SR_IDLE) { // 并且检测到空闲帧  不能仅仅只有空闲帧，否则独到的数据就是仅有一个字节
+                // 推断数据发送完成
+                *len = i;
+                return;
+            }
+        };
+        buff[i] = USART1->DR;
+        i++;
+    }
 }
 uint8_t buffer[100] = { 0 };
 uint8_t len = 0;
