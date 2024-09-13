@@ -75,7 +75,7 @@ int main(void)
 
     /* USER CODE BEGIN Init */
     uint8_t buffer[100] = { 0 };
-    uint16_t size;
+    //uint16_t size;
     /* USER CODE END Init */
 
     /* Configure the system clock */
@@ -100,7 +100,16 @@ int main(void)
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
-        
+        // 定长数据 要接收到10个(以接收为准)才会向上位机发送数据
+        if (HAL_UART_Receive(&huart1, buffer, 10, HAL_MAX_DELAY) == HAL_OK)
+        {
+            HAL_UART_Transmit(&huart1, buffer, 10, HAL_MAX_DELAY);
+        }
+        // Extended（扩展的）
+        // if (HAL_UARTEx_ReceiveToIdle(&huart1, buffer, 100, &size, HAL_MAX_DELAY) == HAL_OK)
+        // {
+        //     HAL_UART_Transmit(&huart1, buffer, size, HAL_MAX_DELAY);
+        // }
     }
     /* USER CODE END 3 */
 }
