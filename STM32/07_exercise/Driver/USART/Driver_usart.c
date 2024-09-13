@@ -3,28 +3,31 @@
 #include "string.h"
 uint8_t SendBuffer[100] = { 0 };
 uint8_t ReceiveBuffer[100] = { 0 };
-bool is_send_next = 0;
+uint8_t is_send_next = 0;
 bool is_receive_next = 0;
 bool is_receive_complete = 0;
 uint8_t receive_len = 0;
 
 void Dri_USART1_Init(void) {
     RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
+    RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
 
-    // PA9 TX输出MODE11 浮空CNF01     P10 RX 输入MODE00 复用推挽 CNF10
+    // PA9 TX输出MODE11 复用推挽 CNF10     P10 RX 输入MODE00   浮空CNF01
     GPIOA->CRH |= GPIO_CRH_MODE9;
-    GPIOA->CRH &= ~GPIO_CRH_CNF9_1;
-    GPIOA->CRH |= GPIO_CRH_CNF9_0;
+    GPIOA->CRH |= GPIO_CRH_CNF9_1;
+    GPIOA->CRH &= ~GPIO_CRH_CNF9_0;
+
 
     GPIOA->CRH &= ~GPIO_CRH_MODE10;
-    GPIOA->CRH |= GPIO_CRH_CNF10_1;
-    GPIOA->CRH &= ~GPIO_CRH_CNF10_0;
+    GPIOA->CRH &= ~GPIO_CRH_CNF10_1;
+    GPIOA->CRH |= GPIO_CRH_CNF10_0;
+
 
 
     USART1->BRR = 0x271;
     USART1->CR1 &= ~USART_CR1_M;
     USART1->CR1 &= ~USART_CR1_PCE;
-    USART1->CR1 &= ~USART_CR2_STOP;
+    USART1->CR2 &= ~USART_CR2_STOP;
     // 接收和发送数据的使能
     USART1->CR1 |= USART_CR1_TE;
     USART1->CR1 |= USART_CR1_RE;
@@ -48,9 +51,9 @@ void Dri_USART1_Init(void) {
 void Driver_USART1_SendData(uint8_t bytes[]) {
     uint8_t i = 0;
     strcpy(SendBuffer, bytes);
-    while (SendBuffer[i] != '\0')
+    while (bytes[i] != '\0')
     {
-        while (!is_send_next);
+        while (~is_send_next);
         USART1->DR = SendBuffer[i++];
         is_send_next = 0;
     }
