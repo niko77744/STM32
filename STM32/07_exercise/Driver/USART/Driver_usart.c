@@ -17,12 +17,9 @@ void Dri_USART1_Init(void) {
     GPIOA->CRH |= GPIO_CRH_CNF9_1;
     GPIOA->CRH &= ~GPIO_CRH_CNF9_0;
 
-
     GPIOA->CRH &= ~GPIO_CRH_MODE10;
     GPIOA->CRH &= ~GPIO_CRH_CNF10_1;
     GPIOA->CRH |= GPIO_CRH_CNF10_0;
-
-
 
     USART1->BRR = 0x271;
     USART1->CR1 &= ~USART_CR1_M;
@@ -75,8 +72,8 @@ void Driver_USART1_ReceiveData(uint8_t bytes[]) {
 }
 
 
-void UART1_IRQHandler(void) {
-    // 判断是谁产生的中断
+void USART1_IRQHandler(void) {
+    // 判断是谁产生的中断S
     // 发送  产生中断表示数据已经被转移到移位寄存器，可以写下一个数据了
     if ((USART1->SR & USART_SR_TXE) != 0)
     {
