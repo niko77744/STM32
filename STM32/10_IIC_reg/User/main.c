@@ -15,15 +15,15 @@ int main(int argc, char const* argv[])
     Inf_EEPROM_Init();
 
 
-    // uint8_t ch;
+    uint8_t ch;
     // Inf_EEPROM_Writebyte('c', 0);
-    // ch = Inf_EEPROM_Readbyte(0);
-    // printf("ch=%c\n", ch);
+    ch = Inf_EEPROM_Readbyte(0);
+    printf("ch=%c\n", ch);
 
-    uint8_t buffer[100] = { 0 };
-    Inf_EEPROM_Writebytes("hello world qwertyuiop1234567890 asdfghjkl", 42, 0);
-    Inf_EEPROM_Readbytes(buffer, 42, 0);
-    printf("buffer = %s\n", buffer);
+    // uint8_t buffer[100] = { 0 };
+    // Inf_EEPROM_Writebytes("nihao", 5, 0);
+    // Inf_EEPROM_Readbytes(buffer, 10, 0);
+    // printf("buffer = %s\n", buffer);
     while (1);
 }
 

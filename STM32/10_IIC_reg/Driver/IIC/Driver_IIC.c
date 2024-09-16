@@ -29,6 +29,7 @@ void Driver_I2C_Start(void) {
 }
 void Driver_I2C_Stop(void) {
     SCL_HIGH;
+    // 中间不能delay
     SDA_LOW;
     Delay_I2C2;
 
@@ -38,8 +39,6 @@ void Driver_I2C_Stop(void) {
 
 
 void Driver_I2C_SendAck(void) {
-    SDA_HIGH;
-    Delay_I2C2;
 
     SDA_LOW;
     Delay_I2C2;
@@ -121,3 +120,4 @@ uint8_t Driver_I2C_Receivebyte(void) {
     Delay_I2C2;
     return byte;
 }
+ 
