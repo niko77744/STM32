@@ -1,7 +1,5 @@
 #include "Driver_IIC.h"
 
-
-
 void Driver_I2C_Init(void) {
     // 1.¿ªÆôÊ±ÖÓ
     RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;
