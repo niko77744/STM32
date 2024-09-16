@@ -15,15 +15,18 @@ int main(int argc, char const* argv[])
     Inf_EEPROM_Init();
 
 
-    uint8_t ch;
-    // Inf_EEPROM_Writebyte('c', 0);
-    ch = Inf_EEPROM_Readbyte(0);
-    printf("ch=%c\n", ch);
+    // uint8_t ch;
+    // Inf_EEPROM_Writebyte('e', 0);
+    // ch = Inf_EEPROM_Readbyte(0);
+    // printf("ch = %c\n", ch);
 
-    // uint8_t buffer[100] = { 0 };
-    // Inf_EEPROM_Writebytes("nihao", 5, 0);
-    // Inf_EEPROM_Readbytes(buffer, 10, 0);
-    // printf("buffer = %s\n", buffer);
+
+    uint8_t buffer[100] = { 0 };
+    Inf_EEPROM_Writebytes("qwertyuioplmnbvcxzasdfghjkl", 27, 0);
+    Inf_EEPROM_Readbytes(buffer, 27, 0);
+    printf("buffer = %s\n", buffer);
+    // printf("DR = %s\n", (I2C2->DR));
+
     while (1);
 }
 

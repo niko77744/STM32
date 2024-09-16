@@ -6,64 +6,58 @@ void Inf_EEPROM_Init(void) {
 }
 uint8_t Inf_EEPROM_Readbyte(uint8_t InsideAddr) {
     uint8_t byte = 0;
+    /* 1.发送开始信号 */
     Driver_I2C_Start();
-    Driver_I2C_Sendbyte(EEP_ADDR_W);
-    Driver_I2C_ReceiveAck();
-
+    /* 2.发送写地址 */
+    Driver_I2C_SendAddr(EEP_ADDR_W);
+    /* 3.发送内部地址 */
     Driver_I2C_Sendbyte(InsideAddr);
-    Driver_I2C_ReceiveAck();
-
+    /* 4.发送开始信号 */
     Driver_I2C_Start();
-    Driver_I2C_Sendbyte(EEP_ADDR_W + 1);
-    Driver_I2C_ReceiveAck();
-
-
-    byte = Driver_I2C_Receivebyte();
+    /* 5.发送读地址 */
+    Driver_I2C_SendAddr(EEP_ADDR_W + 1);
+    /* 6.配置在接受完成后产生一个NAck */
     Driver_I2C_SendNAck();
-
+    /* 7.配置在接受完成后产生结束信号 */
     Driver_I2C_Stop();
+    /* 8.读取一个字节的数据 */
+    byte = Driver_I2C_Receivebyte();
+    /* 9.返回读取到的数据 */
     return byte;
 }
 void Inf_EEPROM_Readbytes(uint8_t* bytes, uint8_t len, uint8_t InsideAddr) {
     Driver_I2C_Start();
-    Driver_I2C_Sendbyte(EEP_ADDR_W);
-    Driver_I2C_ReceiveAck();
+    Driver_I2C_SendAddr(EEP_ADDR_W);
 
     Driver_I2C_Sendbyte(InsideAddr);
-    Driver_I2C_ReceiveAck();
 
     Driver_I2C_Start();
-    Driver_I2C_Sendbyte(EEP_ADDR_W + 1);
-    Driver_I2C_ReceiveAck();
+    Driver_I2C_SendAddr(EEP_ADDR_W + 1);
 
     for (uint8_t i = 0; i < len; i++)
     {
-        bytes[i] = Driver_I2C_Receivebyte();
-        // (len == (i - 1)) ? (Driver_I2C_SendNAck()) : (Driver_I2C_SendAck());
-        /* 10.判断是否为最后一个数据,来决定返回ACK还是NAck */
-        if (i < len - 1)
+        if (i < (len - 1))
         {
             Driver_I2C_SendAck();
         }
         else
         {
             Driver_I2C_SendNAck();
+            Driver_I2C_Stop();
         }
+
+        bytes[i] = Driver_I2C_Receivebyte();
     }
-    Driver_I2C_Stop();
 }
 
 void Inf_EEPROM_Writebyte(uint8_t byte, uint8_t InsideAddr) {
 
     Driver_I2C_Start();
-    Driver_I2C_Sendbyte(EEP_ADDR_W);
-    Driver_I2C_ReceiveAck();
+    Driver_I2C_SendAddr(EEP_ADDR_W);
 
     Driver_I2C_Sendbyte(InsideAddr);
-    Driver_I2C_ReceiveAck();
 
     Driver_I2C_Sendbyte(byte);
-    Driver_I2C_ReceiveAck();
 
     Driver_I2C_Stop();
     Delay_ms(5);
@@ -72,16 +66,14 @@ void Inf_EEPROM_Writebyte(uint8_t byte, uint8_t InsideAddr) {
 void Inf_EEPROM_WritePage(uint8_t* bytes, uint8_t len, uint8_t InsideAddr) {
 
     Driver_I2C_Start();
-    Driver_I2C_Sendbyte(EEP_ADDR_W);
-    Driver_I2C_ReceiveAck();
+    Driver_I2C_SendAddr(EEP_ADDR_W);
 
     Driver_I2C_Sendbyte(InsideAddr);
-    Driver_I2C_ReceiveAck();
+
 
     for (uint8_t i = 0; i < len; i++)
     {
         Driver_I2C_Sendbyte(bytes[i]);
-        Driver_I2C_ReceiveAck();
     }
     Driver_I2C_Stop();
     Delay_ms(5);

@@ -23,19 +23,21 @@
 
 #define ACK 0
 #define NACK 1
+#define Ok 1
+#define Error 0
 #define Delay_I2C2 Delay_us(10)
 
 void Driver_I2C_Init(void);
 
-void Driver_I2C_Start(void);
+uint8_t Driver_I2C_Start(void);
 void Driver_I2C_Stop(void);
 
-uint8_t Driver_I2C_ReceiveAck(void);
-
+// uint8_t Driver_I2C_ReceiveAck(void);
+uint8_t Driver_I2C_SendAddr(uint8_t);
 void Driver_I2C_SendAck(void);
 void Driver_I2C_SendNAck(void);
 
-void Driver_I2C_Sendbyte(uint8_t);
+uint8_t Driver_I2C_Sendbyte(uint8_t);
 uint8_t Driver_I2C_Receivebyte(void);
 
 
