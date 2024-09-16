@@ -5,11 +5,22 @@
 #include "Delay.h"
 
 
-#define SCL_Up (GPIOB->BSRR |= GPIO_BSRR_BS10)
-#define SCL_Down (GPIOB->BRR |= GPIO_BRR_BR10)
-#define SDA_Up (GPIOB->BSRR |= GPIO_BSRR_BS11)
-#define SDA_Down (GPIOB->BRR |= GPIO_BRR_BR11)
-#define Read_SDA (GPIOB->IDR & GPIO_IDR_IDR11)
+// #define SCL_HIGH (GPIOB->BSRR |= GPIO_BSRR_BS10)
+// #define SCL_LOW  (GPIOB->BRR |= GPIO_BRR_BR10)
+
+// #define SDA_HIGH (GPIOB->BSRR |= GPIO_BSRR_BS11)
+// #define SDA_LOW (GPIOB->BRR |= GPIO_BRR_BR11)
+
+// #define READ_SDA (GPIOB->IDR & GPIO_IDR_IDR11)
+
+#define SCL_LOW (GPIOB->ODR &= ~GPIO_ODR_ODR10)
+#define SCL_HIGH (GPIOB->ODR |= GPIO_ODR_ODR10)
+
+#define SDA_LOW (GPIOB->ODR &= ~GPIO_ODR_ODR11)
+#define SDA_HIGH (GPIOB->ODR |= GPIO_ODR_ODR11)
+
+#define READ_SDA (GPIOB->IDR & GPIO_IDR_IDR11)
+
 #define ACK 0
 #define NACK 1
 #define Delay_I2C2 Delay_us(10)

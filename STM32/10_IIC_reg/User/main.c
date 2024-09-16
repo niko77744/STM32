@@ -2,13 +2,9 @@
 #include "driver_led.h"
 #include "Driver_usart .h"
 #include "Dri_Key.h"
-extern uint16_t leds[];
+#include "Driver_IIC.h"
+#include "Inf_m24c02.h"
 
-// uint8_t temp[100] = { 0 };
-// uint8_t len;
-extern uint8_t is_Over;
-extern uint8_t ReceiveBuffer[100];
-extern uint8_t ReceiveLen;
 
 
 int main(int argc, char const* argv[])
@@ -16,24 +12,18 @@ int main(int argc, char const* argv[])
     Dri_LED_Init();
     Driver_Key_init();
     Dri_USART1_Init();
+    Inf_EEPROM_Init();
 
 
-    Driver_USART1_SendChar('a');
-    Driver_USART1_SendChar('\n');
-    Driver_USART1_SendData("hello\n", 6);
-    Driver_USART1_SendData("world\n", 6);
-    int a = 10;
-    printf("nihao %d\n", a);
+    // uint8_t ch;
+    // Inf_EEPROM_Writebyte('c', 0);
+    // ch = Inf_EEPROM_Readbyte(0);
+    // printf("ch=%c\n", ch);
 
-    while (1) {
-        // Driver_USART1_ReceiveData(temp, &len);
-        // Driver_USART1_SendData(temp, len);
-        if (is_Over)
-        {
-            Driver_USART1_SendData(ReceiveBuffer, ReceiveLen);
-            is_Over = 0;
-            ReceiveLen = 0;
-        }
-    }
+    uint8_t buffer[100] = { 0 };
+    Inf_EEPROM_Writebytes("hello world qwertyuiop1234567890 asdfghjkl", 42, 0);
+    Inf_EEPROM_Readbytes(buffer, 42, 0);
+    printf("buffer = %s\n", buffer);
+    while (1);
 }
 

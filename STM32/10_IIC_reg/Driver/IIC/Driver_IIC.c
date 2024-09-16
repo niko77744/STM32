@@ -4,7 +4,6 @@
 
 void Driver_I2C_Init(void) {
     // 1.开启时钟
-    RCC->APB1ENR |= RCC_APB1ENR_I2C2EN;
     RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;
 
     // 2.使用I2C2   PB10：SCL    PB11：SDA
@@ -16,96 +15,109 @@ void Driver_I2C_Init(void) {
     // 软件模拟不需要开启IIC模块
 }
 
+
 void Driver_I2C_Start(void) {
-    SDA_Up;
-    SCL_Up;
+    SDA_HIGH;
+    SCL_HIGH;
     Delay_I2C2;
 
-    SDA_Down;
+    SDA_LOW;
     Delay_I2C2;
 
-
-    SCL_Down;
+    SCL_LOW;
     Delay_I2C2;
 }
 void Driver_I2C_Stop(void) {
-    SDA_Down;
-    SCL_Up;
+    SCL_HIGH;
+    SDA_LOW;
     Delay_I2C2;
 
-    SDA_Up;
+    SDA_HIGH;
+    Delay_I2C2;
+}
+
+
+void Driver_I2C_SendAck(void) {
+    SDA_HIGH;
+    Delay_I2C2;
+
+    SDA_LOW;
+    Delay_I2C2;
+
+    SCL_HIGH;
+    Delay_I2C2;
+
+    SCL_LOW;
+    Delay_I2C2;
+
+    // 记得拉回sda
+    SDA_HIGH;
+    Delay_I2C2;
+}
+void Driver_I2C_SendNAck(void) {
+    SDA_HIGH;
+    Delay_I2C2;
+
+    SCL_HIGH;
+    Delay_I2C2;
+
+    SCL_LOW;
     Delay_I2C2;
 }
 
 uint8_t Driver_I2C_ReceiveAck(void) {
     uint8_t ack;
-    // 释放SDA总线
-    SDA_Up;
+    // 释放总线
+    SDA_HIGH;
     Delay_I2C2;
 
-    SCL_Down;
+    SCL_HIGH;
     Delay_I2C2;
 
-    SCL_Up;
+    ack = READ_SDA;
     Delay_I2C2;
 
-    ack = Read_SDA;
-    SCL_Down;
+    SCL_LOW;
     Delay_I2C2;
 
-    return (ack == 0) ? ACK : NACK;
-}
-
-void Driver_I2C_SendAck(void) {
-    SDA_Down;
-    Delay_I2C2;
-
-    SCL_Up;
-    Delay_I2C2;
-
-    SCL_Down;
-    Delay_I2C2;
-
-    SDA_Up;
-    Delay_I2C2;
-}
-void Driver_I2C_SendNAck(void) {
-    SDA_Up;
-    Delay_I2C2;
-
-    SCL_Up;
-    Delay_I2C2;
-
-    SCL_Down;
-    Delay_I2C2;
+    return ack;
 }
 
 void Driver_I2C_Sendbyte(uint8_t byte) {
     for (uint8_t i = 0; i < 8; i++)
     {
-        SCL_Down;
+        // 注意：发送的高低电平都要发送
+        (byte & 0x80) == 0 ? SDA_LOW : SDA_HIGH;
+
+        SCL_HIGH; // 拉高时钟线，完成SDA的采集信号，然后拉低时钟线
         Delay_I2C2;
 
-        (byte & 0x80) == 0 ? SDA_Down : SDA_Up;
-        byte << 1;
-
-        SCL_Up;
+        SCL_LOW;
         Delay_I2C2;
+        byte <<= 1;
     }
-    SCL_Down;
-    Delay_I2C2;
 }
 uint8_t Driver_I2C_Receivebyte(void) {
     uint8_t byte;
+    // SDA_HIGH;
     for (uint8_t i = 0; i < 8; i++)
     {
-        SCL_Up;
+        SCL_LOW;
         Delay_I2C2;
 
-        byte << 1;
-        byte = Read_SDA;
+        byte <<= 1;
 
-        SCL_Down;
+        // 注意  byte = (byte << 1) | READ_SDA; 错误
+        if (READ_SDA)
+        {
+            byte |= 0x01;
+        }
+
+        SCL_HIGH;
         Delay_I2C2;
     }
+
+    SCL_LOW;
+    Delay_I2C2;
+    return byte;
 }
