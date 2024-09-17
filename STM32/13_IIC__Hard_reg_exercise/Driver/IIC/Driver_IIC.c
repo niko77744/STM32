@@ -109,7 +109,7 @@ uint8_t Driver_I2C_Sendbyte(uint8_t byte) {
     // 3.等待发送完成,ACK 
     timeout = 0xffff;
     //字节发送结束 (Byte transfer finished)  1：字节发送结束
-    // 在软件读取SR1寄存器后，对数据寄存器DR的读或写操作将清除该位
+    // 在软件读取SR1寄存器后，对数据寄存器的读或写操作将清除该位或在传输中发送一个起始或停止条件后，或当PE=0时，由硬件清除该位。 !!! 后面都是start或stop
     while ((I2C2->SR1 & I2C_SR1_BTF) == 0 && timeout--); //替代接收ack
 
     // 4.返回是否发送成功 
