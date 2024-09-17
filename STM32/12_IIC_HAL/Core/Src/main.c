@@ -92,12 +92,10 @@ int main(void)
     MX_USART1_UART_Init();
 
     /* USER CODE BEGIN 2 */
-    // 1.写数据
     uint8_t buffer[100] = { 0 };
-    HAL_I2C_Mem_Write(&hi2c2, 0xA0, 0, I2C_MEMADD_SIZE_8BIT, "hello", 5, HAL_MAX_DELAY);
+    HAL_I2C_Mem_Write(&hi2c2, 0xA0, 0, I2C_MEMADD_SIZE_8BIT, "hello world", 12, HAL_MAX_DELAY);
     HAL_Delay(5);
-    // 2.读数据
-    HAL_I2C_Mem_Read(&hi2c2, 0xA1, 0, I2C_MEMADD_SIZE_8BIT, buffer, 5, HAL_MAX_DELAY);
+    HAL_I2C_Mem_Read(&hi2c2, 0xA1, 0, I2C_MEMADD_SIZE_8BIT, buffer, 12, HAL_MAX_DELAY);
     printf("buffer = %s\n", buffer);
     /* USER CODE END 2 */
 
