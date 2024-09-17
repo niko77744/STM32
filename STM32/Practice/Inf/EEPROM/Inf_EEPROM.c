@@ -168,7 +168,7 @@ void Inf_EEPROM_Soft_ReadBytes(uint8_t* bytes, uint8_t len, uint8_t InsiderAddr)
 
     for (uint8_t i = 0; i < len; i++)
     {
-        bytes[i] = Driver_I2C_Soft_Receivebyte();
+        bytes[i] = Driver_I2C_Soft_Receivebyte(); // Ð´ÔÚÇ°Ãæ
         if (i < len - 1) {
             Driver_I2C_Soft_SendAck();
         }

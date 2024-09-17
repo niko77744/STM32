@@ -22,11 +22,11 @@ int main(int argc, char const* argv[])
     */
 
 
-    /*  // I2C_HardÄ£¿é²âÊÔ
-    Inf_EEPROM_Soft_WriteBytes("wqertijpojkmals;dm,./amcxl;jkasdljaoisddsadsadsadsafdd", 54, 0);
-    Inf_EEPROM_Soft_ReadBytes(buffer, 54, 0);
+    // I2C_HardÄ£¿é²âÊÔ
+    Inf_EEPROM_Soft_WriteBytes("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", 60, 0);
+    Inf_EEPROM_Soft_ReadBytes(buffer, 60, 0);
     printf("buffer = %s\n", buffer);
-    */
+
 
     while (1) {
         /*  // USARTÄ£¿é²âÊÔ
