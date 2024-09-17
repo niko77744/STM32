@@ -20,14 +20,14 @@ extern uint8_t ReceiveBuffer[100];
 uint8_t LED_IIC[11] = { 0 };
 uint8_t LED_IIC_statue = 0;
 
+
+// "1,3#3,2#2,1"
 int main(int argc, char const* argv[])
 {
     Dri_LED_Init();
     Driver_Key_init();
     Dri_USART1_Init();
     Inf_EEPROM_Init();
-    // "1,3#3,2#2,1"
-
 
     Inf_EEPROM_Readbytes(LED_IIC, 11, 0);
     for (uint8_t i = 0; i < 11; i++)
