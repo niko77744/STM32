@@ -11,6 +11,8 @@ uint8_t len = 0;
 extern uint8_t USART_BRF;
 int main(int argc, char const* argv[])
 {
+    Driver_LED_Init();
+    Driver_KEY_Init();
     Driver_USART_Init();
     Inf_EEPROM_Hard_Init();
     Inf_EEPROM_Soft_Init();
