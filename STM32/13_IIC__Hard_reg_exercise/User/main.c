@@ -109,9 +109,7 @@ int main(int argc, char const* argv[])
                 Dri_LED_Off(leds[flowLED[i] - 1]);
             }
         }
-
     }
-
 }
 
 
