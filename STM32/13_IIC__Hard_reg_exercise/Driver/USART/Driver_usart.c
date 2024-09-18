@@ -2,7 +2,8 @@
 uint8_t ReceiveBuffer[100] = { 0 };
 uint8_t ReceiveLen = 0;
 uint8_t is_Over = 0;
-
+extern uint8_t LED_IIC_statue;
+extern int8_t LED_Key_statue;
 
 void Dri_USART1_Init(void) {
     RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
@@ -67,6 +68,8 @@ void USART1_IRQHandler(void) {
     if ((USART1->SR & USART_SR_RXNE) != 0)
     {
         USART1->DR;
+        LED_IIC_statue = 0;
+        LED_Key_statue = -1;
         ReceiveBuffer[ReceiveLen++] = USART1->DR;
     }
     else if (USART1->SR & USART_SR_IDLE)
