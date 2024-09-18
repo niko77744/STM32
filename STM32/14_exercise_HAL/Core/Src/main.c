@@ -108,7 +108,10 @@ int main(void)
     MX_I2C2_Init();
     MX_USART1_UART_Init();
     /* USER CODE BEGIN 2 */
+
+    // 开始信号
     printf("LED_Plan ---> Start\n");
+    // 判断EEPROM里面是否有数据，有则通过IIC加载LED_LoadPlan
     if ((HAL_I2C_Mem_Read(&hi2c2, 0xA1, 0, I2C_MEMADD_SIZE_8BIT, buffer, 11, HAL_MAX_DELAY)) == HAL_OK)
     {
         if (buffer[0] != 0)
@@ -117,6 +120,7 @@ int main(void)
             LED_LoadPlan();
         }
     }
+    // 接收一次UART信息，接收完会关闭中断，触发中断会将BRF置为1
     HAL_UARTEx_ReceiveToIdle_IT(&huart1, buffer, 11);
 
     /* USER CODE END 2 */
@@ -129,11 +133,14 @@ int main(void)
         if (Plan_BRF)
         {
             Plan_BRF = 0;
+            // 再次开启USART中断等待下一次接收
             HAL_UARTEx_ReceiveToIdle_IT(&huart1, buffer, 11);
             printf("USART----------> buffer = %s\n", buffer);
+            // 通过USART加载LED_LoadPlan，并将串口收到的数据通过IIC存入EEPROM
             LED_LoadPlan();
             HAL_I2C_Mem_Write(&hi2c2, 0xA0, 0, I2C_MEMADD_SIZE_8BIT, buffer, 11, HAL_MAX_DELAY);
         }
+        
         if (plan_statue != No_Plan)
         {
             // 1.关闭所有灯
@@ -196,14 +203,25 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+/**
+ * 解析LED灯的配置计划
+ *
+ * 本函数从一个预设的buffer中解析出LED灯的三个计划配置每种计划配置由两个字节组成
+ * 解析成功后，将更新plan_statue以指示当前的计划状态
+ *
+ * 注意：此处使用sscanf进行字节解析，可能存在安全性风险应确保buffer中的数据来源可靠
+ */
 void LED_LoadPlan(void) {
-    // sscanf((char*)buffer, "%d,%d#%d,%d#%d,%d", &LED_plans[0][0], &LED_plans[0][1], &LED_plans[1][0], &LED_plans[1][1], &LED_plans[2][0], &LED_plans[2][1]);
-
+    // 从buffer中解析LED灯的三个计划配置，每个计划配置包含两个字节的数据
     sscanf((char*)buffer, "%hhu,%hhu#%hhu,%hhu#%hhu,%hhu",
         &LED_plans[0][0], &LED_plans[0][1],
         &LED_plans[1][0], &LED_plans[1][1],
         &LED_plans[2][0], &LED_plans[2][1]);
+
+    // 打印buffer的内容，用于调试目的
     printf("LED_LoadPlan() ---> buffer = %s\n", buffer);
+
+    // 更新plan_statue以指向第一个计划
     plan_statue = Plan_1;
 }
 
