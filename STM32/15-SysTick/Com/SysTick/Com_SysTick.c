@@ -26,6 +26,18 @@ void Com_SysTick_Init() {
 
 
 /**
+ * @brief 获取当前系统滴答数
+ *
+ * 此函数用于获取当前系统的滴答数，以便跟踪自系统启动以来的时间（以滴答为单位）。
+ *
+ * @return uint32_t 返回当前的系统滴答数
+*/
+static uint32_t SysTick_GetTick(void) {
+    return SysTick_Now;
+}
+
+
+/**
  * @brief 延时函数，使用SysTick定时器实现延时
  *
  * 该函数主要用于在程序中实现一段时间的延时，与时间相关的操作中非常有用
@@ -46,16 +58,7 @@ void SysTick_Delay(uint32_t Delay)
 }
 
 
-/**
- * @brief 获取当前系统滴答数
- *
- * 此函数用于获取当前系统的滴答数，以便跟踪自系统启动以来的时间（以滴答为单位）。
- *
- * @return uint32_t 返回当前的系统滴答数
-*/
-static uint32_t SysTick_GetTick(void) {
-    return SysTick_Now;
-}
+
 
 
 /**
