@@ -42,13 +42,15 @@ uint8_t Driver_USART_SendByte(uint8_t byte) {
     return timeout ? Ok : Fail;
 }
 uint8_t Driver_USART_SendBytes(uint8_t* bytes, uint8_t len) {
+    uint16_t timeout = 0xffff;
     for (uint8_t i = 0; i < len; i++)
     {
-        if (!Driver_USART_SendByte(bytes[i])) {
-            return Fail; // ·¢ËÍÊ§°Ü
-        }
+        Driver_USART_SendByte(bytes[i]);
+        // if (!Driver_USART_SendByte(bytes[i])) {
+        //     return Fail; // ·¢ËÍÊ§°Ü
+        // }
     }
-    return Ok;
+    return timeout ? Ok : Fail;
 }
 
 void Driver_USART_ReceiveByte(uint8_t* byte) {
@@ -57,8 +59,8 @@ void Driver_USART_ReceiveByte(uint8_t* byte) {
     USART_BRF = 0;
 }
 void Driver_USART_ReceiveBytes(uint8_t* bytes, uint8_t* len) {
-    // strcpy((char*)bytes, (char*)USART_R_Buffer);
-    memcpy(bytes, USART_R_Buffer, USART_R_Len);
+    strcpy((char*)bytes, (char*)USART_R_Buffer);
+    // memcpy(bytes, USART_R_Buffer, USART_R_Len);
     *len = USART_R_Len;
     USART_R_Len = 0;
     USART_BRF = 0;

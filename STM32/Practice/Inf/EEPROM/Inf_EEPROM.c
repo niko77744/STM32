@@ -1,7 +1,6 @@
 #include "Inf_EEPROM.h"
 
 
-
 void Inf_EEPROM_Hard_Init(void) {
     Driver_I2C_Hard_Init();
 }
@@ -23,6 +22,8 @@ static void Inf_EEPROM_Hard_WriteToPage(uint8_t* bytes, uint8_t len, uint8_t Ins
     {
         Driver_I2C_Hard_Sendbyte(bytes[i]);
     }
+    // sendbyte 标志位BTF 在软件读取SR1寄存器后，对数据寄存器的读或写操作将清除该位或在传输中发送一个起始或停止条件后，或当PE=0时，由硬件清除该位。
+    // 最后一个BTF由Stop清零，同时当Stop检测到BTF=1或TXE=1时发送停止信号，所以这里stop写在后面。
     Driver_I2C_Hard_Stop();
     Delay_ms(5);
 }
@@ -55,6 +56,7 @@ void Inf_EEPROM_Hard_ReadByte(uint8_t* byte, uint8_t InsiderAddr) {
     Driver_I2C_Hard_SendAddr(EEPROM_ADDR_R);
 
     Driver_I2C_Hard_SendNAck();
+    // Receivebyte的标志位是TXE，对数据寄存器的读写操作清除该位，Receivebyte调用结束，TXE已经为0了，如果写在后面，Stop就检测不到TXE=1，就无法产生停止信号，所以stop要写在前面。
     Driver_I2C_Hard_Stop();
 
     *byte = Driver_I2C_Hard_Receivebyte();
@@ -69,7 +71,7 @@ void Inf_EEPROM_Hard_ReadBytes(uint8_t* bytes, uint8_t len, uint8_t InsiderAddr)
 
     for (uint8_t i = 0; i < len; i++)
     {
-        if (i < len - 1)
+        if (i < (len - 1))
         {
             Driver_I2C_Hard_SendAck();
         }

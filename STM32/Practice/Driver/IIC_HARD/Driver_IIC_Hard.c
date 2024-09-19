@@ -71,3 +71,4 @@ uint8_t Driver_I2C_Hard_Receivebyte(void) {
     while ((I2C2->SR1 & I2C_SR1_RXNE) == 0 && timeout--);
     return timeout ? I2C2->DR : Fail;
 }
+

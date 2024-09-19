@@ -15,29 +15,29 @@ int main(int argc, char const* argv[])
     Driver_KEY_Init();
     Driver_USART_Init();
     Inf_EEPROM_Hard_Init();
-    Inf_EEPROM_Soft_Init();
+    // Inf_EEPROM_Soft_Init();  //ºÍÓ²¼þ³åÍ»
 
-    /*  // I2C_HardÄ£¿é²âÊÔ
+    // I2C_HardÄ£¿é²âÊÔ  
     Inf_EEPROM_Hard_WriteBytes("pseudocode daisy vacancy long-lasting deductions", 48, 0);
     Inf_EEPROM_Hard_ReadBytes(buffer, 48, 0);
     printf("buffer = %s\n", buffer);
-    */
 
 
-    /*  // I2C_HardÄ£¿é²âÊÔ
-    Inf_EEPROM_Soft_WriteBytes("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", 60, 0);
-    Inf_EEPROM_Soft_ReadBytes(buffer, 60, 0);
-    printf("buffer = %s\n", buffer);
-    */
+
+    // I2C_SoftÄ£¿é²âÊÔ
+    // Inf_EEPROM_Soft_WriteBytes("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", 60, 0);
+    // Inf_EEPROM_Soft_ReadBytes(buffer, 60, 0);
+    // printf("buffer = %s\n", buffer);
+
 
     while (1) {
-        /*  // USARTÄ£¿é²âÊÔ
+        // USARTÄ£¿é²âÊÔ
         if (USART_BRF) {
             Driver_USART_ReceiveBytes(buffer, &len);
             printf("Send it to the upper computer:");
             Driver_USART_SendBytes(buffer, len);
         }
-        */
+
     }
 }
 
