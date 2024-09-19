@@ -39,7 +39,7 @@ int main(int argc, char const* argv[])
         //     printf("Send it to the upper computer:");
         //     Driver_USART_SendBytes(buffer, len);
         // }
-        SysTick_Delay(1000);
+        SysTick_Delay(1000); 
         Driver_LED_Toggle(LED3);
     }
 }
