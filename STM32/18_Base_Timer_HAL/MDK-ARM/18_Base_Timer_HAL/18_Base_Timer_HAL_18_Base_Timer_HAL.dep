@@ -1,8 +1,8 @@
 Dependencies for Project '18_Base_Timer_HAL', Target '18_Base_Timer_HAL': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\arm5_compiler
-F (startup_stm32f103xe.s)(0x66EC0001)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_18_Base_Timer_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include--pd "__UVISION_VERSION SETA 538" --pd "_RTE_ SETA 1" --pd "STM32F10X_HD SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f103xe.lst --xref -o 18_base_timer_hal\startup_stm32f103xe.o --depend 18_base_timer_hal\startup_stm32f103xe.d)
-F (../Core/Src/main.c)(0x66EC01AC)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_18_Base_Timer_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 18_base_timer_hal\main.o --omf_browse 18_base_timer_hal\main.crf --depend 18_base_timer_hal\main.d)
-I (../Core/Inc/main.h)(0x66EBFFFC)
+F (startup_stm32f103xe.s)(0x66EC03D8)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_18_Base_Timer_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include--pd "__UVISION_VERSION SETA 538" --pd "_RTE_ SETA 1" --pd "STM32F10X_HD SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f103xe.lst --xref -o 18_base_timer_hal\startup_stm32f103xe.o --depend 18_base_timer_hal\startup_stm32f103xe.d)
+F (../Core/Src/main.c)(0x66EC0B30)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_18_Base_Timer_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 18_base_timer_hal\main.o --omf_browse 18_base_timer_hal\main.crf --depend 18_base_timer_hal\main.d)
+I (../Core/Inc/main.h)(0x66EC03D6)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x669E6878)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x66EBFFFC)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x669E6879)
@@ -31,12 +31,12 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x669E6879)
 I (../Core/Inc/tim.h)(0x66EBFFFC)
-I (../Core/Inc/usart.h)(0x66EC013A)
+I (../Core/Inc/usart.h)(0x66EC044B)
 I (C:\MyInstall\Keil_v5\ARM\arm5_compiler\include\stdio.h)(0x66C80E11)
 I (../Core/Inc/gpio.h)(0x66EBFFFB)
-F (../Core/Src/gpio.c)(0x66EBFFFB)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_18_Base_Timer_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 18_base_timer_hal\gpio.o --omf_browse 18_base_timer_hal\gpio.crf --depend 18_base_timer_hal\gpio.d)
+F (../Core/Src/gpio.c)(0x66EC03D3)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_18_Base_Timer_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 18_base_timer_hal\gpio.o --omf_browse 18_base_timer_hal\gpio.crf --depend 18_base_timer_hal\gpio.d)
 I (../Core/Inc/gpio.h)(0x66EBFFFB)
-I (../Core/Inc/main.h)(0x66EBFFFC)
+I (../Core/Inc/main.h)(0x66EC03D6)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x669E6878)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x66EBFFFC)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x669E6879)
@@ -64,9 +64,9 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x669E6879)
-F (../Core/Src/tim.c)(0x66EBFFFC)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_18_Base_Timer_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 18_base_timer_hal\tim.o --omf_browse 18_base_timer_hal\tim.crf --depend 18_base_timer_hal\tim.d)
+F (../Core/Src/tim.c)(0x66EC09E2)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_18_Base_Timer_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 18_base_timer_hal\tim.o --omf_browse 18_base_timer_hal\tim.crf --depend 18_base_timer_hal\tim.d)
 I (../Core/Inc/tim.h)(0x66EBFFFC)
-I (../Core/Inc/main.h)(0x66EBFFFC)
+I (../Core/Inc/main.h)(0x66EC03D6)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x669E6878)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x66EBFFFC)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x669E6879)
@@ -95,8 +95,8 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x669E6879)
 F (../Core/Src/usart.c)(0x66EC0143)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_18_Base_Timer_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 18_base_timer_hal\usart.o --omf_browse 18_base_timer_hal\usart.crf --depend 18_base_timer_hal\usart.d)
-I (../Core/Inc/usart.h)(0x66EC013A)
-I (../Core/Inc/main.h)(0x66EBFFFC)
+I (../Core/Inc/usart.h)(0x66EC044B)
+I (../Core/Inc/main.h)(0x66EC03D6)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x669E6878)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x66EBFFFC)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x669E6879)
@@ -125,8 +125,8 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x669E6879)
 I (C:\MyInstall\Keil_v5\ARM\arm5_compiler\include\stdio.h)(0x66C80E11)
-F (../Core/Src/stm32f1xx_it.c)(0x66EC0162)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_18_Base_Timer_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 18_base_timer_hal\stm32f1xx_it.o --omf_browse 18_base_timer_hal\stm32f1xx_it.crf --depend 18_base_timer_hal\stm32f1xx_it.d)
-I (../Core/Inc/main.h)(0x66EBFFFC)
+F (../Core/Src/stm32f1xx_it.c)(0x66EC04BE)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_18_Base_Timer_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 18_base_timer_hal\stm32f1xx_it.o --omf_browse 18_base_timer_hal\stm32f1xx_it.crf --depend 18_base_timer_hal\stm32f1xx_it.d)
+I (../Core/Inc/main.h)(0x66EC03D6)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x669E6878)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x66EBFFFC)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x669E6879)
@@ -154,11 +154,11 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x669E6879)
-I (../Core/Inc/stm32f1xx_it.h)(0x66EBFFFC)
-I (../Core/Inc/usart.h)(0x66EC013A)
+I (../Core/Inc/stm32f1xx_it.h)(0x66EC0471)
+I (../Core/Inc/usart.h)(0x66EC044B)
 I (C:\MyInstall\Keil_v5\ARM\arm5_compiler\include\stdio.h)(0x66C80E11)
 F (../Core/Src/stm32f1xx_hal_msp.c)(0x66EBFFFC)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_18_Base_Timer_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 18_base_timer_hal\stm32f1xx_hal_msp.o --omf_browse 18_base_timer_hal\stm32f1xx_hal_msp.crf --depend 18_base_timer_hal\stm32f1xx_hal_msp.d)
-I (../Core/Inc/main.h)(0x66EBFFFC)
+I (../Core/Inc/main.h)(0x66EC03D6)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x669E6878)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x66EBFFFC)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x669E6879)

@@ -23,7 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
-#include "usart.h"
+
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
 
@@ -236,6 +236,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
         printf("Timer6\n");
         HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
     }
+}
 
+
+void HAL_IncTick(void)
+{
+    uwTick += uwTickFreq;
+    if ((uwTick % 1000) == 0)
+    {
+        printf("SysTick\n");
+        HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
+    }
 }
 /* USER CODE END 1 */
