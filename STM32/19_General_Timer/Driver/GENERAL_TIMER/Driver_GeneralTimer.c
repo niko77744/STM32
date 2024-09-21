@@ -101,27 +101,18 @@ void Driver_GeneralTimer5_LED2_SetDutyCycle(uint8_t DutyCycle) {
     TIM5->CCR2 = DutyCycle;
 }
 
-uint8_t PWM_count = 0;
-uint16_t PWM_cycle_time = 0;  //单位是us
+// uint8_t PWM_count = 0;
+// uint16_t PWM_cycle_time = 0;  //单位是us
 
 // 返回PWM的周期 ms
 double Driver_GeneralTimer4_GetCycle(void) {
-    return PWM_cycle_time / 1000.0;  // 计算周期 例如，5000 μs = 5000÷1000 = 5 ms。 5ms也是tim5的100分频后
+    return TIM4->CCR1 / 1000.0;  // 计算周期 例如，5000 μs = 5000÷1000 = 5 ms。 5ms也是tim5的100分频后
 }
 double Driver_GeneralTimer4_GetFrequency(void) {
-    return 1000000.0 / PWM_cycle_time; // 计算频率= 1/周期 = 1/(PWM_cycle_time/1000000)
+    return 1000000.0 / TIM4->CCR1; // 计算频率= 1/周期 = 1/(PWM_cycle_time/1000000)
 }
 
 void TIM4_IRQHandler(void) {
     TIM4->SR &= ~TIM_SR_CC1IF;
-    PWM_count++;
-
-    if (PWM_count == 1)
-    {
-        TIM4->CNT = 0;
-    }
-    else if (PWM_count == 2) {
-        PWM_cycle_time = TIM4->CCR1;
-        PWM_count = 0;
-    }
+    TIM4->CNT = 0;
 }

@@ -23,6 +23,7 @@ double F = 0;
 int main(int argc, char const* argv[])
 {
     Driver_GeneralTimer4_Init();
+    Delay_ms(10);
     Driver_GeneralTimer5_Init();
     Driver_USART_Init();
 
