@@ -3,6 +3,8 @@
 
 #include "stm32f10x.h"
 #include "Com_Delay.h"
+#include "GPIO.h"
+
 #define LED1 GPIO_ODR_ODR0
 #define LED2 GPIO_ODR_ODR1
 #define LED3 GPIO_ODR_ODR8

@@ -5,34 +5,26 @@ uint16_t leds[size] = { LED1, LED2, LED3 };
 
 void Driver_LED_Init(void) {
     RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
-    // MODE11  CNF00  通用推挽输出
-    GPIOA->CRL |= GPIO_CRL_MODE0;
-    GPIOA->CRL |= GPIO_CRL_MODE1;
-    GPIOA->CRH |= GPIO_CRH_MODE8;
 
-    GPIOA->CRL &= ~GPIO_CRL_CNF0;
-    GPIOA->CRL &= ~GPIO_CRL_CNF1;
-    GPIOA->CRH &= ~GPIO_CRH_CNF8;
+    GPIO_InitTypeDef GPIO_InitStruct;
+
+    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStruct.GPIO_Pin = (LED1 | LED2 | LED3);
+    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStruct);
 
     Driver_LED_OffAll(leds, size);
 }
 
 void Driver_LED_On(uint16_t led) {
-    GPIOA->BRR |= led;
+    HAL_GPIO_WritePin(GPIOA, led, GPIO_PIN_RESET);
 }
 void Driver_LED_Off(uint16_t led) {
-    GPIOA->BSRR |= led;
+    HAL_GPIO_WritePin(GPIOA, led, GPIO_PIN_SET);
 }
 
 void Driver_LED_Toggle(uint16_t led) {
-    if ((GPIOA->IDR & led) == 0)
-    {
-        Driver_LED_Off(led);
-    }
-    else {
-        Driver_LED_On(led);
-    }
-
+    HAL_GPIO_TogglePin(GPIOA, led);
 }
 void Driver_LED_OnAll(uint16_t leds[], uint8_t len) {
     for (uint8_t i = 0; i < len; i++)

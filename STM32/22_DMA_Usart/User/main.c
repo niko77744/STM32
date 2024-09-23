@@ -12,16 +12,20 @@
 #include "Driver_GeneralTimer.h"
 #include "Driver_AdvancedTimer.h"
 #include "Driver_DMA.h"
+#include "GPIO.h"
 
 #include "Inf_EEPROM.h"
 uint8_t buffer[] = "abc\n";
+extern uint16_t leds[size];
 
 int main(int argc, char const* argv[])
 {
-    Driver_USART_Init();
-    Driver_DMA1_Init();
+    // Driver_USART_Init();
+    // Driver_DMA1_Init();
 
-    Driver_DMA1_TransmitStart((uint32_t)buffer, (uint32_t)(&USART1->DR), (uint16_t)(strlen((char*)buffer)));
+    // Driver_DMA1_TransmitStart((uint32_t)buffer, (uint32_t)(&USART1->DR), (uint16_t)(strlen((char*)buffer)));
+    Driver_LED_Init();
+    Driver_LED_Toggle(LED1);
     while (1);
 }
 
