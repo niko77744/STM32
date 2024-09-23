@@ -53,5 +53,4 @@ void DMA1_Channel4_IRQHandler(void) {
         DMA1->IFCR |= DMA_IFCR_CGIF4;
         DMA1_Channel4->CCR &= ~DMA_CCR4_EN;
     }
-
 }
