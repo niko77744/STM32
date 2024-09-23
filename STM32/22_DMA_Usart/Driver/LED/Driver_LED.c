@@ -11,7 +11,7 @@ void Driver_LED_Init(void) {
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStruct.GPIO_Pin = (LED1 | LED2 | LED3);
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOA, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
     Driver_LED_OffAll(leds, size);
 }
