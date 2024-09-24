@@ -20,6 +20,8 @@ const uint8_t src[5] = { 'a','b','c','d','e' };
 uint8_t target[20] = {};
 
 extern uint8_t DMA_IS_BRF;
+extern uint8_t USART_BRF;
+extern uint8_t USART_R_Len;
 
 int main(int argc, char const* argv[])
 {
@@ -30,9 +32,9 @@ int main(int argc, char const* argv[])
 
     // M_2_USART 
     Driver_DMA1_Channel4_TransmitStart((uint32_t)buffer, (uint32_t)(&USART1->DR), (uint16_t)(strlen((char*)buffer)));
-    
-    // 定长,需要接收到5位
-    Driver_DMA1_Channel5_ReceiveStart((uint32_t)(&USART1->DR), (uint32_t)buffer, 5);
+
+    // // 定长,需要接收到5位
+    // Driver_DMA1_Channel5_ReceiveStart((uint32_t)(&USART1->DR), (uint32_t)buffer, 5);
 
     printf("src = %p target = %p\n", src, target);
     // 开启DMA通道传输数据
@@ -40,11 +42,14 @@ int main(int argc, char const* argv[])
     printf("M_2_M: target = %s\n", target);
 
     while (1) {
-        if (DMA_IS_BRF)
+        if (DMA_IS_BRF && USART_BRF)
         {
             printf("USART_2_M: buffer = %s\n", buffer);
             DMA_IS_BRF = 0;
-            Driver_DMA1_Channel5_ReceiveStart((uint32_t)(&USART1->DR), (uint32_t)buffer, 5);
+            USART_BRF = 0;
+            printf("USART_R_Len = %d\n", USART_R_Len);
+            USART_R_Len = 0;
+            Driver_DMA1_Channel5_ReceiveStart((uint32_t)(&USART1->DR), (uint32_t)buffer, USART_R_Len);
         }
     }
 }
