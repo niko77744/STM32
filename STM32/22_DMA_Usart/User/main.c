@@ -1,11 +1,9 @@
 #include <string.h>
 #include "Driver_Key.h"
 #include "Driver_LED.h"
-
 #include "Driver_USART.h"
 #include "Driver_IIC_Hard.h"
 #include "Driver_IIC_Soft.h"
-
 #include "Com_Delay.h"
 #include "Com_SysTick.h"
 #include "Driver_BaseTimer.h"
@@ -13,7 +11,6 @@
 #include "Driver_AdvancedTimer.h"
 #include "Driver_DMA.h"
 #include "GPIO.h"
-
 #include "Inf_EEPROM.h"
 
 // DMA_USART
@@ -34,6 +31,7 @@ int main(int argc, char const* argv[])
 
     // M_2_USART 
     Driver_DMA1_Channel4_TransmitStart((uint32_t)buffer, (uint32_t)(&USART1->DR), (uint16_t)(strlen((char*)buffer)));
+    
     // 定长,需要接收到5位
     Driver_DMA1_Channel5_ReceiveStart((uint32_t)(&USART1->DR), (uint32_t)buffer, 5);
 
