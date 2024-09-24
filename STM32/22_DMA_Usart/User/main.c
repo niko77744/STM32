@@ -1,4 +1,3 @@
-#include <string.h>
 #include "Driver_Key.h"
 #include "Driver_LED.h"
 #include "Driver_USART.h"

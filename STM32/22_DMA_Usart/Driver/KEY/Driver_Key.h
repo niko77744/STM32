@@ -1,6 +1,7 @@
 #ifndef __DRIVER_KEY_H__
 #define __DRIVER_KEY_H__
 
+#include <string.h>
 #include "stm32f10x.h"
 #include "Com_Delay.h"
 #include "Driver_LED.h"
