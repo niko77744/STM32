@@ -5,6 +5,7 @@
 #include "Driver_USART.h"
 #include "Driver_IIC_Hard.h"
 #include "Driver_IIC_Soft.h"
+#include "Driver_SPI.h"
 #include "Driver_BaseTimer.h"
 #include "Driver_GeneralTimer.h"
 #include "Driver_AdvancedTimer.h"
@@ -12,21 +13,20 @@
 #include "Driver_ADC.h"
 #include "GPIO.h"
 #include "Inf_EEPROM.h"
-
-uint16_t buffer[2] = { 0 };  // !!!! 16位的数据
+#include "Inf_w25q32.h"
 
 int main(int argc, char const* argv[])
 {
     Driver_USART_Init();
-    Driver_ADC1_Init();
-    // Driver_ADC1_Start();
-    Driver_ADC1_DMA1_Init();
-    Driver_ADC1_DMA1_Start((uint32_t)(&ADC1->DR), (uint32_t)buffer, 2);
+    Inf_W25Q32_Init();
+    uint8_t mid = 0;
+    uint16_t did = 0;
+    Inf_W25Q32_ReadId(&mid, &did);
 
+    // mid = 0xef       did = 0x4016
+    printf("mid = %#x \t did = %#x\n", mid, did);
 
     while (1) {
-        printf("V1 = %.2lf\t V1 = %.2lf\n", (buffer[0] * (3.3 / 4095.0)), (buffer[1] * (3.3 / 4095.0)));
-        Delay_s(1);
     }
 }
 
