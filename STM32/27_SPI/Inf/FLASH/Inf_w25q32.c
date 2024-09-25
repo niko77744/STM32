@@ -19,31 +19,17 @@ void Inf_W25Q32_Init(void) {
 }
 
 void Inf_W25Q32_ReadId(uint8_t* mid, uint16_t* did) {
-    // Driver_SPI_Start();
-
-    // // 2.发送读取ID指令
-    // Driver_SPI_SwapByte(0x9f);
-
-    // *mid = Driver_SPI_SwapByte(0xFF);
-    // *did = 0;
-    // *did |= (Driver_SPI_SwapByte(0xff) << 8);
-    // *did |= (Driver_SPI_SwapByte(0xff) << 0);
-
-    // Driver_SPI_Stop();
-        // 1.片选信号拉低
-    CS_LOW;
+    Driver_SPI_Start();
 
     // 2.发送读取ID指令
     Driver_SPI_SwapByte(0x9f);
 
-    // 3.封装返回值结果
-    *mid = Driver_SPI_SwapByte(0xff);
+    *mid = Driver_SPI_SwapByte(0xFF);
     *did = 0;
     *did |= (Driver_SPI_SwapByte(0xff) << 8);
     *did |= (Driver_SPI_SwapByte(0xff) << 0);
 
-    // 4.片选信号拉高
-    CS_HIGH;
+    Driver_SPI_Stop();
 }
 
 void Inf_W25Q32_WriteEnable(void);
