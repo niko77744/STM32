@@ -29,12 +29,12 @@ int main(int argc, char const* argv[])
     // mid = 0xef       did = 0x4016
     printf("mid = %#x \t did = %#x\n", Manufacture_ID, Device_Id);
 
-
-    // Inf_W25Q32_EraseSector(0x00, 0x00);
+    Inf_W25Q32_EraseSector(0, 0);
 
     // 块最大64(0x40) 段最大16(0x40) 页最大16(0x10) 页内地址最大256(0x100) 0xFF=255
-    Inf_W25Q32_PageWrite(0x00, 0x00, 0x01, 0xFF, "disability", 10);
-    Inf_W25Q32_Read(0x00, 0x00, 0x01, 0xFF, buffer, 10);
+    Inf_W25Q32_PageWrite(0, 0, 2, 246, "plagiarismm", 10);
+    Inf_W25Q32_PageWrite(0, 0, 3, 0, "laboriously", 11);
+    Inf_W25Q32_Read(0, 0, 2, 246, buffer, 21);
     printf("buffer = %s\n", buffer);
 
     while (1);

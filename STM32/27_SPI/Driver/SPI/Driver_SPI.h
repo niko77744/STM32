@@ -34,3 +34,4 @@ void Driver_SPI_Soft_Stop(void);
 uint8_t Driver_SPI_Soft_SwapByte(uint8_t);
 
 #endif /* __DRIVER_SPI_H__ */
+
