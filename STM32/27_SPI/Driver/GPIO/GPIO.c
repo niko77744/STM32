@@ -147,3 +147,43 @@ void HAL_GPIO_Init(GPIO_TypeDef* GPIOx, GPIO_InitTypeDef* GPIO_InitStruct)
         GPIOx->CRH = tmpreg;
     }
 }
+
+
+void GPIO_Mode_Selection(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIOMode_TypeDef Mode) {
+    uint8_t Places = (uint8_t)(log2(GPIO_Pin));
+    printf("Places = %d\n", Places);
+    switch (Mode) {
+    case GPIO_Mode_AIN:  //CNF:00  MODE:00
+        if (Places >= 8) {
+            // GPIOx->CRH &= ~(0x00 << Places);
+            printf("GPIOx->CRH &= ~(0x00 << Places\n");
+        } else {
+            // GPIOx->CRL &= ~(0x00 << Places);
+            printf("GPIOx->CRL &= ~(0x00 << Places);\n");
+        }
+        break;
+    case GPIO_Mode_IN_FLOATING:
+        printf("GPIO set to IN_FLOATING mode.\n");
+        break;
+    case GPIO_Mode_IPD:
+        printf("GPIO set to IPD mode.\n");
+        break;
+    case GPIO_Mode_IPU:
+        printf("GPIO set to IPU mode.\n");
+        break;
+    case GPIO_Mode_Out_OD:
+        printf("GPIO set to Out_OD mode.\n");
+        break;
+    case GPIO_Mode_Out_PP:
+        printf("GPIO set to Out_PP mode.\n");
+        break;
+    case GPIO_Mode_AF_OD:
+        printf("GPIO set to AF_OD mode.\n");
+        break;
+    case GPIO_Mode_AF_PP:
+        printf("GPIO set to AF_PP mode.\n");
+        break;
+    default:
+        break;
+    }
+}
