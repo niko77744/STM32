@@ -15,20 +15,29 @@
 #include "Inf_EEPROM.h"
 #include "Inf_w25q32.h"
 
+uint8_t Manufacture_ID = 0;
+uint16_t Device_Id = 0;
+uint8_t buffer[100] = { 0 };
+
 int main(int argc, char const* argv[])
 {
     Driver_USART_Init();
     Inf_W25Q32_Init();
-    uint8_t mid = 0;
-    uint16_t did = 0;
-    Inf_W25Q32_ReadId(&mid, &did);
+
+    Inf_W25Q32_ReadId(&Manufacture_ID, &Device_Id);
 
     // mid = 0xef       did = 0x4016
-    printf("mid = %#x \t did = %#x\n", mid, did);
+    printf("mid = %#x \t did = %#x\n", Manufacture_ID, Device_Id);
 
 
-    while (1) {
-    }
+    // Inf_W25Q32_EraseSector(0x00, 0x00);
+
+    // 块最大64(0x40) 段最大16(0x40) 页最大16(0x10) 页内地址最大256(0x100) 0xFF=255
+    Inf_W25Q32_PageWrite(0x00, 0x00, 0x01, 0xFF, "disability", 10);
+    Inf_W25Q32_Read(0x00, 0x00, 0x01, 0xFF, buffer, 10);
+    printf("buffer = %s\n", buffer);
+
+    while (1);
 }
 
 

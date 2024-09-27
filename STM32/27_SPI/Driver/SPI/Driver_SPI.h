@@ -27,4 +27,10 @@ void Driver_SPI_Start(void);
 void Driver_SPI_Stop(void);
 uint8_t Driver_SPI_SwapByte(uint8_t);
 
+
+void Driver_SPI_Soft_Init(void);
+void Driver_SPI_Soft_Start(void);
+void Driver_SPI_Soft_Stop(void);
+uint8_t Driver_SPI_Soft_SwapByte(uint8_t);
+
 #endif /* __DRIVER_SPI_H__ */
