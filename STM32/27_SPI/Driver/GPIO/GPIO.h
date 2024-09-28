@@ -22,7 +22,7 @@ typedef enum
 #define GPIOA_CLKR   *(unsigned int *)(GPIOA_BASE+0x18)
 
 #define GPIO_pin_0   ((uint16_t)0x0001)  /* 选择pin0  */
-#define GPIO_pin_1   ((uint16_t)0x0002   /* 选择pin1  */   
+#define GPIO_pin_1   ((uint16_t)0x0002)  /* 选择pin1  */   
 #define GPIO_pin_2   ((uint16_t)0x0004)  /* 选择pin2  */     
 #define GPIO_pin_3   ((uint16_t)0x0008)  /* 选择pin3  */      
 #define GPIO_pin_4   ((uint16_t)0x0010)  /* 选择pin4  */      
@@ -74,6 +74,6 @@ void HAL_GPIO_Init(GPIO_TypeDef* GPIOx, GPIO_InitTypeDef* GPIO_InitStruct);
 void HAL_GPIO_WritePin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState);
 void HAL_GPIO_TogglePin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 GPIO_PinState HAL_GPIO_ReadPin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
-void GPIO_Mode_Selection(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIOMode_TypeDef Mode);
+void Hal_GPIO_Mode_Selection(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIOMode_TypeDef Mode);
 
 #endif /* __GPIO_H__ */

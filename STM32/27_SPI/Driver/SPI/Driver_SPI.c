@@ -9,7 +9,7 @@ void Driver_SPI_Init(void) {
     RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
     RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;
 
-    // CS(NSS/SS)片选： 通用推挽输出 MODE=11 CNF=00
+    // // CS(NSS/SS)片选： 通用推挽输出 MODE=11 CNF=00
     GPIOC->CRH &= ~GPIO_CRH_CNF13;
     GPIOC->CRH |= GPIO_CRH_MODE13;
 

@@ -149,39 +149,108 @@ void HAL_GPIO_Init(GPIO_TypeDef* GPIOx, GPIO_InitTypeDef* GPIO_InitStruct)
 }
 
 
-void GPIO_Mode_Selection(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIOMode_TypeDef Mode) {
+void Hal_GPIO_Mode_Selection(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIOMode_TypeDef Mode) {
     uint8_t Places = (uint8_t)(log2(GPIO_Pin));
-    printf("Places = %d\n", Places);
     switch (Mode) {
-    case GPIO_Mode_AIN:  //CNF:00  MODE:00
+    case GPIO_Mode_AIN:  //模拟CNF:00  MODE:00
         if (Places >= 8) {
-            // GPIOx->CRH &= ~(0x00 << Places);
-            printf("GPIOx->CRH &= ~(0x00 << Places\n");
-        } else {
-            // GPIOx->CRL &= ~(0x00 << Places);
-            printf("GPIOx->CRL &= ~(0x00 << Places);\n");
+            GPIOx->CRH &= (0x00 << (Places - 8) * 4);
+            GPIOx->CRH |= (0x00 << (Places - 8) * 4);
+            printf("GPIOx->CRH |= 0x00 << %d\n", (Places - 8) * 4);
+        }
+        else {
+            GPIOx->CRL &= (0x00 << Places * 4);
+            GPIOx->CRL |= (0x00 << Places * 4);
+            printf("GPIOx->CRL |= 0x00 << %d\n", Places * 4);
         }
         break;
-    case GPIO_Mode_IN_FLOATING:
-        printf("GPIO set to IN_FLOATING mode.\n");
+    case GPIO_Mode_IN_FLOATING: //浮空CNF:01  MODE:00
+        if (Places >= 8) {
+            GPIOx->CRH &= (0x00 << (Places - 8) * 4);
+            GPIOx->CRH |= (0x04 << (Places - 8) * 4);
+            printf("GPIOx->CRH |= 0x04 << %d\n", (Places - 8) * 4);
+        }
+        else {
+            GPIOx->CRL &= (0x00 << Places * 4);
+            GPIOx->CRL |= (0x04 << Places * 4);
+            printf(" GPIOx->CRL |= 0x04 << %d\n", Places * 4);
+        }
         break;
-    case GPIO_Mode_IPD:
-        printf("GPIO set to IPD mode.\n");
+    case GPIO_Mode_IPD:     //下拉CNF:10  MODE:00  ODR=0
+        if (Places >= 8) {
+            GPIOx->CRH &= (0x00 << (Places - 8) * 4);
+            GPIOx->CRH |= (0x08 << (Places - 8) * 4);
+            HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_RESET);
+            printf("GPIOx->CRH |= 0x08 << %d\n", (Places - 8) * 4);
+        }
+        else {
+            GPIOx->CRL &= (0x00 << Places * 4);
+            GPIOx->CRL |= (0x08 << Places * 4);
+            HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_RESET);
+            printf("GPIOx->CRH |= 0x08 << %d\n", Places * 4);
+        }
         break;
-    case GPIO_Mode_IPU:
-        printf("GPIO set to IPU mode.\n");
+    case GPIO_Mode_IPU: //上拉CNF:10  MODE:00 ODR=1
+        if (Places >= 8) {
+            GPIOx->CRH &= (0x00 << (Places - 8) * 4);
+            GPIOx->CRH |= (0x08 << (Places - 8) * 4);
+            HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_SET);
+            printf("GPIOx->CRH |= 0x08 << %d\n", (Places - 8) * 4);
+        }
+        else {
+            GPIOx->CRL &= (0x00 << Places * 4);
+            GPIOx->CRL |= (0x08 << Places * 4);
+            HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_SET);
+            printf("GPIOx->CRH |= 0x08 << %d\n", Places * 4);
+        }
         break;
-    case GPIO_Mode_Out_OD:
-        printf("GPIO set to Out_OD mode.\n");
+    case GPIO_Mode_Out_OD:  // 通用开漏01 11
+        if (Places >= 8) {
+            GPIOx->CRH &= (0x00 << (Places - 8) * 4);
+            GPIOx->CRH |= (0x07 << (Places - 8) * 4);
+            printf("GPIOx->CRH |= 0x07 << %d\n", (Places - 8) * 4);
+        }
+        else {
+            GPIOx->CRL &= (0x00 << Places * 4);
+            GPIOx->CRL |= (0x07 << Places * 4);
+            printf("GPIOx->CRH |= 0x07 << %d\n", Places * 4);
+        }
         break;
-    case GPIO_Mode_Out_PP:
-        printf("GPIO set to Out_PP mode.\n");
+    case GPIO_Mode_Out_PP:  //通用推挽 00 11
+        if (Places >= 8) {
+            GPIOx->CRH &= (0x00 << (Places - 8) * 4);
+            GPIOx->CRH |= (0x03 << (Places - 8) * 4);
+            printf("GPIOx->CRH |= 0x03 << %d\n", (Places - 8) * 4);
+        }
+        else {
+            GPIOx->CRL &= (0x00 << Places * 4);
+            GPIOx->CRL |= (0x03 << Places * 4);
+            printf("GPIOx->CRH |= 0x03 << %d\n", Places * 4);
+        }
         break;
-    case GPIO_Mode_AF_OD:
-        printf("GPIO set to AF_OD mode.\n");
+    case GPIO_Mode_AF_OD: //复用开漏 11 11
+        if (Places >= 8) {
+            GPIOx->CRH &= (0x00 << (Places - 8) * 4);
+            GPIOx->CRH |= (0x0F << (Places - 8) * 4);
+            printf("GPIOx->CRH |= 0x0F << %d\n", (Places - 8) * 4);
+        }
+        else {
+            GPIOx->CRL &= (0x00 << Places * 4);
+            GPIOx->CRL |= (0x0F << Places * 4);
+            printf("GPIOx->CRH |= 0x0F << %d\n", Places * 4);
+        }
         break;
-    case GPIO_Mode_AF_PP:
-        printf("GPIO set to AF_PP mode.\n");
+    case GPIO_Mode_AF_PP: //复用推挽 10 11
+        if (Places >= 8) {
+            GPIOx->CRH &= (0x00 << (Places - 8) * 4);
+            GPIOx->CRH |= (0x0B << (Places - 8) * 4);
+            printf("GPIOx->CRH |= 0x0B << %d\n", (Places - 8) * 4);
+        }
+        else {
+            GPIOx->CRL &= (0x00 << Places * 4);
+            GPIOx->CRL |= (0x0B << Places * 4);
+            printf("GPIOx->CRH |= 0x0B << %d\n", Places * 4);
+        }
         break;
     default:
         break;

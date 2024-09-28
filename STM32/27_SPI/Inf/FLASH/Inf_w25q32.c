@@ -127,6 +127,27 @@ void Inf_W25Q32_PageWrite(uint8_t block, uint8_t sector, uint8_t page, uint8_t i
     Inf_W25Q32_WriteDisable();
 }
 
+void Inf_W25Q32_SectorWrite(uint8_t block, uint8_t sector, uint8_t page, uint8_t innerAddr, uint8_t* data, uint16_t dataLen) {
+    uint16_t page_remain = 0;
+    while (dataLen > 0) {
+        page_remain = 256 - innerAddr % 256;
+        if (dataLen > page_remain)
+        {
+            Inf_W25Q32_PageWrite(block, sector, page, innerAddr, data, page_remain);
+            dataLen -= page_remain;
+            data += page_remain;
+            // page += 1;
+            (page % 16 == 0) ? (page = 0) : (page += 1);
+            innerAddr += page_remain;
+        }
+        else if (dataLen <= page_remain)
+        {
+            Inf_W25Q32_PageWrite(block, sector, page, innerAddr, data, dataLen);
+            dataLen = 0;
+        }
+    }
+}
+
 void Inf_W25Q32_Read(uint8_t block, uint8_t sector, uint8_t page, uint8_t innerAddr, uint8_t* buffer, uint16_t dataLen) {
     // 1.µÈ´ı²»Ã¦
     Inf_W25Q32_WaitNotBusy();
