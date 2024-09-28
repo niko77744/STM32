@@ -212,13 +212,9 @@ void Hal_GPIO_Mode_Selection(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIOMode_Ty
     if (Places >= 8) {
         GPIOx->CRH &= ~mask;
         GPIOx->CRH |= (value << ((Places - 8) * 4));
-        printf("GPIOx->CRH &= ~0x%x\n", mask);
-        printf("GPIOx->CRH |= 0x%x << %d\n", value, (Places - 8) * 4);
     }
     else {
         GPIOx->CRL &= ~mask;
         GPIOx->CRL |= (value << (Places * 4));
-        // printf("GPIOx->CRL &= ~0x%x\n", mask);
-        // printf("GPIOx->CRL |= 0x%x << %d\n", value, Places * 4);
     }
 }
