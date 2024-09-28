@@ -193,7 +193,7 @@ void Inf_W25Q32_RandomWrite(uint8_t* src, uint32_t addr)
     Inf_W25Q32_PageWrite(block, sector, page, innerAddr, src, page1Size);
 
     /* 2.计算待写入的页数 */
-    uint8_t lastPageSize = len % (0xff + 1);
+    uint8_t lastPageSize = len % (256);
     uint32_t pageNum = len / 256;
 
     /* 3.循环分页写入 */
