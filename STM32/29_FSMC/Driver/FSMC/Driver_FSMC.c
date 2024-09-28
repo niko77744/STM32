@@ -1,74 +1,7 @@
 #include "Driver_FSMC.h"
 
+void Driver_FSMC_GPIO_Init(void);
 
-void Driver_FSMC_GPIO_Init(void) {
-    RCC->APB2ENR |= (RCC_APB2ENR_IOPDEN | RCC_APB2ENR_IOPEEN | RCC_APB2ENR_IOPFEN | RCC_APB2ENR_IOPGEN);
-
-    // GPIO_InitTypeDef GPIO_FSCM_InitStruct = { 0 };
-
-    // GPIO_FSCM_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
-    // GPIO_FSCM_InitStruct.GPIO_Pin = (GPIO_pin_11 | GPIO_pin_12 | GPIO_pin_13 | GPIO_pin_14 | GPIO_pin_15 | GPIO_pin_0, GPIO_pin_1, GPIO_pin_8, GPIO_pin_9, GPIO_pin_10, GPIO_pin_4, GPIO_pin_5);
-    // GPIO_FSCM_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-    // HAL_GPIO_Init(GPIOD, &GPIO_FSCM_InitStruct);
-
-    // GPIO_FSCM_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
-    // GPIO_FSCM_InitStruct.GPIO_Pin = (GPIO_pin_7 | GPIO_pin_8 | GPIO_pin_9 | GPIO_pin_10 | GPIO_pin_11 | GPIO_pin_12, GPIO_pin_13, GPIO_pin_14, GPIO_pin_15, GPIO_pin_0, GPIO_pin_1);
-    // GPIO_FSCM_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-    // HAL_GPIO_Init(GPIOE, &GPIO_FSCM_InitStruct);
-
-    // GPIO_FSCM_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
-    // GPIO_FSCM_InitStruct.GPIO_Pin = (GPIO_pin_0 | GPIO_pin_1 | GPIO_pin_2 | GPIO_pin_3 | GPIO_pin_4 | GPIO_pin_5, GPIO_pin_12, GPIO_pin_13, GPIO_pin_14, GPIO_pin_15);
-    // GPIO_FSCM_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-    // HAL_GPIO_Init(GPIOF, &GPIO_FSCM_InitStruct);
-
-    // GPIO_FSCM_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
-    // GPIO_FSCM_InitStruct.GPIO_Pin = (GPIO_pin_0 | GPIO_pin_1 | GPIO_pin_2 | GPIO_pin_3 | GPIO_pin_4 | GPIO_pin_5, GPIO_pin_10);
-    // GPIO_FSCM_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-    // HAL_GPIO_Init(GPIOG, &GPIO_FSCM_InitStruct);
-    Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_11, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_12, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_13, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_14, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_15, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_0, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_1, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_8, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_9, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_10, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_4, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_5, GPIO_Mode_AF_PP);
-
-    Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_7, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_8, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_9, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_10, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_11, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_12, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_13, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_14, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_15, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_0, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_1, GPIO_Mode_AF_PP);
-
-    Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_0, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_1, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_2, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_3, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_4, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_5, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_12, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_13, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_14, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_15, GPIO_Mode_AF_PP);
-
-    Hal_GPIO_Mode_Selection(GPIOG, GPIO_pin_0, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOG, GPIO_pin_1, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOG, GPIO_pin_2, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOG, GPIO_pin_3, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOG, GPIO_pin_4, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOG, GPIO_pin_5, GPIO_Mode_AF_PP);
-    Hal_GPIO_Mode_Selection(GPIOG, GPIO_pin_10, GPIO_Mode_AF_PP);
-}
 void Driver_FSMC_Init(void) {
     /* 1.开启时钟 */
     RCC->AHBENR |= RCC_AHBENR_FSMCEN;
@@ -105,6 +38,75 @@ void Driver_FSMC_Init(void) {
     FSMC_Bank1->BTCR[5] |= (71 << 8);
 }
 
+void Driver_FSMC_GPIO_Init(void) {
+    RCC->APB2ENR |= (RCC_APB2ENR_IOPDEN | RCC_APB2ENR_IOPEEN | RCC_APB2ENR_IOPFEN | RCC_APB2ENR_IOPGEN);
+
+    GPIO_InitTypeDef GPIO_FSCM_InitStruct = { 0 };
+
+    GPIO_FSCM_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_FSCM_InitStruct.GPIO_Pin = (GPIO_pin_11 | GPIO_pin_12 | GPIO_pin_13 | GPIO_pin_14 | GPIO_pin_15 | GPIO_pin_0 | GPIO_pin_1 | GPIO_pin_8 | GPIO_pin_9 | GPIO_pin_10 | GPIO_pin_4 | GPIO_pin_5);
+    GPIO_FSCM_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+    HAL_GPIO_Init(GPIOD, &GPIO_FSCM_InitStruct);
+
+    GPIO_FSCM_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_FSCM_InitStruct.GPIO_Pin = (GPIO_pin_7 | GPIO_pin_8 | GPIO_pin_9 | GPIO_pin_10 | GPIO_pin_11 | GPIO_pin_12 | GPIO_pin_13 | GPIO_pin_14 | GPIO_pin_15 | GPIO_pin_0 | GPIO_pin_1);
+    GPIO_FSCM_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+    HAL_GPIO_Init(GPIOE, &GPIO_FSCM_InitStruct);
+
+    GPIO_FSCM_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_FSCM_InitStruct.GPIO_Pin = (GPIO_pin_0 | GPIO_pin_1 | GPIO_pin_2 | GPIO_pin_3 | GPIO_pin_4 | GPIO_pin_5 | GPIO_pin_12 | GPIO_pin_13 | GPIO_pin_14 | GPIO_pin_15);
+    GPIO_FSCM_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+    HAL_GPIO_Init(GPIOF, &GPIO_FSCM_InitStruct);
+
+    GPIO_FSCM_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_FSCM_InitStruct.GPIO_Pin = (GPIO_pin_0 | GPIO_pin_1 | GPIO_pin_2 | GPIO_pin_3 | GPIO_pin_4 | GPIO_pin_5 | GPIO_pin_10);
+    GPIO_FSCM_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+    HAL_GPIO_Init(GPIOG, &GPIO_FSCM_InitStruct);
+
+    // Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_11, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_12, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_13, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_14, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_15, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_0, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_1, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_8, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_9, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_10, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_4, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_5, GPIO_Mode_AF_PP);
+
+    // Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_7, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_8, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_9, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_10, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_11, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_12, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_13, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_14, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_15, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_0, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOE, GPIO_pin_1, GPIO_Mode_AF_PP);
+
+    // Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_0, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_1, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_2, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_3, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_4, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_5, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_12, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_13, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_14, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOF, GPIO_pin_15, GPIO_Mode_AF_PP);
+
+    // Hal_GPIO_Mode_Selection(GPIOG, GPIO_pin_0, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOG, GPIO_pin_1, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOG, GPIO_pin_2, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOG, GPIO_pin_3, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOG, GPIO_pin_4, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOG, GPIO_pin_5, GPIO_Mode_AF_PP);
+    // Hal_GPIO_Mode_Selection(GPIOG, GPIO_pin_10, GPIO_Mode_AF_PP);
+}
 
 /*
 地址线：
