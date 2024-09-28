@@ -3,39 +3,41 @@
 void Driver_FSMC_GPIO_Init(void);
 
 void Driver_FSMC_Init(void) {
-    /* 1.开启时钟 */
+    // BCR Bank Control Register
+    // BTR Bus Timing Register
     RCC->AHBENR |= RCC_AHBENR_FSMCEN;
 
-    /* 2.配置GPIO引脚工作模式 复用推挽输出 CNF:10 MODE:11 */
+    // 2.配置GPIO引脚工作模式 复用推挽输出 CNF:10 MODE:11 
     Driver_FSMC_GPIO_Init();
 
-    /* 3.FSMC控制寄存器配置 BCR3 -- BTCR[4] */
-    // 3.1 存储器块使能
-    FSMC_Bank1->BTCR[4] |= FSMC_BCR3_MBKEN;
+    // 存储器块使能位 (Memory bank enable bit)  1：启用对应的存储器块。
+    FSMC_Bank1->BTCR[4] |= FSMC_BCR3_MBKEN;;
 
-    // 3.2 选择存储器类型 SRAM  00
+    // Memory type 存储器类型 00：SRAM、ROM(存储器块2...4在复位后的默认值) 
     FSMC_Bank1->BTCR[4] &= ~FSMC_BCR3_MTYP;
 
-    // 3.3 禁用访问Flash
+    // 禁用闪存访问使能
     FSMC_Bank1->BTCR[4] &= ~FSMC_BCR3_FACCEN;
 
-    // 3.4 禁用复用模式
+    // 不复用
     FSMC_Bank1->BTCR[4] &= ~FSMC_BCR3_MUXEN;
 
-    // 3.5 数据宽度  00 -- 8位  01 -- 16
-    FSMC_Bank1->BTCR[4] &= ~FSMC_BCR3_MWID_1;
+    // memory width 总线宽度 16位 默认为16位
+    FSMC_Bank1->BTCR[4] &= ~FSMC_BCR3_MWID;
     FSMC_Bank1->BTCR[4] |= FSMC_BCR3_MWID_0;
 
-    // 3.6 写使能
+    // 写使能
     FSMC_Bank1->BTCR[4] |= FSMC_BCR3_WREN;
 
-    /* 4.FSMC时序寄存器配置 BTR3 -- BTCR[5] */
-    // 4.1 地址建立时间 本次操作的芯片没有要求,直接写0
+    //ADDSET：地址建立时间 (Address setup phase duration)   0000：ADDSET建立时间=1个HCLK时钟周期
     FSMC_Bank1->BTCR[5] &= ~FSMC_BTR3_ADDSET;
 
-    // 4.2 数据保持时间 芯片要求55ns以上,给一个1us
+    //ADDHLD：地址保持时间 (Address-hold phase duration)  0000：ADDHLD保持时间=1个HCLK时钟周期
+    FSMC_Bank1->BTCR[5] &= ~FSMC_BTR3_ADDHLD;
+
+    // DATAST：数据保持时间 (Data-phase duration)
     FSMC_Bank1->BTCR[5] &= ~FSMC_BTR3_DATAST;
-    FSMC_Bank1->BTCR[5] |= (71 << 8);
+    FSMC_Bank1->BTCR[5] |= (71 << 8);  // 设置1个us 72个时钟周期 数据保持时间 芯片要求55ns以上,给一个1us
 }
 
 void Driver_FSMC_GPIO_Init(void) {
