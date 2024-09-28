@@ -137,7 +137,7 @@ void Inf_W25Q32_SectorWrite(uint8_t block, uint8_t sector, uint8_t page, uint8_t
             dataLen -= page_remain;
             data += page_remain;
             // page += 1;
-            (page % 16 == 0) ? (page = 0) : (page += 1);
+            (page == 15) ? (page = 0) : (page += 1);
             innerAddr += page_remain;
         }
         else if (dataLen <= page_remain)
