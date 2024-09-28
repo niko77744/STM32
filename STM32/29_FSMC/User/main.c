@@ -11,47 +11,37 @@
 #include "Driver_AdvancedTimer.h"
 #include "Driver_DMA.h"
 #include "Driver_ADC.h"
+#include "Driver_FSMC.h"
 #include "GPIO.h"
 #include "Inf_EEPROM.h"
 #include "Inf_w25q32.h"
 
-uint8_t Manufacture_ID = 0;
-uint16_t Device_Id = 0;
-uint8_t temp[1040] = { 0 };
+uint16_t v1 __attribute__((at(0x68000000)));
+uint16_t v2 __attribute__((at(0x68000004)));
+uint16_t v3 = 30;
 
 int main(int argc, char const* argv[])
 {
+    // 1.初始化USART1模块
     Driver_USART_Init();
-    Inf_W25Q32_Init();
+    Driver_FSMC_Init();
 
-    Inf_W25Q32_ReadId(&Manufacture_ID, &Device_Id);
+    uint16_t v4 __attribute__((at(0x68000008)));
+    v1 = 10;
+    v2 = 20;
+    v4 = 40;
+    uint16_t v5 = 50;
 
-    // mid = 0xef       did = 0x4016
-    printf("mid = %#x \t did = %#x\n", Manufacture_ID, Device_Id);
+    printf("v1 = %d \t %p\n", v1, &v1);
+    printf("v2 = %d \t %p\n", v2, &v2);
+    printf("v3 = %d \t %p\n", v3, &v3);
+    printf("v4 = %d \t %p\n", v4, &v4);
+    printf("v5 = %d \t %p\n", v5, &v5);
 
-    // Inf_W25Q32_EraseSector(0, 0);
-
-    // // 块最大64(0x40) 段最大16(0x40) 页最大16(0x10) 页内地址最大256(0x100) 0xFF=255
-    // Inf_W25Q32_PageWrite(0, 0, 2, 246, "plagiarismm", 10);
-    // Inf_W25Q32_PageWrite(0, 0, 3, 0, "laboriously", 11);
-    // Inf_W25Q32_Read(0, 0, 2, 246, temp, 21);
-    // printf("temp = %s\n", temp);
-
-
-    const uint8_t block = 50;
-    const uint8_t sector = 15;
-    const uint8_t page = 6;
-    const uint8_t innerAddr = 128;
-
-    Inf_W25Q32_EraseSector(block, sector);
-
-
-    Inf_W25Q32_SectorWrite(block, sector, page, innerAddr, "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz", 1040);
-
-    Inf_W25Q32_Read(block, sector, page, innerAddr, temp, 1040);
-    printf("temp = %s\n", temp);
-
-
+    // 方式二:指定定义指针,给定地址
+    uint8_t* p = (uint8_t*)0x68000013;
+    *p = 60;
+    printf("*p = %d \t %p\n", *p, p);
 
     while (1);
 }
