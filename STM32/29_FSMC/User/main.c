@@ -40,11 +40,11 @@ int main(int argc, char const* argv[])
 
     // 方式二:指定定义指针,给定地址
     uint8_t* p = (uint8_t*)0x68000013;
-    *p = 200;
+    // *p = 200;
 
     uint8_t* p1 = (uint8_t*)0x68000020;
-    *p1 = 250;
-    printf("*v1 = %d \t \n", *((uint8_t*)0x68000000));
+    // *p1 = 250;
+    printf("*v1 = %d \t \n", *SRAM_Start);
     printf("*p = %d \t %p\n", *p, p);
     printf("*p1 = %d \t %p\n", *p1, p1);
 
