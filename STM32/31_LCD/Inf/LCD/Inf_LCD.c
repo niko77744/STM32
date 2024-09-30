@@ -1,5 +1,6 @@
 #include "Inf_LCD.h"
 #include "inf_lcd_font.h"
+
 void Inf_LCD_Init(void) {
     /* 1.FSMC模块初始化 */
     Driver_FSMC_LCD_Init();
@@ -192,32 +193,41 @@ void Inf_LCD_FillBgc(uint16_t x, uint16_t y, uint16_t width, uint16_t hight, uin
         Inf_LCD_WriteData(bgc);
     }
 }
+Font_Style Inf_LCD_GetFontSize(uint16_t FontSize) {
+    Font_Style font_style;
+    font_style.FontHeight = 0;
+    font_style.FontWidth = 0;
+    switch (FontSize)
+    {
+    case SS:
+        font_style.FontHeight = 12;
+        font_style.FontWidth = 6;
+        break;
+    case SL:
+        font_style.FontHeight = 16;
+        font_style.FontWidth = 8;
+        break;
+    case LS:
+        font_style.FontHeight = 24;
+        font_style.FontWidth = 12;
+        break;
+    case LL:
+        font_style.FontHeight = 32;
+        font_style.FontWidth = 16;
+        break;
+    default:
+        break;
+    }
+    return font_style;
+}
 
 void Inf_LCD_DisplayChar(uint16_t x, uint16_t y, uint16_t FontSize, uint8_t ch, uint16_t fontColor, uint16_t bgc) {
     uint16_t FontWidth = 0;
     uint16_t FontHeight = 0;
-    switch (FontSize)
-    {
-    case SS:
-        FontHeight = 12;
-        FontWidth = 6;
-        break;
-    case SL:
-        FontHeight = 16;
-        FontWidth = 8;
-        break;
-    case LS:
-        FontHeight = 24;
-        FontWidth = 12;
-        break;
-    case LL:
-        FontHeight = 32;
-        FontWidth = 16;
-        break;
+    Font_Style font_style = Inf_LCD_GetFontSize(FontSize);
+    FontWidth = font_style.FontWidth;
+    FontHeight = font_style.FontHeight;
 
-    default:
-        break;
-    }
     // 1.设置待写区域
     Inf_LCD_Address_Set(x, y, FontWidth, FontHeight);
     // 2.计算出当前字符在二维数组中的角标
@@ -226,6 +236,11 @@ void Inf_LCD_DisplayChar(uint16_t x, uint16_t y, uint16_t FontSize, uint8_t ch, 
     Inf_LCD_WriteCmd(WriteDataToMemory);
 
 
+    /*
+        typedef void (*WriteFunc)(uint16_t, uint16_t, uint8_t);
+        WriteFunc writeFuncs[] = {writeSS, writeSL, writeLS, writeLL};
+        writeFuncs[FontSize](fontColor, bgc, byte);
+    */
     switch (FontSize) {
     case SS: //12字节表示一个字符
         for (uint16_t i = 0; i < FontHeight; i++) {
@@ -274,8 +289,93 @@ void Inf_LCD_DisplayChar(uint16_t x, uint16_t y, uint16_t FontSize, uint8_t ch, 
 }
 
 
-/*
-    typedef void (*WriteFunc)(uint16_t, uint16_t, uint8_t);
-    WriteFunc writeFuncs[] = {writeSS, writeSL, writeLS, writeLL};
-    writeFuncs[FontSize](fontColor, bgc, byte);
-*/
+
+void Inf_LCD_DisplayString(uint16_t x, uint16_t y, uint16_t FontSize, uint8_t* str, uint16_t fontColor, uint16_t bgc) {
+    uint16_t i = 0;
+    uint16_t FontWidth = 0;
+    uint16_t FontHeight = 0;
+    Font_Style font_style = Inf_LCD_GetFontSize(FontSize);
+    FontWidth = font_style.FontWidth;
+    FontHeight = font_style.FontHeight;
+
+    while (str[i] != '\0')
+    {
+        // 换行
+        if ((x + FontWidth) > LCD_W)
+        {
+            x = 0;
+            y += FontHeight;
+        }
+        if (str[i] == '\n')
+        {
+            x = 0;
+            y += FontHeight;
+            i++;
+            continue;
+        }
+        Inf_LCD_DisplayChar(x, y, FontSize, str[i], fontColor, bgc);
+        x += FontWidth;
+        i++;
+    }
+}
+
+
+void Inf_LCD_DispalyPicture(uint16_t x, uint16_t y)
+{
+    // 1.设置显示区域
+    Inf_LCD_Address_Set(x, y, 265, 480);
+
+    // 2.发送写数据命令
+    Inf_LCD_WriteCmd(WriteDataToMemory);
+
+    // 3.遍历当前要显示图片的字符数组  每两个一起遍历
+    for (uint32_t i = 0; i < 10; i += 2)  //i < 图片数组的大小
+    {
+        // 拼接色彩数据 16位  低位在前
+        uint16_t byte = gImage_logo[i] + (gImage_logo[i + 1] << 8);
+        Inf_LCD_WriteData(byte);
+    }
+}
+
+void Inf_LCD_DisplayPonit(uint16_t x, uint16_t y, uint16_t LineWidth, uint16_t LineColor) {
+    Inf_LCD_Address_Set(x, y, LineWidth, LineWidth);
+    Inf_LCD_WriteCmd(WriteDataToMemory);
+
+    for (uint32_t i = 0; i < LineWidth * LineWidth; i++)
+    {
+        Inf_LCD_WriteData(LineColor);
+    }
+}
+
+void Inf_LCD_BouncingBall(void) {
+    static uint16_t x = 100;
+    static uint16_t y = 100;
+
+    static uint8_t Xflag = 0;
+    static  uint8_t Yflag = 0;
+
+    static uint16_t last_x = 0;
+    static uint16_t last_y = 0;
+
+    Inf_LCD_FillBgc(last_x, last_y, 8, 8, White);
+    Inf_LCD_DisplayPonit(x, y, 8, MediumVioletRed);
+
+    last_x = x;
+    last_y = y;
+
+    if (x >= 320 || x <= 0)
+    {
+        Xflag = ~Xflag;
+    }
+    else if (y >= 480 || y <= 0)
+    {
+        Yflag = ~Yflag;
+    }
+    Xflag ? (x -= 1) : (x += 2);
+    Yflag ? (y += 2) : (y -= 1);
+
+    Delay_ms(10);
+}
+
+
+

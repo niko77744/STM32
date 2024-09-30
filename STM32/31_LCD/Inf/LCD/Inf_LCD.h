@@ -15,6 +15,11 @@ typedef enum {
     LL,
 }LCD_FontSize;
 
+typedef struct {
+    uint16_t FontWidth;
+    uint16_t FontHeight;
+} Font_Style;
+
 //////////////////////////////////////////////////////////////////////////////////	 
 //-----------------LCD端口定义---------------- 
 //LCD重要参数集
@@ -207,6 +212,7 @@ LCD_ADDR_DATA = 6c000800
 #define LGRAYBLUE        0XA651 //浅灰蓝色(中间层颜色)
 #define LBBLUE           0X2B12 //浅棕蓝色(选择条目的反色)
 
+
 /* 命令集合 */
 #define ColAddSet 0X2A
 #define RowAddSet 0X2B
@@ -233,7 +239,10 @@ void Inf_LCD_Address_Set(uint16_t x, uint16_t y, uint16_t width, uint16_t hight)
 void Inf_LCD_Clear(uint16_t bgc);
 void Inf_LCD_FillBgc(uint16_t x, uint16_t y, uint16_t width, uint16_t hight, uint16_t bgc);
 void Inf_LCD_DisplayChar(uint16_t x, uint16_t y, uint16_t FontSize, uint8_t ch, uint16_t fontColor, uint16_t bgc);
-void Inf_LCD_ShowAsciiChar(uint16_t x, uint16_t y, uint16_t h, uint8_t c, uint16_t fColor, uint16_t bgColor);
-
+void Inf_LCD_DisplayString(uint16_t x, uint16_t y, uint16_t FontSize, uint8_t* str, uint16_t fontColor, uint16_t bgc);
+void Inf_LCD_DispalyPicture(uint16_t x, uint16_t y);
+void Inf_LCD_DisplayPonit(uint16_t x, uint16_t y, uint16_t LineWidth, uint16_t LineColor);
+void Inf_LCD_BouncingBall(void);
+void Inf_LCD_Display(uint16_t SP_x, uint16_t SP_y, uint16_t EP_x, uint16_t EP_y, uint16_t LineWidth, uint16_t LineColor);
 
 #endif /* __INF_LCD_H__ */

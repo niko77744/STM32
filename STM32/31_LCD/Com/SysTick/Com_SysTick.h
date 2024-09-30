@@ -18,7 +18,7 @@ uint32_t SysTick_GetTick(void);
     timer_ms = SysTick_GetTick();
     srand(timer_ms);
     uint32_t randomNumber = rand() % 2;
- */
+*/
 
 
 #endif /* __COM_SYSTICK_H__ */
