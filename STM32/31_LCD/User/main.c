@@ -16,13 +16,13 @@ int main(int argc, char const* argv[]) {
     printf("ID = %#x\n", id);
 
     // 3.使用指定颜色完成清屏操作
-    Inf_LCD_Clear(WHITE);
+    Inf_LCD_Clear(Aqua);
 
     // 4.在屏幕上显示一个字符 480~320PX
-    Inf_LCD_DisplayChar(100, 100, SS, 'e', BLACK, WHITE);
-    Inf_LCD_DisplayChar(300, 300, SL, 'f', BLACK, WHITE);
-    Inf_LCD_DisplayChar(200, 200, LS, 'G', BLACK, WHITE);
-    Inf_LCD_DisplayChar(0, 0, LL, 'H', BLACK, WHITE);
+    Inf_LCD_DisplayChar(100, 100, SS, 'e', LightCoral, White);
+    Inf_LCD_DisplayChar(300, 300, SL, 'f', Black, LightCoral);
+    Inf_LCD_DisplayChar(200, 200, LS, 'G', LightCoral, White);
+    Inf_LCD_DisplayChar(0, 0, LL, 'H', Black, LightCoral);
 
 
     while (1);
