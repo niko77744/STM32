@@ -36,10 +36,24 @@ int main(int argc, char const* argv[]) {
     // Inf_LCD_DispalySingleChinese(100, 100, 0, Black, White);
     // Inf_LCD_DispalySingleChinese(132, 100, 1, Black, White);
     // Inf_LCD_DispalySingleChinese(164, 100, 2, Black, White);
-    Inf_LCD_DisplayChinese(0, 0, 16, "这可不是猴，中文字库测试，检测换行功能是否实现！", Black);
+    // Inf_LCD_DisplayChinese(0, 0, 16, "你好世界，终端将被任务重用，按任意键关闭。", Black);
     // Inf_LCD_DisplayCycle(200, 200, 20, 3, Black);
+    Inf_LCD_DisplaySolidCycle(200, 200, 20, 3, Black);
+    Inf_LCD_DisplayLine(50, 100, 100, 100, 5, Black);
 
 
+    /*
+    // Inf_LCD_DisplayString(0, 0, LS, "   using", BlueViolet, Black);
+    // Inf_LCD_DisplayString(100, 0, LS, " System.Miband;", SeaGreen, Black);
+    // Inf_LCD_DisplayString(0, 30, LS, "   namespace", DarkSlateBlue, Black);
+    // Inf_LCD_DisplayString(150, 30, LS, " WatchFace;", SeaGreen, Black);
+    // Inf_LCD_DisplayString(0, 60, LS, "   {", White, Black);
+    // Inf_LCD_DisplayString(0, 90, LS, "     static class", Blue, Black);
+    // Inf_LCD_DisplayString(230, 90, LS, "Program", SeaGreen, Black);
+    // Inf_LCD_DisplayString(0, 120, LS, "     {", White, Black);
+    // // Inf_LCD_DisplayString(80, 120, LS, "//Pulse:70 Bpm", Green, Black);
+    // Inf_LCD_DisplayChinese(80, 120, 16, "心率七十次每分钟", Green);
+    */
 
     while (1) {
         // Inf_LCD_BouncingBall();

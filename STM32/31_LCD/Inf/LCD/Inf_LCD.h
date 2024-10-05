@@ -250,5 +250,6 @@ void Inf_LCD_DisplayPonit(uint16_t x, uint16_t y, uint16_t LineWidth, uint16_t L
 void Inf_LCD_BouncingBall(void);
 void Inf_LCD_DisplayLine(uint16_t SP_x, uint16_t SP_y, uint16_t EP_x, uint16_t EP_y, uint16_t LineWidth, uint16_t LineColor);
 void Inf_LCD_DisplayCycle(uint16_t x, uint16_t y, uint16_t radius, uint16_t LineWidth, uint16_t LineColor);
+void Inf_LCD_DisplaySolidCycle(uint16_t xCenter, uint16_t yCenter, uint16_t radius, uint16_t LineWidth, uint16_t LineColor);
 
 #endif /* __INF_LCD_H__ */

@@ -333,71 +333,6 @@ void Inf_LCD_DispalySingleChinese(uint16_t x, uint16_t y, uint8_t index, uint16_
     }
 }
 
-void Inf_LCD_DisplayChinese(uint16_t x, uint16_t y, uint16_t size, char* Font, uint16_t color) {
-    char* pFont = Font;
-    uint8_t GBKL, GBKH, tmp;
-    uint16_t SIZE = size * size / 8;//计算字节数
-    uint16_t y0 = y;//记录第一行显示的初始位置
-    uint16_t x1 = x;//记录显示的初始位置
-    uint16_t y1 = y;
-    uint16_t i, j;
-    uint32_t Addr_offset;//汉字的偏移地址
-    uint8_t* pBuff = malloc(SIZE);//动态分配空间
-    while (*pFont != '\0')
-    {
-        //计算汉字的偏移地址
-        GBKH = *pFont++;//高字节
-        GBKL = *pFont++;//低字节
-        if (GBKL < 0x7F)
-        {
-            Addr_offset = ((GBKH - 0x81) * 190 + GBKL - 0x40) * (size * 2);
-        }
-        else
-        {
-            Addr_offset = ((GBKH - 0x81) * 190 + GBKL - 0x41) * (size * 2);
-        }
-        //从flash中取出一个汉字
-        switch (size)
-        {
-        case 16:Inf_W25Q32_ReadData(Addr_offset, pBuff, SIZE);break;
-        default:Inf_W25Q32_ReadData(Addr_offset, pBuff, SIZE);break;
-        }
-        //显示一个汉字
-        for (i = 0;i < SIZE;i++)
-        {
-            tmp = *(pBuff + i);
-            y = y0;
-            for (j = 0;j < 8;j++)
-            {
-                if (tmp & 0x80)	//高位先发
-                {
-                    Inf_LCD_DisplayPonit(x, y, 1, color);
-                }
-                tmp <<= 1;
-                y++;
-            }
-            x++;
-            if (x - x1 == size)
-            {
-                x = x1;
-                y0 += 8;
-            }
-        }
-        //一个汉字显示完成，为下一个汉字显示做准备
-        x += size;
-
-        if (LCD_W - x < size)//考虑是否需要换行
-        {
-            y1 += size + 4;
-            x = 0;
-        }
-        x1 = x;
-        y0 = y1;
-    }
-    free(pBuff);//释放空间
-}
-
-
 
 void Inf_LCD_DispalyPicture(uint16_t x, uint16_t y)
 {
@@ -470,11 +405,11 @@ void Inf_LCD_DisplayLine(uint16_t SP_x, uint16_t SP_y, uint16_t EP_x, uint16_t E
     else {
         double k = 1.0 * (EP_y - SP_y) / (EP_x - SP_x);
         double b = EP_y - (k * EP_x);
-        uint16_t x = 0;
-        for (uint16_t y = SP_y; y <= EP_y; y++)
+        // 默认x2 > x1
+        for (uint16_t x = SP_x; x < EP_x; x++)
         {
-            x = (uint16_t)((y - b) / k);
-            Inf_LCD_DisplayPonit(x, y, (uint16_t)(LineWidth * 0.8), LineColor);
+            uint16_t y = (uint16_t)(k * x + b);
+            Inf_LCD_DisplayPonit(x, y, LineWidth, LineColor);
         }
     }
 }
@@ -484,10 +419,10 @@ void Inf_LCD_DisplayCycle(uint16_t xCenter, uint16_t yCenter, uint16_t radius, u
     // x = r * cos(theta);   y = r * sin(theta);
     uint16_t x = 0;
     uint16_t y = 0;
-    for (uint8_t theta = 0; theta <= 90; theta++)
+    for (uint8_t angle = 0; angle <= 90; angle++)
     {
         // 根据角度计算弧度值  要将角度60度转换为弧度=3/PI
-        // double theta = angle * 3.14 / 180;
+        double theta = angle * 3.14 / 180;
 
         x = radius * cos(theta);
         y = radius * sin(theta);
@@ -499,8 +434,86 @@ void Inf_LCD_DisplayCycle(uint16_t xCenter, uint16_t yCenter, uint16_t radius, u
 }
 
 
-//solid circle
+void Inf_LCD_DisplaySolidCycle(uint16_t xCenter, uint16_t yCenter, uint16_t radius, uint16_t LineWidth, uint16_t LineColor) {
+    // x = r * cos(theta);   y = r * sin(theta);
+    uint16_t x = 0;
+    uint16_t y = 0;
+    for (uint16_t angle = 0; angle <= 90; angle++)
+    {
+        // 根据角度计算弧度值  要将角度60度转换为弧度=3/PI
+        double theta = angle * 3.14 / 180;
 
+        x = radius * cos(theta);
+        y = radius * sin(theta);
+        Inf_LCD_DisplayLine(-x + xCenter, y + yCenter, x + xCenter, y + yCenter, LineWidth, LineColor);
+        Inf_LCD_DisplayLine(-x + xCenter, -y + yCenter, x + xCenter, -y + yCenter, LineWidth, LineColor);
+    }
+}
+
+void Inf_LCD_DisplayChinese(uint16_t x, uint16_t y, uint16_t size, char* Font, uint16_t color)
+{
+    char* pFont = Font;
+    uint8_t GBKL, GBKH, tmp;
+    uint16_t SIZE = size * size / 8;//计算字节数
+    uint16_t y0 = y;//记录第一行显示的初始位置
+    uint16_t x1 = x;//记录显示的初始位置
+    uint16_t y1 = y;
+    uint16_t i, j;
+    uint32_t Addr_offset;//汉字的偏移地址
+    uint8_t* pBuff = malloc(SIZE);//动态分配空间
+    while (*pFont != '\0')
+    {
+        //计算汉字的偏移地址
+        GBKH = *pFont++;//高字节
+        GBKL = *pFont++;//低字节
+        if (GBKL < 0x7F)
+        {
+            Addr_offset = ((GBKH - 0x81) * 190 + GBKL - 0x40) * (size * 2);
+        }
+        else
+        {
+            Addr_offset = ((GBKH - 0x81) * 190 + GBKL - 0x41) * (size * 2);
+        }
+        //从flash中取出一个汉字
+        switch (size)
+        {
+        case 16:Inf_W25Q32_ReadData(Addr_offset, pBuff, SIZE);break;
+        default:Inf_W25Q32_ReadData(Addr_offset, pBuff, SIZE);break;
+        }
+        //显示一个汉字
+        for (i = 0;i < SIZE;i++)
+        {
+            tmp = *(pBuff + i);
+            y = y0;
+            for (j = 0;j < 8;j++)
+            {
+                if (tmp & 0x80)	//高位先发
+                {
+                    Inf_LCD_DisplayPonit(x, y, 1, color);
+                }
+                tmp <<= 1;
+                y++;
+            }
+            x++;
+            if (x - x1 == size)
+            {
+                x = x1;
+                y0 += 8;
+            }
+        }
+        //一个汉字显示完成，为下一个汉字显示做准备
+        x += size;
+
+        if (LCD_W - x < size)//考虑是否需要换行
+        {
+            y1 += size + 4;
+            x = 0;
+        }
+        x1 = x;
+        y0 = y1;
+    }
+    free(pBuff);//释放空间
+}
 
 
 
