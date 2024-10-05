@@ -450,6 +450,14 @@ void Inf_LCD_DisplaySolidCycle(uint16_t xCenter, uint16_t yCenter, uint16_t radi
     }
 }
 
+void Inf_LCD_DisplayRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t LineWidth, uint16_t LineColor)
+{
+    Inf_LCD_DisplayLine(x1, y1, x2, y1, LineWidth, LineColor);
+    Inf_LCD_DisplayLine(x2, y1, x2, y2, LineWidth, LineColor);
+    Inf_LCD_DisplayLine(x1, y1, x1, y2, LineWidth, LineColor);
+    Inf_LCD_DisplayLine(x1, y2, x2, y2, LineWidth, LineColor);
+}
+
 void Inf_LCD_DisplayChinese(uint16_t x, uint16_t y, uint16_t size, char* Font, uint16_t color)
 {
     char* pFont = Font;

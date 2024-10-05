@@ -31,15 +31,16 @@ int main(int argc, char const* argv[]) {
     // Inf_LCD_DisplayChar(0, 0, LL, 'H', Black, LightCoral);
     // Inf_LCD_DisplayString(300, 20, LL, "Hel\nlo World", Black, White);
     // Inf_LCD_DispalyPicture(0, 0);
-    // Inf_LCD_DisplayLine(10, 10, 100, 100, 5, Black);
-    // Inf_LCD_DisplayLine(10, 10, 10, 100, 5, Black);
     // Inf_LCD_DispalySingleChinese(100, 100, 0, Black, White);
     // Inf_LCD_DispalySingleChinese(132, 100, 1, Black, White);
     // Inf_LCD_DispalySingleChinese(164, 100, 2, Black, White);
     // Inf_LCD_DisplayChinese(0, 0, 16, "你好世界，终端将被任务重用，按任意键关闭。", Black);
     // Inf_LCD_DisplayCycle(200, 200, 20, 3, Black);
-    Inf_LCD_DisplaySolidCycle(200, 200, 20, 3, Black);
-    Inf_LCD_DisplayLine(50, 100, 100, 100, 5, Black);
+    // Inf_LCD_DisplaySolidCycle(200, 200, 20, 3, Black);
+    // Inf_LCD_DisplayLine(10, 10, 100, 100, 5, Black);
+    // Inf_LCD_DisplayLine(10, 10, 10, 100, 5, Black);
+    // Inf_LCD_DisplayLine(50, 100, 100, 100, 5, Black);
+    // Inf_LCD_DisplayRectangle(50, 50, 100, 100, 5, Black);
 
 
     /*
