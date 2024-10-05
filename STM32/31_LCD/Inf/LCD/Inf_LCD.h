@@ -5,6 +5,9 @@
 #include "Driver_USART.h"
 #include "Com_Delay.h"
 #include "GPIO.h"
+#include <math.h>
+#include <stdlib.h>
+#include "Inf_w25q32.h"
 
 #define __GetIndex(index) (index - ' ')
 
@@ -241,9 +244,11 @@ void Inf_LCD_FillBgc(uint16_t x, uint16_t y, uint16_t width, uint16_t hight, uin
 void Inf_LCD_DisplayChar(uint16_t x, uint16_t y, uint16_t FontSize, uint8_t ch, uint16_t fontColor, uint16_t bgc);
 void Inf_LCD_DisplayString(uint16_t x, uint16_t y, uint16_t FontSize, uint8_t* str, uint16_t fontColor, uint16_t bgc);
 void Inf_LCD_DispalySingleChinese(uint16_t x, uint16_t y, uint8_t index, uint16_t fColor, uint16_t bgColor);
+void Inf_LCD_DisplayChinese(uint16_t x, uint16_t y, uint16_t size, char* Font, uint16_t color);
 void Inf_LCD_DispalyPicture(uint16_t x, uint16_t y);
 void Inf_LCD_DisplayPonit(uint16_t x, uint16_t y, uint16_t LineWidth, uint16_t LineColor);
 void Inf_LCD_BouncingBall(void);
 void Inf_LCD_DisplayLine(uint16_t SP_x, uint16_t SP_y, uint16_t EP_x, uint16_t EP_y, uint16_t LineWidth, uint16_t LineColor);
+void Inf_LCD_DisplayCycle(uint16_t x, uint16_t y, uint16_t radius, uint16_t LineWidth, uint16_t LineColor);
 
 #endif /* __INF_LCD_H__ */

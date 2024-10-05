@@ -96,7 +96,34 @@ void Inf_W25Q32_EraseSector(uint8_t block, uint8_t sector) {
     Inf_W25Q32_WriteDisable();
 }
 
-void Inf_W25Q32_PageWrite(uint8_t block, uint8_t sector, uint8_t page, uint8_t innerAddr, uint8_t* data, uint16_t dataLen) {
+
+// 段擦除
+void Inf_W25Q32_EraseBlock(uint8_t block) {
+    // 1.等待不忙
+    Inf_W25Q32_WaitNotBusy();
+
+    // 2.开启写使能
+    Inf_W25Q32_WriteEnable();
+
+    // 3.开始信号 片选拉低
+    Driver_SPI_Start();
+
+    // 4.发送擦除指令
+    Driver_SPI_SwapByte(BlockErase);
+
+    // 5.发送擦除地址
+    Driver_SPI_SwapByte(block);
+    Driver_SPI_SwapByte(0xFF);
+    Driver_SPI_SwapByte(0xFF);
+
+    // 6.结束信号 片选拉高
+    Driver_SPI_Stop();
+
+    // 7.关闭写使能
+    Inf_W25Q32_WriteDisable();
+}
+
+void Inf_W25Q32_PageWrite(uint8_t block, uint8_t sector, uint8_t page, uint8_t innerAddr, const uint8_t* data, uint16_t dataLen) {
     // 1.等待不忙
     Inf_W25Q32_WaitNotBusy();
 
@@ -173,9 +200,26 @@ void Inf_W25Q32_Read(uint8_t block, uint8_t sector, uint8_t page, uint8_t innerA
     Driver_SPI_Stop();
 }
 
+void Inf_W25Q32_ReadData(uint32_t addr, uint8_t* data, uint16_t size)
+{
+    uint8_t* pData = data;
+    Inf_W25Q32_WaitNotBusy();
+    Driver_SPI_Start();
+    Driver_SPI_SwapByte(0x03);//读数据指令
+    Driver_SPI_SwapByte((addr & 0xFF0000) >> 16);//发送24位地址
+    Driver_SPI_SwapByte((addr & 0xFF00) >> 8);
+    Driver_SPI_SwapByte((addr & 0xFF));
+    while (size--)
+    {
+        *pData = Driver_SPI_SwapByte(0xFF);//保存数据
+        pData++;
+    }
+    Driver_SPI_Stop();
+}
 
 
-void Inf_W25Q32_RandomWrite(uint8_t* src, uint32_t addr)
+
+void Inf_W25Q32_RandomWrite(const uint8_t* src, uint32_t addr)
 {
     /* 1.准备阶段 计算待写入总长度 拆分地址 第一页写入长度  */
     // 1.1 计算待写入总长度
@@ -226,5 +270,210 @@ void Inf_W25Q32_RandomWrite(uint8_t* src, uint32_t addr)
     if (lastPageSize > 0)
     {
         Inf_W25Q32_PageWrite(block, sector, page, 0, src + page1Size + 256 * pageNum, lastPageSize);
+    }
+}
+
+
+/* ------------------------------------------------------------------------------------ */
+
+#define W25Q32_PAGE_SIZE	256		//页大小256字节
+#define W25Q32_SECTOR_SIZE	4096	//扇区大小4096字节
+
+/*
+获取W25Q32设备ID
+返回值：高8位生产ID
+        低8位器件ID
+*/
+
+uint16_t W25Q32_GetID(void)
+{
+    uint16_t id = 0;
+    //发送读制造/器件号指令 0x90
+    Driver_SPI_Start();
+    Driver_SPI_SwapByte(0x90);
+    //发送24位地址
+    Driver_SPI_SwapByte(0x00);
+    Driver_SPI_SwapByte(0x00);
+    Driver_SPI_SwapByte(0x00);
+    id = Driver_SPI_SwapByte(0xFF) << 8;	//生产ID
+    id |= Driver_SPI_SwapByte(0xFF);		//器件ID
+    Driver_SPI_Stop();
+    return id;
+}
+//读取状态寄存器
+uint8_t W25Q32_ReadState(void)
+{
+    uint8_t state = 0;
+    Driver_SPI_Start();
+    Driver_SPI_SwapByte(0x05);
+    state = Driver_SPI_SwapByte(0xFF);//读取状态值
+    Driver_SPI_Stop();
+    return state;
+}
+//写使能
+void W25Q32_WriteENABLE(void)
+{
+    Driver_SPI_Start();
+    Driver_SPI_SwapByte(0x06);//写使能
+    Driver_SPI_Stop();
+}
+/*
+    \brief：	扇区擦除
+    \param：	addr 24位扇区地址
+    \retval：	none
+*/
+void W25Q32_SectorErase(uint32_t addr)
+{
+    Inf_W25Q32_WaitNotBusy();//等待忙结束
+    W25Q32_WriteENABLE();//写使能
+    Driver_SPI_Start();
+    Driver_SPI_SwapByte(0x20);//扇区擦除
+    Driver_SPI_SwapByte((addr & 0xFF0000) >> 16);//发送24位地址
+    Driver_SPI_SwapByte((addr & 0xFF00) >> 8);
+    Driver_SPI_SwapByte((addr & 0xFF));
+    Driver_SPI_Stop();
+}
+/*
+    \brief：	块擦除
+    \param：	addr 24位块区地址
+    \retval：	none
+*/
+void W25Q32_BlockErase(uint32_t addr)
+{
+    Driver_SPI_Start();
+    Driver_SPI_SwapByte(0x06);//写使能
+    Driver_SPI_SwapByte(0xDB);//扇区擦除
+    Driver_SPI_SwapByte((uint8_t)(addr & 0x00FF0000) >> 16);//发送24位地址
+    Driver_SPI_SwapByte((uint8_t)(addr & 0x0000FF00) >> 8);
+    Driver_SPI_SwapByte((uint8_t)(addr & 0x000000FF));
+    Driver_SPI_Stop();
+}
+/*
+    \brief：	读数据
+    \param：	addr：要读取的地址
+                data：保存读取的数据
+                size：读取的字节数（数据长度）
+    \retval：	none
+*/
+void W25Q32_ReadData(uint32_t addr, uint8_t* data, uint16_t size)
+{
+    uint8_t* pData = data;
+    Inf_W25Q32_WaitNotBusy();//等待忙结束
+    Driver_SPI_Start();
+    Driver_SPI_SwapByte(0x03);//读数据指令
+    Driver_SPI_SwapByte((addr & 0xFF0000) >> 16);//发送24位地址
+    Driver_SPI_SwapByte((addr & 0xFF00) >> 8);
+    Driver_SPI_SwapByte((addr & 0xFF));
+    while (size--)
+    {
+        *pData = Driver_SPI_SwapByte(0xFF);//保存数据
+        pData++;
+    }
+    Driver_SPI_Stop();
+}
+//页编程
+void W25Q32_PageWrite(uint32_t addr, uint8_t* data, uint16_t size)
+{
+    uint8_t* pData = data;
+    Inf_W25Q32_WaitNotBusy();//等待忙结束
+    W25Q32_WriteENABLE();//写使能
+    Driver_SPI_Start();
+    Driver_SPI_SwapByte(0x02);//页写指令
+    Driver_SPI_SwapByte((addr & 0xFF0000) >> 16);//发送24位地址
+    Driver_SPI_SwapByte((addr & 0xFF00) >> 8);
+    Driver_SPI_SwapByte((addr & 0xFF));
+    while (size--)
+    {
+        Driver_SPI_SwapByte(*pData);
+        pData++;
+    }
+    Driver_SPI_Stop();
+}
+/*
+    \brief：	可跨页写数据（不考虑擦除，认为写入的地址都为0xFF）
+    \param：	addr：要写入的地址
+                data：写入的数据
+                size：数据的数量（字节数）
+    \retval：	none
+*/
+void W25Q32_StepOverPageWrite(uint32_t addr, uint8_t* data, uint32_t size)
+{
+    uint32_t addr_remain = 256 - addr % 256;//当前页地址剩余
+    uint8_t* pData = data;
+    if (size <= addr_remain)
+    {
+        addr_remain = size;
+    }
+    while (1)
+    {
+        W25Q32_PageWrite(addr, pData, addr_remain);
+        if (addr_remain == size) break;		//数据全部写入
+        pData += addr_remain;	//数据地址偏移
+        addr += addr_remain;	//地址偏移
+        size -= addr_remain;	//计算剩余数据
+        addr_remain = 256;//写入一页数据
+        if (size <= addr_remain)	//计算当前页是否够写入剩余数据
+        {
+            addr_remain = size;
+        }
+    }
+}
+/*
+    \brief：	可跨页写数据（考虑擦除和原有数据）
+    \param：	addr：要写入的地址
+                data：写入的数据
+                size：数据的数量（字节数）
+    \retval：	none
+*/
+
+uint8_t sector_data[W25Q32_SECTOR_SIZE];
+void W25Q32_WriteData(uint32_t addr, uint8_t* data, uint32_t size)
+{
+    uint16_t sector_offset = addr % 4096;	//计算当前扇区的地址偏移
+    uint16_t sector_remain = 4096 - sector_offset;	//计算当前扇区剩余
+    uint32_t sector_addr = addr - sector_offset;	//计算当前扇区的起始地址
+    uint8_t* pData = data;
+    uint32_t i;
+    if (size <= sector_remain)
+    {
+        sector_remain = (uint16_t)size;
+    }
+    while (1)
+    {
+        W25Q32_ReadData(addr, sector_data, sector_remain);//读取要写入地址的数据
+        for (i = 0;i < sector_remain;i++)
+        {
+            if (sector_data[i] != 0xFF) break;
+        }
+        if (i != sector_remain)//判断是否需要擦除扇区
+        {
+            //擦除前保存当前扇区前一段数据
+            W25Q32_ReadData(sector_addr, sector_data, sector_offset);
+            //擦除前保存当前扇区后一段数据
+            W25Q32_ReadData(addr + sector_remain, sector_data + (sector_offset + sector_remain), W25Q32_SECTOR_SIZE - (sector_offset + sector_remain));
+            W25Q32_SectorErase(sector_addr);//擦除扇区
+            //将要写入的数据插入缓冲区
+            for (i = 0;i < sector_remain;i++)
+            {
+                sector_data[sector_offset + i] = pData[i];
+            }
+            W25Q32_StepOverPageWrite(sector_addr, sector_data, W25Q32_SECTOR_SIZE);
+            sector_offset = 0;
+        }
+        else
+        {
+            W25Q32_StepOverPageWrite(addr, pData, sector_remain);//向当前扇区写入数据
+        }
+        if (sector_remain == size) break;//全部数据完全写入
+
+        pData += sector_remain;	//数据地址偏移
+        addr += sector_remain;	//flash地址偏移
+        sector_addr = addr;		//当前扇区起始地址
+        size -= sector_remain;	//数据量减少
+        sector_remain = W25Q32_SECTOR_SIZE;//当前扇区剩余
+        if (size <= W25Q32_SECTOR_SIZE)//计算当前扇区是否够写入剩余数据
+        {
+            sector_remain = size;
+        }
     }
 }

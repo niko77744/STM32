@@ -202,7 +202,5 @@ void Driver_FSMC_LCD_GPIO_Init(void) {
     GPIO_FSCM_InitStruct.GPIO_Pin = (GPIO_pin_0 | GPIO_pin_12);
     GPIO_FSCM_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
     HAL_GPIO_Init(GPIOG, &GPIO_FSCM_InitStruct);
-
-
 }
 
