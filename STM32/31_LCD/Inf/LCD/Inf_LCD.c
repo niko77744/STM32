@@ -319,6 +319,20 @@ void Inf_LCD_DisplayString(uint16_t x, uint16_t y, uint16_t FontSize, uint8_t* s
     }
 }
 
+void Inf_LCD_DispalySingleChinese(uint16_t x, uint16_t y, uint8_t index, uint16_t fColor, uint16_t bgColor) {
+    Inf_LCD_Address_Set(x, y, 32, 32);
+    Inf_LCD_WriteCmd(WriteDataToMemory);
+    for (uint16_t i = 0; i < 128; i++)
+    {
+        // 每次取出一个字节
+        uint8_t byte = chinese[index][i];
+        for (uint8_t j = 0; j < 8; j++)
+        {
+            ((byte >> j) & 0x01) == 0 ? Inf_LCD_WriteData(bgColor) : Inf_LCD_WriteData(fColor);
+        }
+    }
+}
+
 
 void Inf_LCD_DispalyPicture(uint16_t x, uint16_t y)
 {
@@ -375,6 +389,12 @@ void Inf_LCD_BouncingBall(void) {
     Yflag ? (y += 2) : (y -= 1);
 
     Delay_ms(10);
+}
+
+
+void Inf_LCD_DisplayLine(uint16_t SP_x, uint16_t SP_y, uint16_t EP_x, uint16_t EP_y, uint16_t LineWidth, uint16_t LineColor) {
+    // y = k * x + b; k = (y1-y2)/(x1-x2); b = y1 - (k * x1);
+    double k = 1.0 * (EP_y - SP_y) / (EP_x - SP_x);
 }
 
 
