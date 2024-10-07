@@ -35,3 +35,5 @@
 32_lcd_hal\lcd.o: C:\MyInstall\Keil_v5\ARM\arm5_compiler\Bin\..\include\stdio.h
 32_lcd_hal\lcd.o: ../Core/Inc/W25Q32.h
 32_lcd_hal\lcd.o: ../Core/Inc/spi.h
+32_lcd_hal\lcd.o: C:\MyInstall\Keil_v5\ARM\arm5_compiler\Bin\..\include\stdlib.h
+32_lcd_hal\lcd.o: ../Core/Inc/Inf_LCD_font.h

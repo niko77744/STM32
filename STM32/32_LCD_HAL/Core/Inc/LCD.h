@@ -4,6 +4,7 @@
 #include "fsmc.h"
 #include "usart.h"
 #include "W25Q32.h"
+#include <stdlib.h>
 
 
 
@@ -175,11 +176,11 @@ typedef enum {
 }LCD_FontSize;
 
 void LCD_Init(void);
-void LCD_Clear(uint8_t bgColor);
+void LCD_Clear(uint16_t bgColor);
 void Inf_LCD_WriteCmd(uint16_t cmd);
 void Inf_LCD_WriteData(uint16_t data);
-void LCD_DisplayChar(uint8_t x, uint8_t y, uint8_t ch, uint16_t fontColor, uint16_t bgColor);
-void LCD_DisplayString(uint8_t x, uint8_t y, uint8_t* str, uint16_t fontColor, uint16_t bgColor);
-void LCD_DisplayChinese(uint8_t x, uint8_t y, uint8_t* str, uint16_t fontColor, uint16_t bgColor);
-
+void LCD_DisplayChar(uint16_t x, uint16_t y, uint8_t ch, uint8_t fontHeight, uint16_t fontColor, uint16_t bgColor);
+void LCD_DisplayString(uint16_t x, uint16_t y, uint8_t* str, uint8_t fontHeight, uint16_t fontColor, uint16_t bgColor);
+void Inf_LCD_DisplayChinese(uint16_t x, uint16_t y, uint16_t size, char* Font, uint16_t color);
+void Inf_LCD_DispalyPicture(uint16_t x, uint16_t y);
 #endif /* __LCD_H__ */

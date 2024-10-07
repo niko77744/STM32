@@ -98,7 +98,16 @@ int main(void)
     // W25Q32_StepOverPageWrite(4100000, "hello world", 11);
     // W25Q32_ReadData(4100000, buffer, 11);
     // printf("buffer = %s\n", buffer);
-    
+    LCD_Init();
+    LCD_Clear(Pink);
+    // LCD_DisplayChar(10, 10, 'D', 16, Black, White);
+    // LCD_DisplayChar(100, 100, 'C', 24, Black, White);
+    // LCD_DisplayChar(10, 10, 'A', 12, Black, White);
+    // LCD_DisplayChar(100, 100, 'B', 32, Black, White);
+    // LCD_DisplayString(100, 0, "h\nello world nihao qwertyuiopasdfghjklzxcvbnm", 16, Black, White);
+    // Inf_LCD_DisplayChinese(0, 0, 16, "«Î«Û", Black);
+    Inf_LCD_DispalyPicture(0, 0);
+
     /* USER CODE END 2 */
 
     /* Infinite loop */

@@ -36,3 +36,4 @@
 32_lcd_hal\main.o: ../Core/Inc/fsmc.h
 32_lcd_hal\main.o: ../Core/Inc/w25q32.h
 32_lcd_hal\main.o: ../Core/Inc/lcd.h
+32_lcd_hal\main.o: C:\MyInstall\Keil_v5\ARM\arm5_compiler\Bin\..\include\stdlib.h

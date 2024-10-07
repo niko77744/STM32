@@ -1,7 +1,7 @@
 Dependencies for Project '32_LCD_HAL', Target '32_LCD_HAL': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\arm5_compiler
 F (startup_stm32f103xe.s)(0x6701254C)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_32_LCD_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include--pd "__UVISION_VERSION SETA 538" --pd "_RTE_ SETA 1" --pd "STM32F10X_HD SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f103xe.lst --xref -o 32_lcd_hal\startup_stm32f103xe.o --depend 32_lcd_hal\startup_stm32f103xe.d)
-F (../Core/Src/main.c)(0x6701378B)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_32_LCD_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 32_lcd_hal\main.o --omf_browse 32_lcd_hal\main.crf --depend 32_lcd_hal\main.d)
+F (../Core/Src/main.c)(0x67020887)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_32_LCD_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 32_lcd_hal\main.o --omf_browse 32_lcd_hal\main.crf --depend 32_lcd_hal\main.d)
 I (../Core/Inc/main.h)(0x67012548)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x669E6878)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x67012548)
@@ -37,7 +37,8 @@ I (C:\MyInstall\Keil_v5\ARM\arm5_compiler\include\stdio.h)(0x66C80E11)
 I (../Core/Inc/gpio.h)(0x67012546)
 I (../Core/Inc/fsmc.h)(0x67012547)
 I (../Core/Inc/w25q32.h)(0x67013646)
-I (../Core/Inc/lcd.h)(0x67013B1E)
+I (../Core/Inc/lcd.h)(0x6702086E)
+I (C:\MyInstall\Keil_v5\ARM\arm5_compiler\include\stdlib.h)(0x66C80E1F)
 F (../Core/Src/gpio.c)(0x67012546)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_32_LCD_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 32_lcd_hal\gpio.o --omf_browse 32_lcd_hal\gpio.crf --depend 32_lcd_hal\gpio.d)
 I (../Core/Inc/gpio.h)(0x67012546)
 I (../Core/Inc/main.h)(0x67012548)
@@ -224,7 +225,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_fsmc.h)(0x669E6878)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x669E6879)
-F (..\Core\Src\W25Q32.c)(0x670135A8)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_32_LCD_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 32_lcd_hal\w25q32.o --omf_browse 32_lcd_hal\w25q32.crf --depend 32_lcd_hal\w25q32.d)
+F (..\Core\Src\W25Q32.c)(0x67020667)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_32_LCD_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 32_lcd_hal\w25q32.o --omf_browse 32_lcd_hal\w25q32.crf --depend 32_lcd_hal\w25q32.d)
 I (../Core/Inc/W25Q32.h)(0x67013646)
 I (../Core/Inc/spi.h)(0x67012AF2)
 I (../Core/Inc/main.h)(0x67012548)
@@ -258,8 +259,8 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x669E6879)
 I (../Core/Inc/usart.h)(0x670125D8)
 I (C:\MyInstall\Keil_v5\ARM\arm5_compiler\include\stdio.h)(0x66C80E11)
-F (..\Core\Src\LCD.c)(0x67013B5A)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_32_LCD_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 32_lcd_hal\lcd.o --omf_browse 32_lcd_hal\lcd.crf --depend 32_lcd_hal\lcd.d)
-I (../Core/Inc/lcd.h)(0x67013B1E)
+F (..\Core\Src\LCD.c)(0x67020908)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_32_LCD_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 32_lcd_hal\lcd.o --omf_browse 32_lcd_hal\lcd.crf --depend 32_lcd_hal\lcd.d)
+I (../Core/Inc/lcd.h)(0x6702086E)
 I (../Core/Inc/fsmc.h)(0x67012547)
 I (../Core/Inc/main.h)(0x67012548)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x669E6878)
@@ -294,6 +295,8 @@ I (../Core/Inc/usart.h)(0x670125D8)
 I (C:\MyInstall\Keil_v5\ARM\arm5_compiler\include\stdio.h)(0x66C80E11)
 I (../Core/Inc/W25Q32.h)(0x67013646)
 I (../Core/Inc/spi.h)(0x67012AF2)
+I (C:\MyInstall\Keil_v5\ARM\arm5_compiler\include\stdlib.h)(0x66C80E1F)
+I (../Core/Inc/Inf_LCD_font.h)(0x670208F7)
 F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c)(0x669E6878)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_32_LCD_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 32_lcd_hal\stm32f1xx_hal_gpio_ex.o --omf_browse 32_lcd_hal\stm32f1xx_hal_gpio_ex.crf --depend 32_lcd_hal\stm32f1xx_hal_gpio_ex.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x669E6878)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x67012548)

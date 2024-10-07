@@ -37,28 +37,20 @@ void W25Q32_WaitNotBusy(void) {
 
 
 void W25Q32_ReadData(uint32_t addr, uint8_t* data, uint32_t size) {
-    if (size + addr > END_ADDR) return;
-
-    W25Q32_WaitNotBusy();
-
-    W25Q32_WriteEnable();
-    SPI_Start();
 
     uint8_t* pData = data;
-    SPI_Swap(ReadData);
-    SPI_Swap((0xFF0000 & addr) >> 16);
-    SPI_Swap((0x00FF00 & addr) >> 8);
-    SPI_Swap((0x0000FF & addr) >> 0);
-
+    W25Q32_WaitNotBusy();
+    SPI_Start();
+    SPI_Swap(0x03);//读数据指令
+    SPI_Swap((addr & 0xFF0000) >> 16);//发送24位地址
+    SPI_Swap((addr & 0xFF00) >> 8);
+    SPI_Swap((addr & 0xFF));
     while (size--)
     {
-        *pData = SPI_Swap(0xFF);
+        *pData = SPI_Swap(0xFF);//保存数据
         pData++;
     }
-    // 那么在函数返回后，外部调用者可能无法正确获取到数据存储的起始位置（因为data指针已经被改变）
-
     SPI_Stop();
-    W25Q32_WriteDisable();
 }
 
 void W25Q32_SectorErase(uint32_t addr) {
