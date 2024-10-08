@@ -462,7 +462,8 @@ void Inf_LCD_DisplayChinese(uint16_t x, uint16_t y, uint16_t size, char* Font, u
 {
     char* pFont = Font;
     uint8_t GBKL, GBKH, tmp;
-    uint16_t SIZE = size * size / 8;//计算字节数
+    uint16_t SIZE = (size * size / 8);    //计算字节数
+    // 如果size = 16，表示中文字符在 LCD 上以 16x16 的点阵形式显示。对于一个 16x16 的点阵，总共有16 * 16 = 256个点，由于每个字节可以存储 8 个点的信息（因为一个字节有 8 位）所以需要256/8 = 32字节来存储这个 16x16 点阵的中文字符信息，这就是SIZE的值。
     uint16_t y0 = y;//记录第一行显示的初始位置
     uint16_t x1 = x;//记录显示的初始位置
     uint16_t y1 = y;
@@ -471,12 +472,18 @@ void Inf_LCD_DisplayChinese(uint16_t x, uint16_t y, uint16_t size, char* Font, u
     uint8_t* pBuff = malloc(SIZE);//动态分配空间
     while (*pFont != '\0')
     {
+        /*
+        在 GB2312 编码中，每个中文字符由两个字节表示。例如要显示汉字 “中”，在 GB2312 编码下，“中” 字的编码是 0xD6D0。
+        当执行GBKH = *pFont++;时，GBKH将被赋值为 0xD6。然后执行GBKL = *pFont++;，GBKL将被赋值为 0xD0。
+        这些字节将用于计算该汉字在存储中的偏移地址等操作。根据代码中的计算方式Addr_offset = ((GBKH - 0x81)*190 + GBKL - 0x40)*(size * 2);可以根据获取到的GBKH和GBKL计算出在存储中 “中” 字的点阵数据的偏移地址
+        */
         //计算汉字的偏移地址
         GBKH = *pFont++;//高字节
         GBKL = *pFont++;//低字节
         if (GBKL < 0x7F)
         {
             Addr_offset = ((GBKH - 0x81) * 190 + GBKL - 0x40) * (size * 2);
+            //中字为例 Addr_offset：0x3929 * 32 = 0x3929 * 0x20 = 0x72520
         }
         else
         {
@@ -492,7 +499,7 @@ void Inf_LCD_DisplayChinese(uint16_t x, uint16_t y, uint16_t size, char* Font, u
         for (i = 0;i < SIZE;i++)
         {
             tmp = *(pBuff + i);
-            y = y0;
+            y = y0; //当开始处理一个新字节时，需要将y坐标重置为y0，是因为在处理上一个字节的 8 位时，y坐标已经递增了 8 次（对应 8 位）
             for (j = 0;j < 8;j++)
             {
                 if (tmp & 0x80)	//高位先发
@@ -503,6 +510,8 @@ void Inf_LCD_DisplayChinese(uint16_t x, uint16_t y, uint16_t size, char* Font, u
                 y++;
             }
             x++;
+            // 在显示一个汉字的循环过程中，x的值会逐步增加  
+            // 一个汉字内部的换行逻辑
             if (x - x1 == size)
             {
                 x = x1;
