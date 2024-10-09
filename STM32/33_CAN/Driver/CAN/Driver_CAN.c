@@ -108,9 +108,35 @@ void Driver_CAN_SendBytes(uint16_t stdID, uint8_t* bytes, uint8_t length) {
     // 发送数据请求  由软件对其置’1’，来请求发送邮箱的数据。当数据发送完成，邮箱为空时，硬件对其清’0’。
     CAN1->sTxMailBox[0].TIR |= CAN_TI0R_TXRQ;
 }
-void Driver_CAN_ReceiveBytes(Driver_CAN_Rx CAN_Rx[], uint8_t* BytesConut) {
+void Driver_CAN_ReceiveBytes(CAN_RxData CAN_Rx[], uint8_t* BytesConut) {
     /* 将一个字符数组初始化为全 0（实际上是 '\0' 字符）
     char str[10];
-    memset(str, 0, sizeof(str)); */
+    memset(str, 0, sizeof(str));  //要求为定长字符串*/
+
+    // 读取FIFO0中的报文数量
+    *BytesConut = (CAN1->RF0R & CAN_RF0R_FMP0);
+
+
+    // 循环读取报文信息  将内容存放到结构体数组中
+    for (uint8_t i = 0; i < *BytesConut; i++)
+    {
+        CAN_RxData* msg = &CAN_Rx;
+
+        /* 2个FIFO队列，每个队列FIFO都可以存放3个完整的报文 */
+
+       // 填写结构体的stdid
+        msg->stdID = (CAN1->sFIFOMailBox[0].RIR & CAN_RI0R_STID) >> 21;  //CAN_FIFOMailBox_TypeDef sFIFOMailBox[2];
+        // 获取数据的长度
+        msg->length = (CAN1->sFIFOMailBox[0].RDTR & CAN_RDT0R_DLC) >> 0;
+
+
+        // 写数据  清空之前可能填写的data值
+        memset(msg->data, 0, sizeof(msg->data));
+
+        for (uint8_t j = 0; j < msg->length; j++)
+        {
+
+        }
+    }
 
 }

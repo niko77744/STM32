@@ -10,11 +10,11 @@ typedef struct
     uint16_t stdID;
     uint8_t data[8];
     uint8_t length;
-}Driver_CAN_Rx;
+}CAN_RxData;
 
 void Driver_CAN_Init(void);
 void Driver_CAN_SendBytes(uint16_t stdID, uint8_t* bytes, uint8_t length);
-void Driver_CAN_ReceiveBytes(Driver_CAN_Rx CAN_Rx[], uint8_t* BytesConut);
+void Driver_CAN_ReceiveBytes(CAN_RxData CAN_Rx[], uint8_t* BytesConut);
 
 
 
