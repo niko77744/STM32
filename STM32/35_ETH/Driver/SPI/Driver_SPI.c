@@ -40,12 +40,60 @@ void Driver_SPI_Init(void) {
 }
 
 
+void Driver_SPIx_Init(SPI_TypeDef* SPIx) {
+    if (SPIx == SPI1)
+    {
+        RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
+        RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
+        RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;
+
+        // 输出引脚:  SCK：PA5;    MOSI(主输出)：PA7;    SC#(Chip Selection片选)：PC13
+        // 输入引脚： MISO(主输入)：PA6
+        Hal_GPIO_Mode_Selection(GPIOA, GPIO_pin_5, GPIO_Mode_AF_PP);
+        Hal_GPIO_Mode_Selection(GPIOA, GPIO_pin_7, GPIO_Mode_AF_PP);
+        Hal_GPIO_Mode_Selection(GPIOC, GPIO_pin_13, GPIO_Mode_Out_PP);
+        Hal_GPIO_Mode_Selection(GPIOA, GPIO_pin_6, GPIO_Mode_IN_FLOATING);
+
+    }
+    else if (SPIx == SPI2)
+    {
+        /* SPI2的对应引脚  PD3 CS   PB15 MOSI  PB14 MISO  PB13 SCK */
+        RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;
+        RCC->APB2ENR |= RCC_APB2ENR_IOPDEN;
+        RCC->APB1ENR |= RCC_APB1ENR_SPI2EN;
+
+        Hal_GPIO_Mode_Selection(GPIOD, GPIO_pin_3, GPIO_Mode_Out_PP);
+        Hal_GPIO_Mode_Selection(GPIOB, GPIO_pin_13, GPIO_Mode_AF_PP);
+        Hal_GPIO_Mode_Selection(GPIOB, GPIO_pin_14, GPIO_Mode_IN_FLOATING);
+        Hal_GPIO_Mode_Selection(GPIOB, GPIO_pin_15, GPIO_Mode_AF_PP);
+    }
+
+    SPIx->CR1 &= ~SPI_CR1_BIDIMODE;  //0：选择“双线双向”模式
+    SPIx->CR1 &= ~SPI_CR1_DFF;   // 数据帧格式(Data frame format)   0：使用8位数据帧格式进行发送/接收
+    SPIx->CR1 |= SPI_CR1_SSM;    // 软件从设备管理 (Software slave management)  1：启用软件从设备管理。
+    SPIx->CR1 |= SPI_CR1_SSI;   //SSI：内部从设备选择 (Internal slave select) 
+    SPIx->CR1 &= ~SPI_CR1_LSBFIRST;  // 帧格式 (Frame format)  0：先发送MSB；
+    SPIx->CR1 |= SPI_CR1_BR_0; // 001 fPCLK/4 = 72/4 = 18MHz
+    SPIx->CR1 |= SPI_CR1_MSTR; // 主设备选择 (Master selection)  1：配置为主设备
+    SPIx->CR1 &= ~SPI_CR1_CPOL; // 时钟极性 (Clock polarity)  0： 空闲状态时，SCK保持低电平；
+    SPIx->CR1 &= ~SPI_CR1_CPHA; // CPHA：时钟相位 (Clock phase)  0： 数据采样从第一个时钟边沿开始
+    SPIx->CR1 |= SPI_CR1_SPE;
+}
+
 void Driver_SPI_Start(void) {
     CS_LOW;
 }
 
 void Driver_SPI_Stop(void) {
     CS_HIGH;
+}
+
+void Driver_SPI2_Start(void) {
+    CS2_LOW;
+}
+
+void Driver_SPI2_Stop(void) {
+    CS2_HIGH;
 }
 
 // 与芯片交换一个字节  在时钟线SCK=1时采集数据
