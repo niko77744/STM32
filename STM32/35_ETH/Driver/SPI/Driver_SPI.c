@@ -88,12 +88,13 @@ void Driver_SPI_Stop(void) {
     CS_HIGH;
 }
 
-void Driver_SPI2_Start(void) {
-    CS2_LOW;
+void Driver_SPIx_Start(SPI_TypeDef* SPIx) {
+    if (SPIx == SPI1) CS_LOW;
+    else if (SPIx == SPI2)CS2_LOW;
 }
-
-void Driver_SPI2_Stop(void) {
-    CS2_HIGH;
+void Driver_SPIx_Stop(SPI_TypeDef* SPIx) {
+    if (SPIx == SPI1) CS2_HIGH;
+    else if (SPIx == SPI2)CS2_HIGH;
 }
 
 // 与芯片交换一个字节  在时钟线SCK=1时采集数据
@@ -107,6 +108,18 @@ uint8_t Driver_SPI_SwapByte(uint8_t T_byte) {
     // 等待接收数据寄存器不为空
     while (((SPI1->SR & SPI_SR_RXNE) == 0) && timeout--);
     return SPI1->DR;
+}
+
+uint8_t Driver_SPIx_SwapByte(SPI_TypeDef* SPIx, uint8_t T_byte) {
+    uint16_t timeout = 0xFFFF;
+    // 等待发送数据寄存器为空
+    while (((SPIx->SR & SPI_SR_TXE) == 0) && timeout--);
+    SPIx->DR = T_byte;
+
+    timeout = 0xFFFF;
+    // 等待接收数据寄存器不为空
+    while (((SPIx->SR & SPI_SR_RXNE) == 0) && timeout--);
+    return SPIx->DR;
 }
 
 

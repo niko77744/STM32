@@ -34,8 +34,9 @@ void Driver_SPI_Stop(void);
 uint8_t Driver_SPI_SwapByte(uint8_t);
 
 void Driver_SPIx_Init(SPI_TypeDef* SPIx);
-void Driver_SPI2_Start(void);
-void Driver_SPI2_Stop(void);
+void Driver_SPIx_Start(SPI_TypeDef* SPIx);
+void Driver_SPIx_Stop(SPI_TypeDef* SPIx);
+uint8_t Driver_SPIx_SwapByte(SPI_TypeDef* SPIx, uint8_t T_byte);
 
 void Driver_SPI_Soft_Init(void);
 void Driver_SPI_Soft_Start(void);
