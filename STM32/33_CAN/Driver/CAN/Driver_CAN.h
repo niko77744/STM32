@@ -5,6 +5,8 @@
 #include "GPIO.h"
 #include <string.h>
 
+// CAN_TypeDef hcan;
+
 typedef struct
 {
     uint16_t stdID;

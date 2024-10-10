@@ -26,8 +26,8 @@ void Driver_CAN_Init(void) {
     CAN1->MCR |= CAN_MCR_AWUM;
 
     // 打开环回静默模式
-    CAN1->BTR |= CAN_BTR_SILM; //Silent mode
-    CAN1->BTR |= CAN_BTR_SILM; //Loop back mode
+    // CAN1->BTR |= CAN_BTR_SILM; //Silent mode
+    // CAN1->BTR |= CAN_BTR_LBKM; //Loop back mode
 
     // 设置波特率分频器系数 BPR  该位域定义了时间单元(tq)的时间长度   tq = (BRP[9:0]+1) x tPCLK(1/36MHz) 对应的频率1MHz  周期 1us
     CAN1->BTR &= ~CAN_BTR_BRP;
@@ -39,7 +39,9 @@ void Driver_CAN_Init(void) {
     CAN1->BTR |= (5 << 16);
     CAN1->BTR |= (2 << 20);
 
-    CAN1->BTR |= CAN_BTR_SJW; //重新同步跳跃宽度  为了重新同步，该位域定义了CAN硬件在每位中可以延长或缩短多少个时间单元的上限
+    // 重新同步的跳跃宽度
+    CAN1->BTR &= ~CAN_BTR_SJW;
+    CAN1->BTR |= 1 << 24;//重新同步跳跃宽度  为了重新同步，该位域定义了CAN硬件在每位中可以延长或缩短多少个时间单元的上限
 
     // 退出初始化模式
     CAN1->MCR &= ~CAN_MCR_INRQ;
@@ -57,10 +59,10 @@ void Driver_CAN_Init(void) {
     CAN1->FFA1R &= ~CAN_FFA1R_FFA0;
 
     // 填写屏蔽模式下的ID和mask      
-    // 11位stdId  18位EXID IDE RTR 0
-    CAN1->sFilterRegister[0].FR1 = 0;  // CAN_TypeDef 下有  CAN_FilterRegister_TypeDef sFilterRegister[14]
+    // 11位stdId  18位EXID IDE RTR 0   -> STDID 低3位是111  //0xFFE00000
+    CAN1->sFilterRegister[0].FR1 = 0x00;  // CAN_TypeDef 下有  CAN_FilterRegister_TypeDef sFilterRegister[14]
     // 掩码  -> 哪些ID需要接收
-    CAN1->sFilterRegister[0].FR2 = 0;
+    CAN1->sFilterRegister[0].FR2 = 0x00;
 
     // 激活过滤器
     CAN1->FA1R |= CAN_FA1R_FACT0;
@@ -113,30 +115,39 @@ void Driver_CAN_ReceiveBytes(CAN_RxData CAN_Rx[], uint8_t* BytesConut) {
     char str[10];
     memset(str, 0, sizeof(str));  //要求为定长字符串*/
 
-    // 读取FIFO0中的报文数量
+    // 读取FIFO0中的报文数量  FIFO0最多三个报文， FIFO1未使用
     *BytesConut = (CAN1->RF0R & CAN_RF0R_FMP0);
 
 
     // 循环读取报文信息  将内容存放到结构体数组中
     for (uint8_t i = 0; i < *BytesConut; i++)
     {
-        CAN_RxData* msg = &CAN_Rx;
+        CAN_RxData* msg = &CAN_Rx[i];
 
         /* 2个FIFO队列，每个队列FIFO都可以存放3个完整的报文 */
 
        // 填写结构体的stdid
         msg->stdID = (CAN1->sFIFOMailBox[0].RIR & CAN_RI0R_STID) >> 21;  //CAN_FIFOMailBox_TypeDef sFIFOMailBox[2];
-        // 获取数据的长度
+        // 获取数据的长度 4位,表示数据段包含多少字节 0~8,所以需要4位
         msg->length = (CAN1->sFIFOMailBox[0].RDTR & CAN_RDT0R_DLC) >> 0;
 
 
         // 写数据  清空之前可能填写的data值
         memset(msg->data, 0, sizeof(msg->data));
-
+        uint32_t low = CAN1->sFIFOMailBox[0].RDLR;
+        uint32_t high = CAN1->sFIFOMailBox[0].RDHR;
         for (uint8_t j = 0; j < msg->length; j++)
         {
-
+            if (j < 4)
+            {
+                msg->data[j] = low >> (8 * j);
+            }
+            else {
+                msg->data[j] = high >> (8 * (j - 4));
+            }
         }
+        // 2.5 释放当前报文    
+        //读取完一个释放一个。如果FIFO中有2个以上的报文，由于FIFO的特点，软件需要释放输出邮箱才能访问第2个报文
+        CAN1->RF0R |= CAN_RF0R_RFOM0;
     }
-
 }
