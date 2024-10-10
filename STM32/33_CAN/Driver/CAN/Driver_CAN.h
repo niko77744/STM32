@@ -7,9 +7,9 @@
 
 typedef struct
 {
-    uint16_t stdID;
+    uint16_t stdID : 11;
     uint8_t data[8];
-    uint8_t length;
+    uint8_t length : 3;
 }CAN_RxData;
 
 #define CAN_RX_FIFO0                (0x00000000U)  /*!< CAN receive FIFO 0 */
