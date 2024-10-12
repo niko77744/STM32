@@ -5,7 +5,7 @@ uint8_t ip[4] = { 192, 168, 23, 104 };
 uint8_t sub[4] = { 255, 255, 255, 0 };
 uint8_t gw[4] = { 192, 168, 23, 1 };
 uint8_t dns[4] = { 8,8,8,8 };
-uint8_t TCP_Rbuffer[128] = { 0 };
+uint8_t ETH_Rbuffer[128] = { 0 };
 #define w5500_port 8080
 
 
@@ -104,10 +104,11 @@ void TCP_Server_Socket(uint8_t sn) {
             uint16_t datalen = getSn_RX_RSR(sn);
 
             //由服务端发送消息  然后将消息打印至串口
-            recv(sn, TCP_Rbuffer, datalen);
-            printf("ReceiveData => len:%d,data:%s\n", datalen, TCP_Rbuffer);
+            recv(sn, ETH_Rbuffer, datalen);
+            printf("ReceiveData => len:%d,data:%s\n", datalen, ETH_Rbuffer);
             // w5500 将接收到的数据原封不动的返回
-            send(sn, TCP_Rbuffer, datalen);
+            send(sn, ETH_Rbuffer, datalen);
+            memset(ETH_Rbuffer, 0, sizeof(ETH_Rbuffer));
         }
     }
 }
@@ -168,11 +169,151 @@ void TCP_Client_Socket(uint8_t sn) {
             // 获取接收数据的长度
             uint16_t datalen = getSn_RX_RSR(sn);
             // 接收数据
-            recv(sn, TCP_Rbuffer, datalen);
-            printf("The client receives the data=> len:%d,data:%s\n", datalen, TCP_Rbuffer);
+            recv(sn, ETH_Rbuffer, datalen);
+            printf("The client receives the data=> len:%d,data:%s\n", datalen, ETH_Rbuffer);
             // 返回数据
-            send(sn, TCP_Rbuffer, datalen);
-            memset(TCP_Rbuffer, 0, sizeof(TCP_Rbuffer));
+            send(sn, ETH_Rbuffer, datalen);
+            memset(ETH_Rbuffer, 0, sizeof(ETH_Rbuffer));
         }
+    }
+}
+
+
+void UDP_Socket(uint8_t sn) {
+    // 1. 获取socket0状态
+    uint8_t socket_state = getSn_SR(sn);
+    if (socket_state == SOCK_CLOSED)
+    {
+        // 2. 关闭状态  ->  选择使用UDP协议
+        int8_t socket_return = socket(sn, Sn_MR_UDP, w5500_port, 0);
+        socket_return == sn ? printf("Socket Init Success\n") : printf("Socket Init Error\n");
+    }
+    else if (socket_state == SOCK_UDP)
+    {
+        // 3. 处于UDP创建完成状态
+        // 不知道对方的IP和端口号
+        // 等待挂起接收数据  ->  接收的数据中会包含对方的IP地址端口号
+        uint16_t datalen = 0;
+        uint8_t UDP_Ip[4] = { 0 };
+        uint16_t UDP_port = 0;
+
+        // 不知道接收数据的长度
+        while (1) {
+            while ((getSn_IR(sn) & Sn_IR_RECV) == 0)
+            {
+                if (getSn_SR(sn) != SOCK_UDP)
+                {
+                    close(sn);
+                    printf("Connection has been disconnected\n");
+                    return;
+                }
+            }
+            setSn_IR(sn, Sn_IR_RECV);
+            // 接收到数据
+            // 获取接收数据的长度  ->  UDP接收到的数据会多8字节 空的  标志
+            datalen = getSn_RX_RSR(sn);
+            if (datalen > 0)
+            {
+                recvfrom(sn, ETH_Rbuffer, datalen, UDP_Ip, &UDP_port);
+                printf("received from UDP=> IP:%d.%d.%d.%d:%d,len:%d,data:%s\n", UDP_Ip[0], UDP_Ip[1], UDP_Ip[2], UDP_Ip[3], UDP_port, datalen - 8, ETH_Rbuffer);
+
+                if (datalen - 8 > 0)
+                {
+                    sendto(sn, ETH_Rbuffer, datalen - 8, UDP_Ip, UDP_port);
+                }
+
+                memset(ETH_Rbuffer, 0, sizeof(ETH_Rbuffer));
+            }
+        }
+    }
+}
+
+// http://192.168.23.104/index.html
+uint8_t tx_buff[2048];
+uint8_t rx_buff[2048];
+uint8_t cnt = 1;
+uint8_t sockList[1] = { 0 };
+uint8_t* content_name = "index.html";
+
+/* 响应的网页的内容 */
+uint8_t content[2048] = "<!doctype html>\n"
+"<html lang=\"en\">\n"
+"<head>\n"
+"    <meta charset=\"GBK\">\n"
+"    <meta name=\"viewport\"\n"
+"          content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\">\n"
+"    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">\n"
+"    <title>Webserver Test</title>\n"
+"\n"
+"    <style type=\"text/css\">\n"
+"        #open_red{\n"
+"            color: red;\n"
+"            width: 100px;\n"
+"            height: 40px;\n"
+"\n"
+"\n"
+"        }\n"
+"        #close_red{\n"
+"            color: black;\n"
+"            width: 100px;\n"
+"            height: 40px;\n"
+"        }\n"
+"    </style>\n"
+"</head>\n"
+"<body>\n"
+"<a href=\"/index.html?action=1\"><button id=\"open_red\" >开灯</button></a>\n"
+"<a href=\"/index.html?action=2\"><button id=\"close_red\" >关灯</button></a>\n"
+"</body>\n"
+"</html>";
+
+
+void Web_serever_Init(void) {
+    httpServer_init(tx_buff, rx_buff, cnt, sockList);
+    reg_httpServer_webContent(content_name, content);
+}
+
+void Web_serever_Start(void) {
+    while (1)
+    {
+        httpServer_run(0);
+    }
+}
+
+// 转换字符串函数
+// /index.html?action=1  =>  1
+// /index.html?action=2  =>  2
+// 其他                  =>  0
+uint8_t parse_url_action(uint8_t* url)
+{
+    // 查找传入的第一个参数url中是否包含第二个参数action=
+    // 如果不包含  =>  返回NULL
+    // 如果包含  => 指针 -> 指向第二个参数的开始位置
+    char* result = strstr((char*)url, "action=");
+    if (result == NULL)
+    {
+        // 不是正确的按钮
+        return 0;
+    }
+    else
+    {
+        // action=1
+        return (uint8_t)(*(result + 7));
+    }
+}
+
+// 将下面用户自定义的函数嵌套进源代码中
+// 每次用户点击网页的开关灯按钮  ->  /index.html?action=1作为url参数调用了下面的函数
+void user_handle_function(uint8_t* url)
+{
+    uint8_t action = parse_url_action(url);
+    printf("接收到的url为:%s,处理之后的action:%d\n", url, action);
+    if (action == '1')
+    {
+        // 开灯
+        Driver_LED_On(LED1);
+    }
+    else if (action == '2')
+    {
+        Driver_LED_Off(LED1);
     }
 }

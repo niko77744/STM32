@@ -6,10 +6,13 @@
 int main(int argc, char const* argv[]) {
     Driver_USART_Init();
     printf("hello eth...\n");
+    Driver_LED_Init();
 
     Driver_ETH_Init();
+    Web_serever_Init();
+    Web_serever_Start();
     while (1) {
-        TCP_Client_Socket(0);
+        // UDP_Socket(0);
     }
 }
 

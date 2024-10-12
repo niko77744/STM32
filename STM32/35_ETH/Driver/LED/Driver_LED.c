@@ -1,7 +1,7 @@
 #include "Driver_LED.h"
 
 
-uint16_t leds[size] = { LED1, LED2, LED3 };
+uint16_t leds[LED_size] = { LED1, LED2, LED3 };
 
 void Driver_LED_Init(void) {
     RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
@@ -13,7 +13,7 @@ void Driver_LED_Init(void) {
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    Driver_LED_OffAll(leds, size);
+    Driver_LED_OffAll(leds, LED_size);
 }
 
 void Driver_LED_On(uint16_t led) {
