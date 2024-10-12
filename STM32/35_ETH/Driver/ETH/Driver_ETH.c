@@ -5,6 +5,8 @@ uint8_t ip[4] = { 192, 168, 23, 104 };
 uint8_t sub[4] = { 255, 255, 255, 0 };
 uint8_t gw[4] = { 192, 168, 23, 1 };
 uint8_t dns[4] = { 8,8,8,8 };
+uint8_t TCP_Rbuffer[128] = { 0 };
+#define w5500_port 8080
 
 
 void Driver_ETH_Reset(void);
@@ -50,23 +52,23 @@ void Driver_ETH_SetIP(void) {
 
 /**
  * @brief 让W5500作为TCP的服务端
- * @param Socket_sn  (uint8_t)sn Socket number. It should be <b>0 ~ 7</b>.
+ * @param sn  (uint8_t)sn Socket number. It should be <b>0 ~ 7</b>.
  * @return * void
  */
-void Inf_TCP_Server(uint8_t Socket_sn) {
+void TCP_Server_Socket(uint8_t sn) {
     // 1. 获取当前socket0的状态
-    uint8_t socket_state = getSn_SR(Socket_sn);
+    uint8_t socket_state = getSn_SR(sn);
     if (socket_state == SOCK_CLOSED)
     {
         // 2. 当前为关闭状态 ->  表示服务端还没有初始化 socket没人用
-        int8_t socket_return = socket(Socket_sn, Sn_MR_TCP, 8080, SF_TCP_NODELAY); //返回sn号
-        socket_return == Socket_sn ? printf("Socket Init Success\n") : printf("Socket Init Error\n");
+        int8_t socket_return = socket(sn, Sn_MR_TCP, w5500_port, SF_TCP_NODELAY); //返回sn号
+        socket_return == sn ? printf("Socket Init Success\n") : printf("Socket Init Error\n");
     }
     else if (socket_state == SOCK_INIT)
     {
         // 3. 初始化完成 -> 进入监听状态 等待客户端连接
-        int8_t listen_return = listen(Socket_sn);
-        listen_return == SOCK_OK ? printf("Listen Init Success\n") : printf("Listen %d Init Error\n", close(Socket_sn));
+        int8_t listen_return = listen(sn);
+        listen_return == SOCK_OK ? printf("Listen Init Success\n") : printf("Listen %d Init Error\n", close(sn));
     }
     else if (socket_state == SOCK_ESTABLISHED)
     {
@@ -74,9 +76,37 @@ void Inf_TCP_Server(uint8_t Socket_sn) {
         // 打印客户端的ip地址和端口号
         uint8_t Client_Ip[4] = { 0 };
         uint16_t Client_port = 0;
-        getSn_DIPR(Socket_sn, Client_Ip);
-        Client_port = getSn_DPORT(Socket_sn);
+        getSn_DIPR(sn, Client_Ip);
+        Client_port = getSn_DPORT(sn);
         printf("Connect Success! Client_Ip:port = %d.%d.%d.%d:%d\n", Client_Ip[0], Client_Ip[1], Client_Ip[2], Client_Ip[3], Client_port);
-        
+
+        // 一直轮询接受数据,知道断开连接
+        while (1) {
+            // 5. 完成收发数据
+            // 判断当前是否收到数据
+            while ((getSn_IR(sn) & Sn_IR_RECV) == 0)
+            {
+                // 还没有收到数据   挂起等待
+                // 单独判断是否连接已经关闭
+                if (getSn_SR(sn) != SOCK_ESTABLISHED)
+                {
+                    // 接收不到数据  连接已经关闭
+                    close(sn);
+                    printf("Connection has been disconnected\n");
+                    return;
+                }
+            }
+            // 有数据进来  -> 清空中断标志位
+            // 如果想要清空标准位  按照产品手册写1
+            setSn_IR(sn, Sn_IR_RECV);
+
+            // 读取数据  ->  先读取接收的数据长度
+            uint16_t datalen = getSn_RX_RSR(sn);
+
+            //由服务端发送消息  然后将消息打印至串口
+            recv(sn, TCP_Rbuffer, datalen);
+            printf("ReceiveData => len:%d,data:%s\n", datalen, TCP_Rbuffer);
+            send(sn, TCP_Rbuffer, datalen);
+        }
     }
 }
