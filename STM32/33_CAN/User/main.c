@@ -10,7 +10,7 @@ int main(int argc, char const* argv[]) {
     HAL_CAN_AddTxMessage(CAN1, 6, "pppppp", 6);
     HAL_CAN_AddTxMessage(CAN1, 9, "qqqqq", 5);
     HAL_CAN_AddTxMessage(CAN1, 10, "wwww", 4);
-    HAL_CAN_AddTxMessage(CAN1, 11, "eeeeee", 6);
+    // HAL_CAN_AddTxMessage(CAN1, 11, "eeeeee", 6);
     while (1);
 }
 

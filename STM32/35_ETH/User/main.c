@@ -8,7 +8,9 @@ int main(int argc, char const* argv[]) {
     printf("hello eth...\n");
 
     Driver_ETH_Init();
-    while (1);
+    while (1) {
+        Inf_TCP_Server(0);
+    }
 }
 
 
