@@ -12,6 +12,6 @@
 #include "httpParser.h"
 
 void Driver_ETH_Init(void);
-void TCP_Server_Socket(uint8_t Socket_sn);
-
+void TCP_Server_Socket(uint8_t sn);
+void TCP_Client_Socket(uint8_t sn);
 #endif /* __DRIVER_ETH_H__ */

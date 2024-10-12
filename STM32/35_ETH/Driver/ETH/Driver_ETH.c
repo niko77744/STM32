@@ -106,7 +106,73 @@ void TCP_Server_Socket(uint8_t sn) {
             //由服务端发送消息  然后将消息打印至串口
             recv(sn, TCP_Rbuffer, datalen);
             printf("ReceiveData => len:%d,data:%s\n", datalen, TCP_Rbuffer);
+            // w5500 将接收到的数据原封不动的返回
             send(sn, TCP_Rbuffer, datalen);
+        }
+    }
+}
+
+
+
+void TCP_Client_Socket(uint8_t sn) {
+    uint8_t socket_state = getSn_SR(sn);
+    if (socket_state == SOCK_CLOSED)
+    {
+        int8_t socket_return = socket(sn, Sn_MR_TCP, w5500_port, SF_TCP_NODELAY);
+        socket_return == sn ? printf("Socket Init Success\n") : printf("Socket Init Error\n");
+    }
+    else if (socket_state == SOCK_INIT)
+    {
+        // 3. 初始化状态 -> 选择作为客户端 -> 主动连接
+        uint8_t serverIp[4] = { 192,168,23,101 };
+        uint16_t serverPort = 8080;
+        int8_t connect_return = connect(sn, serverIp, serverPort);
+        if (connect_return == SOCK_OK)
+        {
+            printf("Successfully connected to %d.%d.%d.%d:%d server\n", serverIp[0], serverIp[1], serverIp[2], serverIp[3], serverPort);
+        }
+        else if (connect_return == SOCKERR_SOCKCLOSED)
+        {
+            close(sn);
+            printf("SOCKCLOSED\n");
+        }
+        else if (connect_return == SOCKERR_TIMEOUT)
+        {
+            printf("TIMEOUT Please Delay\n");
+            Delay_ms(100);
+        }
+        else {
+            printf("Unknown Error\n");
+        }
+    }
+    else if (socket_state == SOCK_ESTABLISHED)
+    {
+        // 4. 连接状态 -> 主动发送hello
+        send(0, "hello\n", 6);
+
+        while (1) {
+            // 等待接收(回复)数据  -> 原封不动返回数据
+            while ((getSn_IR(sn) & Sn_IR_RECV) == 0)
+            {
+                if (getSn_SR(sn) != SOCK_ESTABLISHED)
+                {
+                    close(sn);
+                    printf("Connection has been disconnected\n");
+                    return;
+                }
+            }
+            // 复位中断标志位
+            // 如果需要清0   置为1
+            setSn_IR(sn, Sn_IR_RECV);
+
+            // 获取接收数据的长度
+            uint16_t datalen = getSn_RX_RSR(sn);
+            // 接收数据
+            recv(sn, TCP_Rbuffer, datalen);
+            printf("The client receives the data=> len:%d,data:%s\n", datalen, TCP_Rbuffer);
+            // 返回数据
+            send(sn, TCP_Rbuffer, datalen);
+            memset(TCP_Rbuffer, 0, sizeof(TCP_Rbuffer));
         }
     }
 }

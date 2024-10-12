@@ -9,7 +9,7 @@ int main(int argc, char const* argv[]) {
 
     Driver_ETH_Init();
     while (1) {
-        TCP_Server_Socket(0);
+        TCP_Client_Socket(0);
     }
 }
 
