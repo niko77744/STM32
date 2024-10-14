@@ -9,10 +9,11 @@ int main(int argc, char const* argv[]) {
     Driver_LED_Init();
 
     Driver_ETH_Init();
-    Web_serever_Init();
-    Web_serever_Start();
+    // Web_serever_Init();
+    // Web_serever_Start();
     while (1) {
         // UDP_Socket(0);
+        TCP_Server_Socket(0);
     }
 }
 
