@@ -103,7 +103,7 @@ int main(void)
     /* USER CODE BEGIN WHILE */
     while (1)
     {
-        /* 每次都要启动 为了低功耗*/
+        /* 每次都要启动 必须被客户周期性调用，否则无法接收到数据  BBYTE 无线模块周期任务*/
         LoRa_Start();
         // HAL_Delay(2000);
         // LoRa_Send("hello", 6);
@@ -112,7 +112,7 @@ int main(void)
             Key_State = 0;
             memset(msg, 0, sizeof(msg));
             sprintf((char*)msg, "计数的次数为%d", count++);
-            printf("发送数据：%s\n", msg);
+            // printf("发送数据：%s\n", msg);
             LoRa_Send(msg, strlen((char*)msg));
         }
 

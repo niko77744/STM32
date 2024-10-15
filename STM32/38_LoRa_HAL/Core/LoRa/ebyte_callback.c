@@ -23,6 +23,7 @@
   /*= !!!配置目标硬件平台头文件 =======================================*/
 #include "ebyte_core.h"
 #include "usart.h"
+#include <string.h>
 /*= !!!配置目标硬件变量       =======================================*/
 
 /*==================================================================*/
@@ -51,7 +52,8 @@ void Ebyte_Port_TransmitCallback(uint16e_t state)
     /* 发送: 正常完成 */
     printf("发送状态码=0x%x\r\n", state);
     uint32_t timeout = 0;
-    /* 发送完成后切换到接收模式 */
+    /* 发送完成后切换到接收模式  模块默认进入接收模式 */
+
     Ebyte_RF.EnterReceiveMode(timeout);
 
     if (state & 0x0001)
@@ -100,6 +102,7 @@ void Ebyte_Port_ReceiveCallback(uint16e_t state, uint8e_t* buffer, uint8e_t leng
     {
         // To-do 实现自己的逻辑
         printf("接收成功length:%d,data:%s\n", length, buffer);
+        memset(buffer, 0, strlen((char*)buffer));
     }
     /* 接收: 异常超时 */
     else if (state & 0x0200)

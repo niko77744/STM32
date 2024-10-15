@@ -39,3 +39,4 @@
 38_lora_hal\ebyte_callback.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h
 38_lora_hal\ebyte_callback.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 38_lora_hal\ebyte_callback.o: C:\MyInstall\Keil_v5\ARM\arm5_compiler\Bin\..\include\stdio.h
+38_lora_hal\ebyte_callback.o: C:\MyInstall\Keil_v5\ARM\arm5_compiler\Bin\..\include\string.h

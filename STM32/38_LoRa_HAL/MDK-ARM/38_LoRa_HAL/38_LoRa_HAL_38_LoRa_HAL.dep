@@ -185,7 +185,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x669E6878)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x669E6879)
-F (..\Core\LoRa\ebyte_callback.c)(0x670E1B92)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\Core\LoRa-I.\RTE\_38_LoRa_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 38_lora_hal\ebyte_callback.o --omf_browse 38_lora_hal\ebyte_callback.crf --depend 38_lora_hal\ebyte_callback.d)
+F (..\Core\LoRa\ebyte_callback.c)(0x670E2588)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\Core\LoRa-I.\RTE\_38_LoRa_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 38_lora_hal\ebyte_callback.o --omf_browse 38_lora_hal\ebyte_callback.crf --depend 38_lora_hal\ebyte_callback.d)
 I (..\Core\LoRa\ebyte_callback.h)(0x670E1BC7)
 I (..\Core\LoRa\ebyte_port.h)(0x66C81054)
 I (..\Core\LoRa\ebyte_conf.h)(0x670E0FCC)
@@ -220,6 +220,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x669E6879)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x669E6879)
 I (C:\MyInstall\Keil_v5\ARM\arm5_compiler\include\stdio.h)(0x66C80E11)
+I (C:\MyInstall\Keil_v5\ARM\arm5_compiler\include\string.h)(0x66C80E16)
 F (..\Core\LoRa\ebyte_core.c)(0x66C8100E)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\Core\LoRa-I.\RTE\_38_LoRa_HAL-IC:\MyInstall\Keil_v5\ARM\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\MyInstall\Keil_v5\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o 38_lora_hal\ebyte_core.o --omf_browse 38_lora_hal\ebyte_core.crf --depend 38_lora_hal\ebyte_core.d)
 I (..\Core\LoRa\ebyte_core.h)(0x66C8100F)
 I (..\Core\LoRa\ebyte_conf.h)(0x670E0FCC)
