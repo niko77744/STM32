@@ -75,33 +75,33 @@ void ESP32_BLE_Init(void) {
     // 服务端开启服务
     ESP32_SendCmd("AT+BLEGATTSSRVSTART\r\n");
     // 服务端获取其 MAC 地址
-    ESP32_SendCmd("AT+BLEADDR?\r\n");
+    ESP32_SendCmd("AT+BLEADDR\r\n");
     /*
-? ? ? ? 设置蓝牙广播参数
-? ? ? ? ? ? AT+BLEADVPARAM=<adv_int_min>,<adv_int_max>,<adv_type>,<own_addr_type>,<channel_map>
+    设置蓝牙广播参数
+      AT+BLEADVPARAM=<adv_int_min>,<adv_int_max>,<adv_type>,<own_addr_type>,<channel_map>
 
-? ? ? ? ? ? ? ?a： adv_int_min adv_int_max 广播的最小间隔和最大间隔。 等于该值乘上0.625ms
-? ? ? ? ? ? ? ?b： adv_type ? ? ? ? ? ? ? ?广播类型 ? 0：通用广播
-? ? ? ? ? ? ? ?c： own_addr_type ? ? ? ? ? Bluetooth LE 地址类型 ?0：公共地址 1：随机地址
-? ? ? ? ? ? ? ?d： channel_map ? ? ? ? ? ? 广播信道 ? 1: ADV_CHNL_37 2: ADV_CHNL_38
-? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?4: ADV_CHNL_39 7: ADV_CHNL_ALL
+       a： adv_int_min adv_int_max 广播的最小间隔和最大间隔。 等于该值乘上0.625ms
+       b： adv_type        广播类型  0：通用广播
+       c： own_addr_type      Bluetooth LE 地址类型 0：公共地址 1：随机地址
+       d： channel_map       广播信道  1: ADV_CHNL_37 2: ADV_CHNL_38
+                          4: ADV_CHNL_39 7: ADV_CHNL_ALL
 
-? ? */
+  */
     ESP32_SendCmd("AT+BLEADVPARAM=50,50,0,0,7,0,,\r\n");
     /*
     设置广播数据并开始广播
     自动设置广播数据 设备名称 UUID 制造商数据 广播数据需包含 TX 功率
-? ?     AT+BLEADVDATAEX=<dev_name>,<uuid>,<manufacturer_data>,<include_power>
+      AT+BLEADVDATAEX=<dev_name>,<uuid>,<manufacturer_data>,<include_power>
     */
     ESP32_SendCmd("AT+BLEADVDATAEX=\"ESP-AT-Test\",\"A002\",\"0102030405\",1\r\n");
     // 开始广播
     ESP32_SendCmd("AT+BLEADVSTART\r\n");
     /*
         服务端配置 Bluetooth LE SPP 配置透传
-? ? ? ? 配置 Bluetooth LE SPP(Serial Port Profile)
-? ? ? ? ? ?选择支持 notify 或者 indicate 的 characteristic 作为写通道发送数据，
-? ? ? ? ? ?选择支持写操作的 characteristic 作为读通道接收数据。
-? ? */
+    配置 Bluetooth LE SPP(Serial Port Profile)
+    选择支持 notify 或者 indicate 的 characteristic 作为写通道发送数据，
+    选择支持写操作的 characteristic 作为读通道接收数据。
+  */
     ESP32_SendCmd("AT+BLESPPCFG=1,1,7,1,5\r\n");
 
     /*  需要连接上蓝牙后才使能 Bluetooth LE SPP */
