@@ -1707,7 +1707,7 @@ void Ebyte_E220x_GetLoraPacketStatus( PacketStatus_t *pktStatus )
     Ebyte_E220x_ReadCommand( RADIO_GET_PACKETSTATUS, status, 3 );
 
     pktStatus->Params.LoRa.RssiPkt = -status[0] >> 1;
-    ( status[1] < 128 ) ? ( pktStatus->Params.LoRa.SnrPkt = status[1] >> 2 ) : ( pktStatus->Params.LoRa.SnrPkt = ( ( status[1] - 256 ) >> 2 ) );
+    ( status[1] < 128 ) ? ÖÃ( pktStatus->Params.LoRa.SnrPkt = status[1] >> 2 ) : ( pktStatus->Params.LoRa.SnrPkt = ( ( status[1] - 256 ) >> 2 ) );
     pktStatus->Params.LoRa.SignalRssiPkt = -status[2] >> 1;
     pktStatus->Params.LoRa.FreqError = FrequencyError;
 
