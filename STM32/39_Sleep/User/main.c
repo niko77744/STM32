@@ -14,6 +14,7 @@ typedef struct
 
 void HAL_PWR_EnterSLEEPMode(void);
 void HAL_PWR_EnterSTOPMode(void);
+void HAL_PWR_EnterSTANDBYMode(void);
 void SystemClock_Config(void);
 Clock Get_SystemClock_Config(void);
 
@@ -24,10 +25,26 @@ int main(int argc, char const* argv[]) {
     printf("hello\n");
     Driver_LED_On(LED2);
 
+    /* 案例三：待机模式 */
+    RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+
+    if ((PWR->CSR & PWR_CSR_WUF) != 0)  //唤醒标志
+    {
+        // CSBF：清除待机位  CWUF：清除唤醒位
+        PWR->CR |= (PWR_CR_CSBF | PWR_CR_CWUF);
+        printf("从待机模式唤醒\n");
+    }
+    else {
+        printf("复位键唤醒\n");
+    }
+
 
     while (1) {
         printf("6s后进入睡眠模式\n");
         Delay_s(3);
+        HAL_PWR_EnterSTANDBYMode();
+
+
         /* 案例一: 睡眠模式
         // HAL_PWR_EnterSLEEPMode(); */
 
@@ -40,9 +57,6 @@ int main(int argc, char const* argv[]) {
         Clock ck2 = Get_SystemClock_Config();
         printf("设置系统时钟树前: System_Clock = %d, AHB_Clock = %d, APB1_Clock = %d, APB2_Clock = %d\n", ck1.System_Clock / 1000000, ck1.AHB_Clock / 1000000, ck1.APB1_Clock / 1000000, ck1.APB2_Clock / 1000000);
         printf("设置系统时钟树后: System_Clock = %d, AHB_Clock = %d, APB1_Clock = %d, APB2_Clock = %d\n", ck2.System_Clock / 1000000, ck2.AHB_Clock / 1000000, ck2.APB1_Clock / 1000000, ck2.APB2_Clock / 1000000); */
-
-        /* 案例使能：待机模式 */
-        
         printf("被唤醒\n");
     }
 }
@@ -61,14 +75,26 @@ void HAL_PWR_EnterSTOPMode(void) {
     // 开启 PWR 时钟
     RCC->APB1ENR |= RCC_APB1ENR_PWREN;
     // 清除电源控制器中的PDDS位 进入深睡眠时，进入停机模式
-    PWR->CR &= ~PWR_CR_PDDS;
+    PWR->CR &= ~PWR_CR_PDDS;  // PDDS：掉电深睡眠  调压器的状态
     // 设置电压调节器的模式 0：电压调节器开启 1：电压调节器处于低功耗模式
     PWR->CR &= ~PWR_CR_LPDS;
+    /*
+    PDDS：掉电深睡眠   0：当CPU进入深睡眠时进入停机模式，调压器的状态由LPDS位控制。   1：CPU进入深睡眠时进入待机模式
+    LPDS：深睡眠下的低功耗  PDDS=0时，与PDDS位协同操作  0：在停机模式下电压调压器开启  1：在停机模式下电压调压器处于低功耗模式
+    */
     // 系统控制寄存器的深度睡眠模式
     SCB->SCR |= SCB_SCR_SLEEPDEEP;
     __WFI();
 }
 
+void HAL_PWR_EnterSTANDBYMode(void) {
+    // 开启PWR的RCC时钟需要提前进行  因为待机模式每次从头执行代码
+    PWR->CR |= PWR_CR_PDDS;
+    PWR->CSR |= PWR_CSR_EWUP;
+
+    SCB->SCR |= SCB_SCR_SLEEPDEEP;
+    __WFI();
+}
 
 void SystemClock_Config(void) {
     /* 1. 使能HSE 并等待就绪 */
