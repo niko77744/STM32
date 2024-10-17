@@ -10,13 +10,12 @@ typedef struct
     uint32_t APB1_Clock;
     uint32_t APB2_Clock;
 }Clock;
-Clock system_clock;
 
 
 void HAL_PWR_EnterSLEEPMode(void);
 void HAL_PWR_EnterSTOPMode(void);
 void SystemClock_Config(void);
-void Get_SystemClock_Config(void);
+Clock Get_SystemClock_Config(void);
 
 int main(int argc, char const* argv[]) {
     Driver_USART_Init();
@@ -25,21 +24,25 @@ int main(int argc, char const* argv[]) {
     printf("hello\n");
     Driver_LED_On(LED2);
 
-    // Get_SystemClock_Config();
-    // printf("1: System_Clock = %d, AHB_Clock = %d, APB1_Clock = %d, APB2_Clock = %d\n", system_clock.System_Clock, system_clock.AHB_Clock, system_clock.APB1_Clock, system_clock.APB2_Clock);
-
 
     while (1) {
         printf("6s后进入睡眠模式\n");
         Delay_s(3);
-        // HAL_PWR_EnterSLEEPMode();
-        HAL_PWR_EnterSTOPMode();
+        /* 案例一: 睡眠模式
+        // HAL_PWR_EnterSLEEPMode(); */
 
-        /* 设置系统时钟树 */
+
+        /* 案例二: 停机模式
+        HAL_PWR_EnterSTOPMode();
+        Clock ck1 = Get_SystemClock_Config();
+        //设置系统时钟树
         SystemClock_Config();
-        Get_SystemClock_Config();
-        Delay_ms(1000);
-        printf("1: System_Clock = %d, AHB_Clock = %d, APB1_Clock = %d, APB2_Clock = %d\n", system_clock.System_Clock, system_clock.AHB_Clock, system_clock.APB1_Clock, system_clock.APB2_Clock);
+        Clock ck2 = Get_SystemClock_Config();
+        printf("设置系统时钟树前: System_Clock = %d, AHB_Clock = %d, APB1_Clock = %d, APB2_Clock = %d\n", ck1.System_Clock / 1000000, ck1.AHB_Clock / 1000000, ck1.APB1_Clock / 1000000, ck1.APB2_Clock / 1000000);
+        printf("设置系统时钟树后: System_Clock = %d, AHB_Clock = %d, APB1_Clock = %d, APB2_Clock = %d\n", ck2.System_Clock / 1000000, ck2.AHB_Clock / 1000000, ck2.APB1_Clock / 1000000, ck2.APB2_Clock / 1000000); */
+
+        /* 案例使能：待机模式 */
+        
         printf("被唤醒\n");
     }
 }
@@ -75,15 +78,16 @@ void SystemClock_Config(void) {
     while ((RCC->CR & RCC_CR_HSERDY) == 0); //1：外部4-16MHz振荡器就绪。
 
     RCC->CR |= RCC_CR_PLLON;
-    while ((RCC->CR & RCC_CR_PLLRDY)); //1：PLL锁定
+    while ((RCC->CR & RCC_CR_PLLRDY) == 0); //1：PLL锁定
 
     // 系统时钟切换 (System clock switch)  10：PLL输出作为系统时钟
     RCC->CFGR |= RCC_CFGR_SW_1;
     RCC->CFGR &= ~RCC_CFGR_SW_0;
-    while ((RCC->CR & RCC_CFGR_SWS) == 0); //1：PLL锁定
+    while ((RCC->CFGR & RCC_CFGR_SWS) == 0); //1：PLL锁定
 }
 
-void Get_SystemClock_Config(void) {
+Clock Get_SystemClock_Config(void) {
+    Clock system_clock;
     /* ----------------System_Clock-------------------- */
     uint32_t system_clock_source = (RCC->CFGR & RCC_CFGR_SWS);
     if (system_clock_source == RCC_CFGR_SWS_HSE)
@@ -105,7 +109,7 @@ void Get_SystemClock_Config(void) {
 
     /* ----------------AHB_Clock-------------------- */
     // 获取AHB总线时钟频率 默认情况AHB等于系统频率
-    uint32_t hpre = (RCC->CR & RCC_CFGR_HPRE) >> 4;
+    uint32_t hpre = (RCC->CFGR & RCC_CFGR_HPRE) >> 4;
 
     /* 最高位是1 有分频 */
     (hpre & 0x08) == 0 ? (system_clock.AHB_Clock = system_clock.System_Clock) : (system_clock.AHB_Clock = system_clock.System_Clock >> ((hpre & 0x07) + 1));
@@ -119,4 +123,6 @@ void Get_SystemClock_Config(void) {
     /* ----------------APB2_Clock-------------------- */
     uint32_t ppre2 = (RCC->CFGR & RCC_CFGR_PPRE1) >> 11;
     (ppre2 & 0x04) == 0 ? (system_clock.APB2_Clock = system_clock.AHB_Clock) : (system_clock.APB2_Clock = system_clock.AHB_Clock >> ((ppre2 & 0x03) + 1));
+
+    return system_clock;
 }
