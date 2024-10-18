@@ -90,8 +90,9 @@ int main(void)
     MX_RTC_Init();
     MX_USART1_UART_Init();
     /* USER CODE BEGIN 2 */
-    HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 6666);
-    HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1);
+    HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 1111);
+    uint32_t bkpdata = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1);
+    printf(" BKPµÄDR1 = %d\n", bkpdata);
     /* USER CODE END 2 */
 
     /* Infinite loop */
