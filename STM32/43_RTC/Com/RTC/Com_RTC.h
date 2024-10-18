@@ -15,10 +15,12 @@ typedef struct
     uint8_t mintue;
     uint8_t second;
     uint8_t now[64];
+    uint32_t UnixTimestamp;
 } RTC_TimeTypeDef;
 
 void Com_RTC_Init(void);
 void Com_RTC_SetTime(uint32_t UnixTimestamp);
 void Com_RTC_GetTime(RTC_TimeTypeDef* datatime);
+void Com_RTC_WakeUp(uint32_t LaterTime);
 
 #endif /* __COM_RTC_H__ */

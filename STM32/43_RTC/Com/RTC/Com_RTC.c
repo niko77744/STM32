@@ -30,8 +30,8 @@ void Com_RTC_Init(void) {
     while ((RTC->CRL & RTC_CRL_RTOFF) == 0);
 }
 void Com_RTC_SetTime(uint32_t UnixTimestamp) {
-    // 将时间戳转换为东八区时间戳  +8h
-    UnixTimestamp += 28800;
+    // 将时间戳转换为东八区时间戳  +8h  22为大致烧录时间
+    UnixTimestamp += (28800 + 22);
 
     /* 将timestamp存入到CNT中 */
     // 1. 查询RTOFF位，直到RTOFF的值变为1
@@ -70,6 +70,32 @@ void Com_RTC_GetTime(RTC_TimeTypeDef* datetime) {
     datetime->week = datetime_tm->tm_wday;
     datetime->month = datetime_tm->tm_mon + 1;  //从0月开始
     datetime->year = datetime_tm->tm_year + 1900;
+    datetime->UnixTimestamp = Current_timestamp;
     sprintf((char*)datetime->now, "%04d年-%02d月-%02d日-星期%d %02d时:%02d分:%02d秒", datetime->year, datetime->month, datetime->day, datetime->week, datetime->hour, datetime->mintue, datetime->second);
+}
+
+
+
+void Com_RTC_WakeUp(uint32_t LaterTime) {
+    // Com_RTC_Init();
+    /* 1. 先清除闹钟标志 */
+    RTC->CRL &= ~RTC_CRL_ALRF;
+    /* 2. 等待RTC进入初始化状态 */
+    while ((RTC->CRL & RTC_CRL_RTOFF) == 0);
+    /* 3. 进入配置模式 */
+    RTC->CRL |= RTC_CRL_CNF;
+    /* 4. 等待秒标志位 */
+    while ((RTC->CRL & RTC_CRL_SECF) == 0);
+    /* 5. RTC 计数器寄存器的值。我们可以从1开始计数，则大概136年才会溢出（32位计数器）*/
+    // RTC->CNTH = 0;
+    // RTC->CNTL = 0;
+    uint32_t Current_timestamp = (RTC->CNTH << 16) | (RTC->CNTL);
+    /* 6.设置闹钟:?  当CNT与ALR相等时触发闹钟事件并产生RTC闹钟中断*/
+    LaterTime = LaterTime + Current_timestamp - 1;
+    RTC->ALRH = (LaterTime >> 16);
+    RTC->ALRL = LaterTime & 0xFFFF;
+
+    RTC->CRL &= ~RTC_CRL_CNF;
+    while ((RTC->CRL & RTC_CRL_RTOFF) == 0);
 }
 
