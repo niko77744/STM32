@@ -2,19 +2,6 @@
 #define __COM_BKP_H__
 
 #include "stm32f10x.h"
-#include <time.h>
-
-typedef struct
-{
-    uint16_t year;
-    uint8_t month;
-    uint8_t week;
-    uint8_t day;
-    uint8_t hour;
-    uint8_t mintue;
-    uint8_t second;
-    uint8_t now[32];
-} RTC_TimeTypeDef;
 
 #define RTC_BKP_NUMBER 42
 #define assert_param(expr) ((void)0U)
@@ -73,7 +60,5 @@ void Com_RTCEx_BKPWrite(uint32_t BackupRegister, uint32_t Data);
 uint32_t Com_RTCEx_BPKRead(uint32_t BackupRegister);
 
 
-void Com_RTC_Init(void);
-void Com_RTC_SetTime(uint32_t UnixTimestamp);
-void Com_RTC_GetTime(RTC_TimeTypeDef* datatime);
+
 #endif /* __COM_BKP_H__ */

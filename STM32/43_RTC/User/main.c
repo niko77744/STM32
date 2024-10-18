@@ -1,21 +1,19 @@
 #include "Driver_USART.h"
 #include "Com_Delay.h"
-#include "Driver_LED.h"
-#include "Driver_Key.h"
-#include "Com_BKP.h"
+#include "Com_RTC.h"
 
 int main(int argc, char const* argv[]) {
     Driver_USART_Init();
-    Driver_LED_Init();
-    Driver_KEY_Init();
-    Com_RTCEx_BKPInit();
     printf("hello\n");
+    RTC_TimeTypeDef datenow;
+    Com_RTC_Init();
+    printf("init\n");
+    // Com_RTC_SetTime(1729248967);
+    printf("settime\n");
 
-    
-    // Com_RTCEx_BKPWrite(RTC_BKP_DR1, 9999);
-    uint32_t bkpdata = Com_RTCEx_BPKRead(RTC_BKP_DR1);
-    printf("bkpdata = %d\n", bkpdata);
-    printf("DK1 = %d \n", BKP->DR1);
-
-    while (1);
+    while (1) {
+        Com_RTC_GetTime(&datenow);
+        printf("当前时间：%s\n", datenow.now);
+        Delay_s(1);
+    }
 }

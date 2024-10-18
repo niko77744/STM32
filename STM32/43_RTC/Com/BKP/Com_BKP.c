@@ -65,13 +65,3 @@ void Com_RTCEx_BKPWrite(uint32_t BackupRegister, uint32_t Data) {
     *(__IO uint32_t*) tmp = (Data & BKP_DR1_D);
 }
 
-
-void Com_RTC_Init(void);
-
-
-void Com_RTC_SetTime(uint32_t UnixTimestamp) {
-
-}
-void Com_RTC_GetTime(RTC_TimeTypeDef* datatime) {
-
-}

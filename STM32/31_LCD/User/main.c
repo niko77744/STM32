@@ -9,13 +9,27 @@
 
 
 int main(int argc, char const* argv[]) {
-    // W25Q32_WriteData(0, (uint8_t*)Chinses_16_0, 383041);
-    // W25Q32_WriteData(0 + 383041, (uint8_t*)Chinses_16_1, 383039);
 
     // 1.初始化模块
     Inf_W25Q32_Init();
     Driver_USART_Init();
     Inf_LCD_Init();
+
+    // Inf_W25Q32_EraseBlock(0);
+    // Inf_W25Q32_EraseBlock(1);
+    // Inf_W25Q32_EraseBlock(2);
+    // Inf_W25Q32_EraseBlock(3);
+    // Inf_W25Q32_EraseBlock(4);
+    // Inf_W25Q32_EraseBlock(5);
+    // Inf_W25Q32_EraseBlock(6);
+    // Inf_W25Q32_EraseBlock(7);
+    // Inf_W25Q32_EraseBlock(8);
+    // Inf_W25Q32_EraseBlock(9);
+    // Inf_W25Q32_EraseBlock(10);
+    // W25Q32_WriteData(0, (uint8_t*)Chinses_16_0, 383041);
+    // W25Q32_WriteData(0 + 383041, (uint8_t*)Chinses_16_1, 383039);
+
+
 
     // 2.读取ID测试芯片是否正常 0x548066
     uint32_t id = Inf_LCD_ReadID();
