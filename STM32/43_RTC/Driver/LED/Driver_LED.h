@@ -19,5 +19,4 @@ void Driver_LED_Toggle(uint16_t led);
 void Driver_LED_OnAll(uint16_t leds[], uint8_t len);
 void Driver_LED_OffAll(uint16_t leds[], uint8_t len);
 
-
 #endif /* __DRIVER_LED_H__ */

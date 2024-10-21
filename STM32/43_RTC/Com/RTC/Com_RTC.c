@@ -87,10 +87,8 @@ void Com_RTC_WakeUp(uint32_t LaterTime) {
     /* 4. 等待秒标志位 */
     while ((RTC->CRL & RTC_CRL_SECF) == 0);
     /* 5. RTC 计数器寄存器的值。我们可以从1开始计数，则大概136年才会溢出（32位计数器）*/
-    // RTC->CNTH = 0;
-    // RTC->CNTL = 0;
     uint32_t Current_timestamp = (RTC->CNTH << 16) | (RTC->CNTL);
-    /* 6.设置闹钟:?  当CNT与ALR相等时触发闹钟事件并产生RTC闹钟中断*/
+    /* 6.设置闹钟:  当CNT与ALR相等时触发闹钟事件并产生RTC闹钟中断*/
     LaterTime = LaterTime + Current_timestamp - 1;
     RTC->ALRH = (LaterTime >> 16);
     RTC->ALRL = LaterTime & 0xFFFF;
