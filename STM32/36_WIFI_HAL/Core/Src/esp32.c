@@ -65,10 +65,10 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef* huart, uint16_t Size) {
 
 void ESP32_WiFi_Init(void) {
     ESP32_Init();
-    // 热点 LAPTOP-V9C029E4 6559    83B9i4/9
+    // 热点 LAPTOP-V9C029E4    83B9i4/9
     // ESP32 IP：192.168.137.104  MAC：f0:f5:bd:c9:6e:1c
     ESP32_SendCmd("AT+CWMODE=1\r\n");
-    ESP32_SendCmd("AT+CWJAP=\"LAPTOP-V9C029E4 6559\",\"83B9i4/9\"\r\n");
+    ESP32_SendCmd("AT+CWJAP=\"LAPTOP-V9C029E4\",\"83B9i4/9\"\r\n");
 }
 
 
@@ -80,6 +80,7 @@ void ESP32_TCPServer_Init(void) {
     ESP32_SendCmd("AT+CIPMUX=1\r\n");
     ESP32_SendCmd("AT+CIPSERVER=1,8080\r\n");
     ESP32_SendCmd("AT+CIPDINFO=1\r\n");
+    ESP32_SendCmd("AT+CIPSTA?\r\n");
 }
 
 
