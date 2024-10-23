@@ -1,10 +1,6 @@
 #include "Inf_LCD.h"
 
-static void Inf_LCD_Reset(void);
-static void Inf_LCD_BKOpen(void);
-static void Inf_LCD_RegConfig(void);
-static void Inf_LCD_WriteCmd(uint16_t cmd);
-static void Inf_LCD_WriteData(uint16_t data);
+
 
 void Inf_LCD_Init(void) {
     Driver_FSMC_Init();
@@ -197,18 +193,18 @@ void Inf_LCD_DisplayLogo(uint16_t x, uint16_t y) {
 }
 
 
-static void Inf_LCD_Reset(void) {
+void Inf_LCD_Reset(void) {
     // PG15拉低即为重置
     HAL_GPIO_WritePin(GPIOG, GPIO_pin_15, GPIO_PIN_RESET);
     Delay_ms(5);
     HAL_GPIO_WritePin(GPIOG, GPIO_pin_15, GPIO_PIN_SET);
 }
-static void Inf_LCD_BKOpen(void) {
+void Inf_LCD_BKOpen(void) {
     // PB0 背光
     HAL_GPIO_WritePin(GPIOB, GPIO_pin_0, GPIO_PIN_SET);
 }
 
-static void Inf_LCD_RegConfig(void) {
+void Inf_LCD_RegConfig(void) {
     /* 1. 设置灰阶电压以调整TFT面板的伽马特性， 正校准。一般出厂就设置好了 */
     Inf_LCD_WriteCmd(0xE0);
     Inf_LCD_WriteData(0x00);
@@ -308,9 +304,9 @@ static void Inf_LCD_RegConfig(void) {
     /* 14. display on */
     Inf_LCD_WriteCmd(0x29);
 }
-static void Inf_LCD_WriteCmd(uint16_t cmd) {
+void Inf_LCD_WriteCmd(uint16_t cmd) {
     LCD->LCD_Cmd = cmd;
 }
-static void Inf_LCD_WriteData(uint16_t data) {
+void Inf_LCD_WriteData(uint16_t data) {
     LCD->LCD_Data = data;
 }
