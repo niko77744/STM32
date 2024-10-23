@@ -3,6 +3,7 @@
 #include "stm32f10x.h"
 #include "Inf_LCD_font.h"
 #include "Com_Debug.h"
+#include "Inf_W25q32.h"
 
 #define __Index(ch) (ch - ' ')
 
@@ -188,4 +189,6 @@ void Inf_LCD_DisplayChar(uint16_t x, uint16_t y, uint8_t ch, uint8_t fontsize);
 void Inf_LCD_DisplayString(uint16_t x, uint16_t y, uint8_t* str, uint8_t fontsize);
 void Inf_LCD_DisplayChineseTitle(uint16_t x, uint16_t y);
 void Inf_LCD_DisplayLogo(uint16_t x, uint16_t y);
+void Inf_LCD_DisplayPonit(uint16_t x, uint16_t y, uint16_t LineWidth, uint16_t LineColor);
+void Inf_LCD_DisplayChinese(uint16_t x, uint16_t y, uint16_t size, char* Font);
 #endif /* __INF_LCD_H__ */
