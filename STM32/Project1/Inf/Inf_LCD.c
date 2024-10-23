@@ -64,6 +64,15 @@ void Inf_LCD_DisplayChar(uint16_t x, uint16_t y, uint8_t ch, uint8_t fontsize) {
     }
 }
 
+
+/**
+ * @brief LCD显示英文和数字
+ *
+ * @param x  0 ~ LCD_W
+ * @param y  0 ~ LCD_H
+ * @param str
+ * @param fontsize  目前仅支持 16 和 32
+ */
 void Inf_LCD_DisplayString(uint16_t x, uint16_t y, uint8_t* str, uint8_t fontsize) {
     uint8_t i = 0;
     while (str[i] != '\0')

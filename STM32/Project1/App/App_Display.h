@@ -11,6 +11,8 @@ void App_Display_Hint(uint16_t x, uint16_t y, uint8_t* str);
 
 void App_Display_ClearHint(void);
 
+void App_Dispaly_Message(uint16_t x, uint16_t y, uint8_t* str);
+
 
 #endif /* __APP_DISPLAY_H__ */
 

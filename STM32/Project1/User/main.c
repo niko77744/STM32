@@ -8,15 +8,21 @@
 #include "Com_Debug.h"
 #include "Com_Delay.h"
 #include "App_Display.h"
-#include "Driver_GPIO.h"
-
+#include "App_Water_Level.h"
+uint8_t level_buffer[128];
 int main(int argc, char const* argv[])
 {
     Debug_Init();
-    // App_Display_Init();
-    // App_Display_BackGround();
-    // App_Display_Hint(15, 120, "请根据提示按下按键开始水位校准");
-    while (1);
+    App_Display_Init();
+    App_Display_BackGround();
+    App_Water_Level_Start();
+
+    while (1) {
+        double water_lever = App_Read_Water_Level();
+        sprintf((char*)level_buffer, "WaterLevel = %.2lfcm      ", water_lever);
+        App_Dispaly_Message(10, 120, level_buffer);
+        Delay_ms(100);
+    }
 }
 
 

@@ -24,3 +24,8 @@ void App_Display_ClearHint(void) {
         Inf_LCD_WriteData(BackgroundColor);
     }
 }
+
+
+void App_Dispaly_Message(uint16_t x, uint16_t y, uint8_t* str) {
+    Inf_LCD_DisplayString(x, y, str, 16);
+}
