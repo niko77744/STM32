@@ -1,0 +1,79 @@
+{
+  "name": "18-18B20",
+  "type": "C51",
+  "dependenceList": [],
+  "srcDirs": [
+    "src"
+  ],
+  "outDir": "build",
+  "virtualFolder": {
+    "name": "<virtual_root>",
+    "files": [],
+    "folders": []
+  },
+  "miscInfo": {
+    "uid": "d6a28de5d996e9e175f76fb549d82bef"
+  },
+  "targets": {
+    "Release": {
+      "excludeList": [],
+      "toolchain": "Keil_C51",
+      "compileConfig": {
+        "options": ""
+      },
+      "uploader": "stcgal",
+      "uploadConfig": {
+        "bin": "",
+        "eepromImgPath": "null",
+        "extraOptions": "",
+        "options": ".eide/stc.flash.json"
+      },
+      "uploadConfigMap": {
+        "Custom": {
+          "bin": "",
+          "commandLine": "python ./tools/stcflash.py -p ${port} \"${programFile}\"",
+          "eraseChipCommand": ""
+        },
+        "stcgal": {
+          "bin": "",
+          "eepromImgPath": "null",
+          "extraOptions": "",
+          "options": ".eide/stc.flash.json"
+        }
+      },
+      "custom_dep": {
+        "name": "default",
+        "incList": [
+          "../../../../Program Files/Keil_v5/C51/INC/STC",
+          "../../../../MyInstall/Keil C51/C51/INC/STC"
+        ],
+        "libList": [],
+        "defineList": []
+      },
+      "builderOptions": {
+        "Keil_C51": {
+          "beforeBuildTasks": [],
+          "afterBuildTasks": [],
+          "global": {
+            "ram-mode": "SMALL",
+            "rom-mode": "LARGE"
+          },
+          "c/cpp-compiler": {
+            "optimization-type": "SPEED",
+            "optimization-level": "level-8"
+          },
+          "asm-compiler": {},
+          "linker": {
+            "remove-unused": true,
+            "output-format": "elf",
+            "use-RTX": "None"
+          },
+          "version": 2
+        }
+      }
+    }
+  },
+  "version": "3.5",
+  "deviceName": null,
+  "packDir": null
+}

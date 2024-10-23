@@ -6,6 +6,6 @@
 
 #define SRAM_Start ((uint8_t*)0x68000000)
 
-void Driver_FSMC_LCD_Init(void);
+void Driver_FSMC_Init(void);
 
 #endif /* __DRIVER_FSMC_H__ */

@@ -33,3 +33,10 @@
 47_test2\main.o: ../Core/Inc/gpio.h
 47_test2\main.o: ../Core/Inc/WiFi.h
 47_test2\main.o: C:\MyInstall\Keil_v5\ARM\arm5_compiler\Bin\..\include\string.h
+47_test2\main.o: ../Core/Inc/ebyte_core.h
+47_test2\main.o: ../Core/Inc/ebyte_conf.h
+47_test2\main.o: ../Core/Inc/ebyte_e220x.h
+47_test2\main.o: ../Core/Inc/ebyte_conf.h
+47_test2\main.o: ../Core/Inc/ebyte_callback.h
+47_test2\main.o: ../Core/Inc/ebyte_port.h
+47_test2\main.o: ../Core/Inc/ebyte_conf.h

@@ -1,14 +1,14 @@
 #include "Driver_Fsmc.h"
 
 
-void Driver_FSMC_LCD_GPIO_Init(void);
+void Driver_FSMC_GPIO_Init(void);
 
-void Driver_FSMC_LCD_Init(void) {
+void Driver_FSMC_Init(void) {
     // 1.开启时钟
     RCC->AHBENR |= RCC_AHBENR_FSMCEN;
 
     // 2.配置GPIO引脚工作模式 
-    Driver_FSMC_LCD_GPIO_Init();
+    Driver_FSMC_GPIO_Init();
 
     /* 3.FSMC控制寄存器配置 BCR4 -- BTCR[6] */
     // 3.1 存储器块使能
@@ -20,7 +20,7 @@ void Driver_FSMC_LCD_Init(void) {
     // 3.3 禁用访问Flash
     FSMC_Bank1->BTCR[6] &= ~FSMC_BCR4_FACCEN;
 
-    // 3.4 禁用复位模式
+    // 3.4 禁用 地址/数据复用使能位
     FSMC_Bank1->BTCR[6] &= ~FSMC_BCR4_MUXEN;
 
     // 3.5 数据宽度  00 -- 8位  01 -- 16
@@ -40,7 +40,7 @@ void Driver_FSMC_LCD_Init(void) {
 }
 
 
-void Driver_FSMC_LCD_GPIO_Init(void) {
+void Driver_FSMC_GPIO_Init(void) {
     RCC->APB2ENR |= (
         RCC_APB2ENR_IOPBEN |
         RCC_APB2ENR_IOPDEN |
@@ -82,7 +82,7 @@ void Driver_FSMC_LCD_GPIO_Init(void) {
     GPIO_FSCM_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
     HAL_GPIO_Init(GPIOE, &GPIO_FSCM_InitStruct);
 
-    /* 复用推挽  12：片选信号线 */
+    /* 复用推挽 0：RS是数据或命令选择引脚RS=1写数据，RS=0写命令,接FSMC-A10     12：片选信号线 低电平有效 接FSMC-NE4 */
     GPIO_FSCM_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_FSCM_InitStruct.GPIO_Pin = (GPIO_pin_0 | GPIO_pin_12);
     GPIO_FSCM_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;

@@ -25,7 +25,8 @@
 #include "ebyte_core.h"
 #include <string.h>
 /*= !!!配置目标硬件变量       =======================================*/
-
+uint8_t loradata[128] = { 0 };
+uint8_t loralen = 0;
 /*==================================================================*/
 
 
@@ -86,7 +87,7 @@ void Ebyte_Port_TransmitCallback(uint16e_t state)
  *         IRQ_HEADER_ERROR                        = 0x0020,
  *         IRQ_CRC_ERROR                           = 0x0040,
  *         IRQ_CAD_DONE                            = 0x0080,
- *         IRQ_CAD_ACTIVITY_DETECTED               = 0x0100,                                             
+ *         IRQ_CAD_ACTIVITY_DETECTED               = 0x0100,
  *         IRQ_RX_TX_TIMEOUT                       = 0x0200,
  */
 void Ebyte_Port_ReceiveCallback(uint16e_t state, uint8e_t* buffer, uint8e_t length)
@@ -95,8 +96,10 @@ void Ebyte_Port_ReceiveCallback(uint16e_t state, uint8e_t* buffer, uint8e_t leng
     if (state & 0x0002)
     {
         //To-do 实现自己的逻辑
-        printf("接收成功 buffer = %s\n", buffer);
-        memset(buffer, 0, sizeof(buffer));
+        // printf("接收成功 buffer = %s\n", buffer);
+        memcpy(loradata, buffer, 7);
+        memset(buffer, 0, length);
+        loralen = length;
     }
     /* 接收: 异常超时 */
     else if (state & 0x0200)

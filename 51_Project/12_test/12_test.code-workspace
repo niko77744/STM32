@@ -1,0 +1,83 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "EIDE.SourceTree.AutoSearchIncludePath": true,
+        "EIDE.SourceTree.AutoSearchObjFile": true,
+        "files.autoGuessEncoding": false,
+        "files.encoding": "gbk",
+        "EIDE.ARM.Option.AutoGenerateRTE_Components": false,
+        "C_Cpp.errorSquiggles": "disabled",
+        "files.associations": {
+            ".eideignore": "ignore",
+            "*.a51": "a51",
+            "*.h": "c",
+            "*.c": "c",
+            "*.hxx": "cpp",
+            "*.hpp": "cpp",
+            "*.c++": "cpp",
+            "*.cpp": "cpp",
+            "*.cxx": "cpp",
+            "*.cc": "cpp",
+            "STC89C5xRC.H": "cpp",
+            "STRING.H": "cpp"
+        },
+        "C_Cpp.default.configurationProvider": "cl.eide",
+        "[yaml]": {
+            "editor.insertSpaces": true,
+            "editor.tabSize": 4,
+            "editor.autoIndent": "advanced"
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "cl.eide",
+            "keroc.hex-fmt",
+            "xiaoyongdong.srecord",
+            "hars.cppsnippets",
+            "zixuanwang.linkerscript",
+            "redhat.vscode-yaml",
+            "IBM.output-colorizer",
+            "cschlosser.doxdocgen",
+            "ms-vscode.vscode-serial-monitor",
+            "alefragnani.project-manager",
+            "cl.stm8-debug"
+        ]
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                // "type": "stm8-debug",
+                // "request": "launch",
+                // "name": "launch",
+                // "serverType": "st7",
+                // "executable": ".\\\\out\\\\IAR_STM8\\\\executable.out",
+                // "cpu": "STM8S103F3P",
+                // "interface": "stlink3"
+                "type": "stm8-debug",
+                "request": "launch",
+                "name": "stm8_debug",
+                "serverType": "st7",
+                "cpu": "STM8S105K4",
+                "executable": ".\\build\\Debug\\eide_Project.out"
+            },
+            {
+                "type": "stm8-debug",
+                "request": "launch",
+                "name": "sdcc launch",
+                "serverType": "stm8-sdcc",
+                "executable": ".\\\\out\\\\SDCC\\\\executable.elf",
+                "cpu": "STM8S103F3P",
+                "port": "3333",
+                "openOcdConfigs": [
+                    "interface/stlink.cfg",
+                    "target/stm8s.cfg"
+                ]
+            }
+        ]
+    }
+}
